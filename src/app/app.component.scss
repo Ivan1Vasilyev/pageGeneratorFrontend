@@ -1,0 +1,15 @@
+@use '../styles/common/variables' as v;
+
+.app-background {
+  background-color: v.$main-background;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: grid;
+  grid-template: 1fr/3fr 8fr;
+  flex: 1;
+}
