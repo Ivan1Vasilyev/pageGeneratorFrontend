@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { SitesTreeService } from './modules/sites-map/services/sites-tree.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',

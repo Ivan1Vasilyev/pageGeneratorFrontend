@@ -3,10 +3,11 @@ import { SitesMapComponent } from './sites-map.component';
 import { SitesMapItemComponent } from './components/sites-map-item/sites-map-item.component';
 import { PagesMapItemComponent } from './components/pages-map-item/pages-map-item.component';
 import { SitesTreeService } from './services/sites-tree.service';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [SitesMapItemComponent, PagesMapItemComponent],
-  imports: [],
+  imports: [BrowserModule],
   exports: [SitesMapItemComponent, PagesMapItemComponent],
   providers: [SitesTreeService],
   bootstrap: [SitesMapComponent],

@@ -1,15 +1,26 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { SitesTreeService } from '../../services/sites-tree.service';
+
+import { SitesMapItemComponent } from '../sites-map-item/sites-map-item.component';
 
 @Component({
-  selector: 'app-pages-map-item',
-  templateUrl: './pages-map-item.component.html',
-  styleUrls: ['./pages-map-item.component.css'],
+  selector: 'pages-map-item',
+  templateUrl: '../sites-map-item/sites-map-item.component.html',
+  styleUrls: ['../sites-map-item/sites-map-item.component.scss'],
 })
-export class PagesMapItemComponent {
-  @Input() page: any | undefined;
-  @Output() pageId = new EventEmitter<string>();
+export class PagesMapItemComponent extends SitesMapItemComponent {
+  @Input() item: any | undefined;
 
-  public change(pageId: string): void {
-    this.pageId.emit(pageId);
+  constructor(siteTreeService: SitesTreeService) {
+    super(siteTreeService);
+  }
+
+  override ngOnInit(): void {
+    this.displayText = this.item.displayText;
+  }
+  override getSubItems() {
+    this.siteTreeService.getChildPages(this.site._id, this.item._id).subscribe((pages) => {
+      this.subItems = pages;
+    });
   }
 }
