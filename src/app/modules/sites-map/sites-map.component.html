@@ -1,0 +1,6 @@
+<div class="wrap">
+  <div *ngFor="let site of sites" class="map">
+    <sites-map-item [site]="site" (siteId)="onGetRootPages($event)"></sites-map-item>
+
+  </div>
+</div>

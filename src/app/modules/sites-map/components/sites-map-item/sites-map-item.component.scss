@@ -1,0 +1,14 @@
+.map-item {
+  background-color: #011d97;
+  color: #fff;
+  min-width: 50px;
+  max-width: 160px;
+  border: none;
+  border-radius: 5px;
+  min-height: 20px;
+  padding: 3px 7px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
