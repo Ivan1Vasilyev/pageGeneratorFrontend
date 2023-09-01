@@ -5,8 +5,8 @@ import { SitesTreeService } from '../../services/sites-tree.service';
 
 @Component({
   selector: 'pages-map-item',
-  templateUrl: '../sites-map-item/sites-map-item.component.html',
-  styleUrls: ['../sites-map-item/sites-map-item.component.scss'],
+  templateUrl: './pages-map-item.component.html',
+  styleUrls: ['./pages-map-item.component.scss'],
 })
 export class PagesMapItemComponent extends SitesMapItemComponent {
   @Input() item: any | undefined;
@@ -15,12 +15,8 @@ export class PagesMapItemComponent extends SitesMapItemComponent {
     super(siteTreeService);
   }
 
-  override getPagesHtml() {
-    this.urlProviderServise.getUrl(this.item.url);
-  }
-
-  override ngOnInit(): void {
-    this.displayText = this.item.displayText;
+  getPagesHtml() {
+    this.urlProviderServise.getUrl(`${this.site.domain}${this.item.url}`);
   }
 
   override getSubItems() {
