@@ -1,4 +1,9 @@
-<button class="map-item" (click)="toggleItem()">{{displayText}}</button>
+<div class="map-item">
+  <p (click)="getPagesHtml()" class="text">{{displayText}}</p>
+  <label class="checkbox">
+    <input type="checkbox" (change)="toggleItem($event)" />
+  </label>
+</div>
 
 <div *ngIf="subItemsShown">
   <div *ngFor="let item of subItems" class="map">

@@ -1,22 +1,63 @@
-.map-item {
-  background-color: #011d97;
-  color: #fff;
-  min-width: 50px;
-  max-width: 160px;
-  border: none;
-  border-radius: 5px;
-  min-height: 20px;
-  padding: 3px 7px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  cursor: pointer;
-}
-
 .map {
   padding: 5px 5px 5px 10px;
   background-color: #d5d5d5;
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+.map-item {
+  background-color: #011d97;
+  color: #fff;
+  width: min-content;
+  border-radius: 5px;
+  min-height: 20px;
+  padding: 0 0 0 7px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text {
+  min-width: 130px;
+  max-width: 220px;
+  padding: 3px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.checkbox {
+  cursor: pointer;
+  position: relative;
+  width: 20px;
+  height: 15px;
+  border-left: 1px solid #927b74;
+  border-bottom-width: 0;
+  border-top-width: 0;
+  border-right-width: 0;
+
+  & input {
+    cursor: pointer;
+    position: absolute;
+    appearance: none;
+    border: none;
+    border: 2px solid #927b74;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    -webkit-transform: rotate(45deg) translate(0);
+    transform: rotate(45deg) translate(0);
+    top: 1px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    transition: transform 0.3s;
+
+    &:checked {
+      -webkit-transform: rotate(135deg) translate(0);
+      transform: rotate(135deg) translate(0);
+    }
+  }
 }

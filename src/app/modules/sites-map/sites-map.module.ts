@@ -4,10 +4,11 @@ import { SitesMapItemComponent } from './components/sites-map-item/sites-map-ite
 import { PagesMapItemComponent } from './components/pages-map-item/pages-map-item.component';
 import { SitesTreeService } from './services/sites-tree.service';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [SitesMapItemComponent, PagesMapItemComponent],
-  imports: [BrowserModule],
+  imports: [BrowserModule, ReactiveFormsModule],
   exports: [SitesMapItemComponent, PagesMapItemComponent],
   providers: [SitesTreeService],
   bootstrap: [SitesMapComponent],
