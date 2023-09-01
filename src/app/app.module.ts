@@ -8,10 +8,12 @@ import { MainFrame } from './modules/frame/main-frame.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SitesMapModule } from './modules/sites-map/sites-map.module';
 import { SitesMapComponent } from './modules/sites-map/sites-map.component';
+import { HeaderModule } from './modules/header/header.module';
+import { SafePipe } from './modules/frame/services/safe-pipe';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, MainFrame, SitesMapComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, SitesMapModule],
+  declarations: [AppComponent, HeaderComponent, MainFrame, SitesMapComponent, SafePipe],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, SitesMapModule, HeaderModule],
   providers: [],
   bootstrap: [AppComponent],
 })
