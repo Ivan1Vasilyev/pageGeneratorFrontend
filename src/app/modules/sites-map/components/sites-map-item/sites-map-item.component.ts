@@ -7,17 +7,17 @@ import { SitesTreeService } from '../../services/sites-tree.service';
   styleUrls: ['./sites-map-item.component.scss'],
 })
 export class SitesMapItemComponent {
-  subItemsShown = false;
   subItems: any[] = [];
+  isAddPageShown: boolean = false;
   @Input() site: any | undefined;
 
   constructor(protected siteTreeService: SitesTreeService) {}
 
   protected toggleItem(event: any) {
-    const { checked } = event.target;
-    this.subItemsShown = checked;
-    if (checked) {
+    if (event.target.checked) {
       this.getSubItems();
+    } else {
+      this.subItems = [];
     }
   }
 
@@ -25,5 +25,13 @@ export class SitesMapItemComponent {
     this.siteTreeService.getRootPages(this.site._id).subscribe((pages: any[]) => {
       this.subItems = pages;
     });
+  }
+
+  onMouseHandler(event: any) {
+    if (event.type === 'mouseenter') {
+      this.isAddPageShown = true;
+    } else if (event.type === 'mouseleave') {
+      this.isAddPageShown = false;
+    }
   }
 }

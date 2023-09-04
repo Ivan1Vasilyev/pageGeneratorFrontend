@@ -12,7 +12,7 @@ export class MainFrame implements OnInit {
 
   ngOnInit(): void {
     this.urlProviderService.url$.subscribe((url) => {
-      if (url) this.url = `/sites/${url}`;
+      this.url = `/sites/${url}`;
     });
   }
 }

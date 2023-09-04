@@ -12,5 +12,6 @@
 main {
   display: grid;
   grid-template: 1fr/3fr 8fr;
+  gap: 15px;
   flex: 1;
 }

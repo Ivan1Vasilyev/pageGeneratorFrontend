@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SitesTreeService } from './services/sites-tree.service';
+import { SitesTreeService } from '../../services/sites-tree.service';
 
 @Component({
   selector: 'sites-map',
