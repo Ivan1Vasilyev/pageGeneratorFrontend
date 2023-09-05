@@ -1,0 +1,15 @@
+.context-menu {
+  position: absolute;
+  border: 1px solid gray;
+  background-color: #fff;
+  z-index: 1000;
+}
+
+.item-text {
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #5f9ba4;
+  }
+}

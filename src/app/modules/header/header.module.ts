@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HeaderComponent } from './header.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [HeaderComponent],
   imports: [BrowserModule, ReactiveFormsModule],
-  exports: [],
+  exports: [HeaderComponent],
   providers: [],
   bootstrap: [HeaderComponent],
 })

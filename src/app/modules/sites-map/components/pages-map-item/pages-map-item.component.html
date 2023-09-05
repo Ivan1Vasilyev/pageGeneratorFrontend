@@ -1,13 +1,10 @@
-<div class="map-item" (mouseenter)="onMouseHandler($event)" (mouseleave)="onMouseHandler($event)">
-  <p (click)="getPagesHtml()" class="text">{{item.displayText}}</p>
-  <label class="checkbox">
+<div class="map-item" (contextmenu)="onRightClickHandler($event)">
+  <p (click)="getPagesUrl()" class="text">{{page.displayText}}</p>
+  <label *ngIf="page.childsCount" class="checkbox">
     <input type="checkbox" (change)="toggleItem($event)" />
   </label>
-  <div *ngIf="isAddPageShown">
-    <div class="add-page">Добавить страницу?</div>
-  </div>
 </div>
 
-<div *ngFor="let item of subItems" class="map">
-  <pages-map-item [site]="site" [item]="item"></pages-map-item>
+<div *ngFor="let page of subItems" class="map">
+  <pages-map-item [site]="site" [page]="page"></pages-map-item>
 </div>

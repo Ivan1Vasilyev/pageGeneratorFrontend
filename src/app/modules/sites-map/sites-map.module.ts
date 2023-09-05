@@ -4,12 +4,14 @@ import { PagesMapItemComponent } from './components/pages-map-item/pages-map-ite
 import { SitesTreeService } from './services/sites-tree.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { SitesMapComponent } from './components/sites-map/sites-map.component';
+import { CoordsProviderService } from './services/coords-provider.service';
+import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 
 @NgModule({
-  declarations: [SitesMapItemComponent, PagesMapItemComponent, SitesMapComponent],
+  declarations: [SitesMapItemComponent, PagesMapItemComponent, SitesMapComponent, ContextMenuComponent],
   imports: [BrowserModule],
-  exports: [SitesMapItemComponent, PagesMapItemComponent, SitesMapComponent],
-  providers: [SitesTreeService],
+  exports: [SitesMapItemComponent, PagesMapItemComponent, SitesMapComponent, ContextMenuComponent],
+  providers: [SitesTreeService, CoordsProviderService],
   bootstrap: [SitesMapComponent],
 })
 export class SitesMapModule {}

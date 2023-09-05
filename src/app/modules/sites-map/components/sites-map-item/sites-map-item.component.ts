@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { SitesTreeService } from '../../services/sites-tree.service';
+import { CoordsProviderService } from '../../services/coords-provider.service';
 
 @Component({
   selector: 'sites-map-item',
@@ -8,10 +9,12 @@ import { SitesTreeService } from '../../services/sites-tree.service';
 })
 export class SitesMapItemComponent {
   subItems: any[] = [];
-  isAddPageShown: boolean = false;
   @Input() site: any | undefined;
 
-  constructor(protected siteTreeService: SitesTreeService) {}
+  constructor(
+    protected siteTreeService: SitesTreeService,
+    protected coordsProviderService: CoordsProviderService
+  ) {}
 
   protected toggleItem(event: any) {
     if (event.target.checked) {
@@ -27,11 +30,8 @@ export class SitesMapItemComponent {
     });
   }
 
-  onMouseHandler(event: any) {
-    if (event.type === 'mouseenter') {
-      this.isAddPageShown = true;
-    } else if (event.type === 'mouseleave') {
-      this.isAddPageShown = false;
-    }
+  onRightClickHandler(event: any) {
+    event.preventDefault();
+    this.coordsProviderService.getCoords({ x: event.pageX, y: event.pageY });
   }
 }
