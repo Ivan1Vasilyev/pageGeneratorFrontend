@@ -30,7 +30,7 @@
 }
 
 %checkbox-size {
-  width: 20px;
+  width: 15px;
   height: 15px;
 }
 
@@ -53,8 +53,8 @@
     transform-origin: 60% 35%;
     top: 1px;
     left: 0;
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     transition: transform 0.3s;
 
     &:checked {

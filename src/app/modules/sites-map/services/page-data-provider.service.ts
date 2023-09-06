@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PageDataProviderService {
-  private pageData = new Subject<any>();
+  private pageData = new BehaviorSubject<any>({});
 
-  public pageData$ = this.pageData.asObservable();
+  public providePageData() {
+    return this.pageData.getValue();
+  }
 
   public getPageData(data: any) {
     this.pageData.next(data);

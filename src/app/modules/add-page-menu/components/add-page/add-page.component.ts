@@ -9,10 +9,9 @@ import { LayoutsProviderService } from '../../services/layouts-provider.service'
   styleUrls: ['./add-page.component.scss'],
 })
 export class AddPageComponent implements OnInit, OnDestroy {
-  pageData: any;
-  parent: string = 'default';
-  layouts: string[] = [];
-  private pageDataSubs: Subscription | undefined;
+  pageData$: any;
+
+  layouts$: string[] = [];
   private layoutsSubs: Subscription | undefined;
 
   constructor(
@@ -21,20 +20,13 @@ export class AddPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.pageDataSubs = this.pageDataProviderService.pageData$.subscribe((pageData) => {
-      this.pageData = pageData;
-      this.parent = pageData._id.toString();
-      console.log(this.parent);
-    });
-
+    this.pageData$ = this.pageDataProviderService.providePageData();
     this.layoutsSubs = this.layoutsProviderService.getLayouts().subscribe((layouts) => {
-      this.layouts = Object.keys(layouts);
-      console.log(this.layouts);
+      this.layouts$ = Object.keys(layouts);
     });
   }
 
   ngOnDestroy(): void {
-    this.pageDataSubs?.unsubscribe();
     this.layoutsSubs?.unsubscribe();
   }
 }

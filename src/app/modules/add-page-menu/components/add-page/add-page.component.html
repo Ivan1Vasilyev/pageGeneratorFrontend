@@ -6,30 +6,30 @@
         <p class="menu-item-text">
           displayText
         </p>
-        <input name="displayText" />
+        <input type="text" name="displayText" />
       </li>
       <li class="menu-item">
         <p class="menu-item-text">url</p>
-        <input name="url" />
+        <input type="text" name="url" />
       </li>
       <li class="menu-item">
         <p class="menu-item-text">layout</p>
         <select name="layout">
-
           <option value="">-- select layout --</option>
-          <ng-component *ngFor="let layout of layouts">
-            <option value="layout">{{layout}}</option>
-          </ng-component>
+
+          <ng-template ngFor let-layout [ngForOf]="layouts$">
+            <option value="{{layout}}">{{layout}}</option>
+          </ng-template>
         </select>
       </li>
       <li class="menu-item">
         <p class="menu-item-text">title</p>
-        <input name="title" />
+        <input type="text" name="title" />
       </li>
     </menu>
 
-    <p>parentId: {{parent}}</p>
+    <p>parentId: {{pageData$?._id}}</p>
 
-    <a class="link-back" routerLink="/">Карта</a>
+    <a class="link-back" routerLink="/">← Карта</a>
   </div>
 </div>
