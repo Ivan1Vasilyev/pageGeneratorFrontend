@@ -1,8 +1,8 @@
 <div class="map-item" (contextmenu)="onRightClickHandler($event)">
-  <p class="text">{{site.domain}}</p>
   <label class="checkbox">
     <input type="checkbox" (change)="toggleItem($event)" />
   </label>
+  <p class="text">{{site.domain}}</p>
 </div>
 
 <div *ngFor="let page of subItems" class="map">

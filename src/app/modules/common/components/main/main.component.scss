@@ -1,0 +1,13 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  display: grid;
+  grid-template: 1fr / minmax(440px, 1fr) 8fr;
+  gap: 15px;
+  height: 100%;
+  flex: 1;
+}

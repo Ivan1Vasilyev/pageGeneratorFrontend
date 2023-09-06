@@ -1,21 +1,35 @@
 <div class="wrap">
-  <h2>Новая страница</h2>
   <div class="map">
+    <h2>Новая страница</h2>
     <menu class="menu">
       <li class="menu-item">
         <p class="menu-item-text">
           displayText
         </p>
+        <input name="displayText" />
       </li>
       <li class="menu-item">
         <p class="menu-item-text">url</p>
+        <input name="url" />
       </li>
       <li class="menu-item">
         <p class="menu-item-text">layout</p>
+        <select name="layout">
+
+          <option value="">-- select layout --</option>
+          <ng-component *ngFor="let layout of layouts">
+            <option value="layout">{{layout}}</option>
+          </ng-component>
+        </select>
       </li>
       <li class="menu-item">
         <p class="menu-item-text">title</p>
+        <input name="title" />
       </li>
     </menu>
+
+    <p>parentId: {{parent}}</p>
+
+    <a class="link-back" routerLink="/">Карта</a>
   </div>
 </div>

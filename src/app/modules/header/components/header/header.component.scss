@@ -12,6 +12,10 @@
     width: 200px;
     height: 30px;
   }
+
+  & a {
+    border: 1px solid gray;
+  }
 }
 
 .buttons-area {

@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CoordsProviderService } from '../../services/coords-provider.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'context-menu',
   templateUrl: './context-menu.component.html',
   styleUrls: ['./context-menu.component.scss'],
 })
-export class ContextMenuComponent implements OnInit {
+export class ContextMenuComponent implements OnInit, OnDestroy {
   coords: { x: number; y: number } = { x: 0, y: 0 };
   isActive: boolean = false;
+  private subs: Subscription | undefined;
 
   constructor(protected coordsProviderService: CoordsProviderService) {}
 
@@ -25,19 +27,20 @@ export class ContextMenuComponent implements OnInit {
   };
 
   private openMenu(coords: { x: number; y: number }) {
-    if (coords.y + 80 > document.body.clientHeight) {
-      coords.y = coords.y - 80;
-    }
     this.coords.x = coords.x + 15;
-    this.coords.y = coords.y;
+    this.coords.y = coords.y + 80 > document.body.clientHeight ? coords.y - 80 : coords.y;
     this.isActive = true;
 
     window.addEventListener('click', this.closeMenu);
   }
 
   ngOnInit() {
-    this.coordsProviderService.coords$.subscribe((coords) => {
+    this.subs = this.coordsProviderService.coords$.subscribe((coords) => {
       this.openMenu(coords);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subs?.unsubscribe();
   }
 }

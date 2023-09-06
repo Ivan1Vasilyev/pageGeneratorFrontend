@@ -1,6 +1,7 @@
 .wrap {
   height: 100%;
   display: flex;
+  flex-direction: column;
 }
 
 .map {
@@ -9,4 +10,11 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+.link-back {
+  margin-top: 50px;
+  color: #187b96;
+  padding: 5px 8px;
+  border: 1px solid gray;
 }

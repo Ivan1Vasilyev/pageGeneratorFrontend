@@ -1,16 +1,15 @@
 <menu *ngIf="isActive" class="context-menu" [style.left.px]="coords.x"
   [style.top.px]="coords.y">
   <li class="context-menu_item">
-    <!-- сюда роутер, клик ведёт на add-page.component -->
-    <p class="item-text">Добавить страницу</p>
+    <a class="item-text" routerLink="/add-page">Добавить страницу</a>
   </li>
   <li class="context-menu_item">
-    <p class="item-text">Редактировать</p>
+    <a class="item-text">Редактировать</a>
   </li>
   <li class="context-menu_item">
-    <p class="item-text">Опубликовать</p>
+    <a class="item-text">Опубликовать</a>
   </li>
   <li class="context-menu_item">
-    <p class="item-text">Удалить</p>
+    <a class="item-text">Удалить</a>
   </li>
 </menu>
