@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { AddPageComponent } from './components/add-page/add-page.component';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { LayoutsProviderService } from './services/layouts-provider.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CreatePageService } from './services/create-page.service';
 
 @NgModule({
   declarations: [AddPageComponent],
-  imports: [CommonModule, AppRoutingModule],
+  imports: [CommonModule, AppRoutingModule, ReactiveFormsModule],
   exports: [AddPageComponent],
-  providers: [LayoutsProviderService],
+  providers: [LayoutsProviderService, CreatePageService],
   bootstrap: [AddPageComponent],
 })
 export class AddPageModule {}

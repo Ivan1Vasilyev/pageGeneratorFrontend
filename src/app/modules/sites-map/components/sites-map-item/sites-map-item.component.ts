@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { SitesTreeService } from '../../services/sites-tree.service';
 import { CoordsProviderService } from '../../services/coords-provider.service';
+import { PageDataProviderService } from '../../services/page-data-provider.service';
 
 @Component({
   selector: 'sites-map-item',
@@ -12,11 +13,12 @@ export class SitesMapItemComponent {
   @Input() site: any | undefined;
 
   constructor(
-    protected siteTreeService: SitesTreeService,
-    protected coordsProviderService: CoordsProviderService
+    private siteTreeService: SitesTreeService,
+    private coordsProviderService: CoordsProviderService,
+    private pageDataProviderServise: PageDataProviderService
   ) {}
 
-  protected toggleItem(event: any) {
+  toggleItem(event: any) {
     if (event.target.checked) {
       this.getSubItems();
     } else {
@@ -24,7 +26,7 @@ export class SitesMapItemComponent {
     }
   }
 
-  protected getSubItems() {
+  getSubItems() {
     this.siteTreeService.getRootPages(this.site._id).subscribe((pages: any[]) => {
       this.subItems = pages;
     });
@@ -33,5 +35,6 @@ export class SitesMapItemComponent {
   onRightClickHandler(event: any) {
     event.preventDefault();
     this.coordsProviderService.getCoords({ x: event.pageX, y: event.pageY });
+    this.pageDataProviderServise.setPageData(this.site);
   }
 }

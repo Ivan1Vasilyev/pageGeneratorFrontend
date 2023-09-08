@@ -1,34 +1,44 @@
 <div class="wrap">
   <div class="map">
     <h2>Новая страница</h2>
-    <menu class="menu">
-      <li class="menu-item">
-        <p class="menu-item-text">
-          displayText
-        </p>
-        <input type="text" name="displayText" />
-      </li>
-      <li class="menu-item">
-        <p class="menu-item-text">url</p>
-        <input type="text" name="url" />
-      </li>
-      <li class="menu-item">
-        <p class="menu-item-text">layout</p>
-        <select name="layout">
-          <option value="">-- select layout --</option>
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="form">
+      <label class="form-item">
+        <p class="form-item-text">Display text</p>
 
-          <ng-template ngFor let-layout [ngForOf]="layouts$">
-            <option value="{{layout}}">{{layout}}</option>
-          </ng-template>
+        <input id="displayText" name="displayText" class="form-control" required
+          type="text" formControlName="displayText" />
+
+      </label>
+      <label class="form-item">
+        <p class="form-item-text">URL</p>
+
+        <input type="text" formControlName="url" required />
+
+      </label>
+      <label class="form-item">
+        <p class="form-item-text">Title</p>
+
+        <input type="text" formControlName="title" required />
+
+      </label>
+      <label class="form-item">
+        <p class="form-item-text">Layout</p>
+
+        <select formControlName="layout" required>
+          <option value="" disabled>-- выбрать Layout --</option>
+
+          <option *ngFor="let layout of layouts$" [ngValue]="layout">{{layout}}
+          </option>
+
         </select>
-      </li>
-      <li class="menu-item">
-        <p class="menu-item-text">title</p>
-        <input type="text" name="title" />
-      </li>
-    </menu>
+      </label>
 
-    <p>parentId: {{pageData$?._id}}</p>
+      <button [disabled]="createPageForm.invalid" class="submit" type="submit">
+        Создать
+      </button>
+    </form>
+
+    <p>parent: {{parentPageData$?.displayText}}</p>
 
     <a class="link-back" routerLink="/">← Карта</a>
   </div>

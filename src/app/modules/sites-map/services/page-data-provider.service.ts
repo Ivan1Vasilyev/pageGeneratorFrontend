@@ -7,11 +7,11 @@ import { BehaviorSubject } from 'rxjs';
 export class PageDataProviderService {
   private pageData = new BehaviorSubject<any>({});
 
-  public providePageData() {
+  public getPageData() {
     return this.pageData.getValue();
   }
 
-  public getPageData(data: any) {
+  public setPageData(data: any) {
     this.pageData.next(data);
   }
 }

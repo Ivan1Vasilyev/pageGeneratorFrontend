@@ -16,7 +16,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
     ContextMenuComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
-  exports: [SitesMapItemComponent, PagesMapItemComponent, SitesMapComponent, ContextMenuComponent],
+  exports: [],
   providers: [SitesTreeService, CoordsProviderService],
   bootstrap: [SitesMapComponent],
 })
