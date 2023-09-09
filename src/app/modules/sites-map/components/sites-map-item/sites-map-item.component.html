@@ -5,6 +5,7 @@
   <p class="text">{{site.domain}}</p>
 </div>
 
-<div *ngFor="let page of subItems" class="map">
-  <pages-map-item [site]="site" [page]="page"></pages-map-item>
+<div class="map">
+  <pages-map-item *ngFor="let page of subItems" [site]="site"
+    [page]="page"></pages-map-item>
 </div>

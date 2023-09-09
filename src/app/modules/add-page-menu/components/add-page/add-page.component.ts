@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { PageDataProviderService } from 'src/app/modules/sites-map/services/page-data-provider.service';
 import { LayoutsProviderService } from '../../services/layouts-provider.service';
 import { CreatePageService, iPage } from '../../services/create-page.service';
+import { FormService } from '../../services/page-form.service';
 
 @Component({
   selector: 'add-page',
@@ -11,53 +12,40 @@ import { CreatePageService, iPage } from '../../services/create-page.service';
   styleUrls: ['./add-page.component.scss'],
 })
 export class AddPageComponent implements OnInit, OnDestroy {
-  parentPageData$: any;
-  layouts$: string[] = [];
-
-  formTemplate = {
-    layout: '',
-    url: '',
-    displayText: '',
-    title: '',
-  };
-  createPageForm!: FormGroup;
-
+  private parentPageData$: any;
   private subscriptions: Subscription | undefined;
-
-  checkoutForm = this.formBuilder.group(this.formTemplate);
+  layouts$: string[] = [];
 
   constructor(
     private pageDataProviderService: PageDataProviderService,
     private layoutsProviderService: LayoutsProviderService,
-    private formBuilder: FormBuilder,
-    private createPageService: CreatePageService
+    private createPageService: CreatePageService,
+    protected formService: FormService
   ) {}
 
-  get layout() {
-    return this.createPageForm.get('layout');
-  }
-
-  get url() {
-    return this.createPageForm.get('url');
-  }
-
-  get displayText() {
-    return this.createPageForm.get('displayText');
-  }
-
-  get title() {
-    return this.createPageForm.get('title');
+  displayParent(): string {
+    return this.parentPageData$.displayText || this.parentPageData$.domain || 'Ошибка';
   }
 
   ngOnInit() {
-    this.createPageForm = new FormGroup({
-      displayText: new FormControl(this.formTemplate.displayText, [Validators.required]),
-      title: new FormControl(this.formTemplate.title, [Validators.required]),
-      url: new FormControl(this.formTemplate.url, Validators.required),
-      layout: new FormControl(this.formTemplate.layout, Validators.required),
+    this.parentPageData$ = this.pageDataProviderService.getPageData();
+
+    if (!Object.keys(this.parentPageData$).length) {
+      this.formService.submitTextHandler(`Нет данных страницы-родителя или сайта`, true);
+    }
+
+    const { required, pattern } = Validators;
+
+    this.formService.onInit({
+      displayText: ['', [required]],
+      title: '',
+      url: [
+        this.parentPageData$?.url || '/',
+        [required, pattern(/^\/[^\s~`!@#$%^&*():;'"\\\.,+=\|\{\}\[\]]*$/)],
+      ],
+      layout: ['default', required],
     });
 
-    this.parentPageData$ = this.pageDataProviderService.getPageData();
     const temporarySub = this.layoutsProviderService.getLayouts().subscribe((layouts) => {
       this.layouts$ = layouts;
     });
@@ -70,26 +58,31 @@ export class AddPageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    const { layout, url, displayText, title } = this.checkoutForm.value;
+    const { layout, url, displayText, title } = this.formService.getFormValues();
     const siteId = this.parentPageData$.domain
       ? this.parentPageData$._id
       : this.parentPageData$.siteId;
+    const parent = this.parentPageData$.parent || null;
+
     const result: iPage = {
       layout,
-      url,
+      url: url.trim(),
       displayText,
       siteId,
-      parent: this.parentPageData$.domain ? null : this.parentPageData$._id,
+      parent,
       params: { title },
     };
 
     const temporarySub = this.createPageService.createPage(result).subscribe((res) => {
-      console.log(res);
+      if (res.acknowledged) {
+        this.formService.submitTextHandler('Страница создана!', false);
+        this.formService.disable();
+      } else {
+        console.error(res);
+        this.formService.submitTextHandler('Ошибка на сервере. Смотрите консоль!', true);
+      }
     });
 
     this.subscriptions?.add(temporarySub);
   }
-}
-function forbiddenNameValidator(arg0: RegExp): import('@angular/forms').ValidatorFn {
-  throw new Error('Function not implemented.');
 }

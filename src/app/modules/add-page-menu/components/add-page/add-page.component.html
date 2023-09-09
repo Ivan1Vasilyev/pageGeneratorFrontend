@@ -1,18 +1,22 @@
 <div class="wrap">
   <div class="map">
     <h2>Новая страница</h2>
-    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="form">
+    <form [formGroup]="formService.createPageForm" (ngSubmit)="onSubmit()"
+      class="form">
+
       <label class="form-item">
         <p class="form-item-text">Display text</p>
 
-        <input id="displayText" name="displayText" class="form-control" required
-          type="text" formControlName="displayText" />
+        <input
+          [class.cross-validation-error]="formService.onValidate('displayText')"
+          type="text" formControlName="displayText" required />
 
       </label>
       <label class="form-item">
         <p class="form-item-text">URL</p>
 
-        <input type="text" formControlName="url" required />
+        <input [class.cross-validation-error]="formService.onValidate('url')"
+          type="text" formControlName="url" required />
 
       </label>
       <label class="form-item">
@@ -24,8 +28,10 @@
       <label class="form-item">
         <p class="form-item-text">Layout</p>
 
-        <select formControlName="layout" required>
-          <option value="" disabled>-- выбрать Layout --</option>
+        <select
+          [class.cross-validation-error]="formService.onValidate('layout')"
+          formControlName="layout" required>
+          <option value="default" disabled>-- выбрать Layout --</option>
 
           <option *ngFor="let layout of layouts$" [ngValue]="layout">{{layout}}
           </option>
@@ -33,12 +39,23 @@
         </select>
       </label>
 
-      <button [disabled]="createPageForm.invalid" class="submit" type="submit">
-        Создать
-      </button>
+      <div class="submit-area">
+        <button [disabled]="formService.createPageForm.invalid" class="submit"
+          type="submit">
+          Создать
+        </button>
+
+        <button class="submit" type="button" (click)="formService.onReset()">
+          Обнулить форму
+        </button>
+        <p [ngClass]="[formService.submitText.color]" class="error-text">
+          {{formService.submitText.text}}
+        </p>
+
+      </div>
     </form>
 
-    <p>parent: {{parentPageData$?.displayText}}</p>
+    <p>parent: {{displayParent()}}</p>
 
     <a class="link-back" routerLink="/">← Карта</a>
   </div>
