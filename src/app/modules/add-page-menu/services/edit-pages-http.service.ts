@@ -8,13 +8,13 @@ export interface iPage {
   url: string | null | undefined;
   displayText: string | null | undefined;
   parent: string | null | undefined;
-  params: {
+  params?: {
     title: string | null | undefined;
   };
 }
 
 @Injectable()
-export class CreatePageService {
+export class EditPagesHttpService {
   constructor(private http: HttpClient) {}
 
   private handleError(error: HttpErrorResponse) {
@@ -35,5 +35,9 @@ export class CreatePageService {
 
   createPage(page: iPage): Observable<any> {
     return this.http.post<any>('/api/sites/create-page', page).pipe(catchError(this.handleError));
+  }
+
+  updatePage(page: iPage): Observable<any> {
+    return this.http.patch<any>('/api/sites/update-page', page).pipe(catchError(this.handleError));
   }
 }

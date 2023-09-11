@@ -9,7 +9,7 @@ export class UrlProviderService {
 
   public url$ = this.url.asObservable();
 
-  public getUrl(url: string) {
+  public setUrl(url: string) {
     this.url.next(url);
   }
 }

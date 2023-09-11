@@ -1,17 +1,16 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { iDefaultData } from '../edit-pages/edit-pages.component';
 import { Subscription } from 'rxjs';
 import { PageDataProviderService } from 'src/app/modules/sites-map/services/page-data-provider.service';
 import { EditPagesHttpService, iPage } from '../../services/edit-pages-http.service';
 import { EditPagesFormService } from '../../services/edit-pages-form.service';
-import { iDefaultData } from '../edit-pages/edit-pages.component';
 
 @Component({
-  selector: 'add-page',
-  templateUrl: './add-page.component.html',
-  styleUrls: ['./add-page.component.scss'],
+  selector: 'update-page',
+  templateUrl: './update-page.component.html',
 })
-export class AddPageComponent implements OnInit, OnDestroy {
-  private parentData$: any;
+export class UpdatePageComponent {
+  private currentPageData$: any;
   private subscriptions: Subscription | undefined;
 
   defaultData: iDefaultData = { layout: '', title: '', url: '', displayText: '' };
@@ -22,24 +21,23 @@ export class AddPageComponent implements OnInit, OnDestroy {
     protected formService: EditPagesFormService
   ) {}
 
-  displayParent(): string {
-    return this.parentData$.displayText || this.parentData$.domain || 'Ошибка';
-  }
-
   ngOnInit() {
-    this.parentData$ = this.pageDataProviderService.getPageData();
-    this.defaultData.url = this.parentData$.url;
+    this.currentPageData$ = this.pageDataProviderService.getPageData();
+    this.defaultData.url = this.currentPageData$.url;
+    this.defaultData.layout = this.currentPageData$.layout;
+    this.defaultData.displayText = this.currentPageData$.displayText;
+    this.defaultData.title = this.currentPageData$.title;
   }
 
   ngOnDestroy(): void {
     this.subscriptions?.unsubscribe();
   }
 
-  onSubmit(formData: iDefaultData): void {
-    const { layout, url, displayText, title } = formData;
+  onSubmit(data: iDefaultData): void {
+    const { layout, url, displayText, title } = data;
 
-    const siteId = this.parentData$.domain ? this.parentData$._id : this.parentData$.siteId;
-    const parent = this.parentData$.parent || null;
+    const siteId = this.currentPageData$.siteId;
+    const parent = this.currentPageData$.parent || null;
 
     const result: iPage = {
       layout,
@@ -50,9 +48,9 @@ export class AddPageComponent implements OnInit, OnDestroy {
       params: { title },
     };
 
-    const temporarySub = this.editPagesHttpService.createPage(result).subscribe((res) => {
+    const temporarySub = this.editPagesHttpService.updatePage(result).subscribe((res) => {
       if (res.acknowledged) {
-        this.formService.submitTextHandler('Страница создана!', false);
+        this.formService.submitTextHandler('Страница обновлена!', false);
         this.formService.disable();
       } else {
         console.error(res);

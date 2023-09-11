@@ -1,11 +1,14 @@
 <div class="map-item" (contextmenu)="onRightClickHandler($event)">
-  <label class="checkbox">
-    <input type="checkbox" (change)="toggleItem($event)" />
-  </label>
-  <p class="text">{{site.domain}}</p>
+  <div class="checkbox-wrap">
+    <label *ngIf="!page || page.childsCount" class="checkbox">
+      <input type="checkbox" (change)="toggleItem($event)" />
+    </label>
+  </div>
+  <p (click)="getPagesUrl()" class="text">{{page?.displayText || site.domain}}
+  </p>
 </div>
 
 <div class="map">
-  <pages-map-item *ngFor="let page of subItems" [site]="site"
-    [page]="page"></pages-map-item>
+  <sites-map-item *ngFor="let page of subItems" [site]="site" [page]="page">
+  </sites-map-item>
 </div>

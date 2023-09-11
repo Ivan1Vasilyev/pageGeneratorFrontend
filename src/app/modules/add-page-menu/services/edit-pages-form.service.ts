@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Injectable()
-export class FormService {
+export class EditPagesFormService {
   createPageForm!: FormGroup;
   initialData: any;
 
@@ -34,7 +34,8 @@ export class FormService {
   onReset(): void {
     this.createPageForm.reset();
     Object.keys(this.initialData).forEach((key) => {
-      const defaultValue = this.initialData[key][0];
+      const currentData = this.initialData[key];
+      const defaultValue = typeof currentData === 'string' ? currentData : currentData[0];
       if (defaultValue) {
         this.createPageForm.controls[key].setValue(defaultValue);
       }

@@ -1,9 +1,4 @@
-<edit-pages [displayText]="displayParent()"
-  [noParentDataErrorText]="'Нет данных страницы-родителя или сайта'"
-  [defaultData]="defaultData" (customSubmit)="onSubmit($event)"
-  [submitButtonText]="'Создать'"></edit-pages>
-
-<!-- <div class="wrap">
+<div class="wrap">
   <div class="map">
     <h2>Новая страница</h2>
     <form [formGroup]="formService.createPageForm" (ngSubmit)="onSubmit()"
@@ -46,7 +41,7 @@
       <div class="submit-area">
         <button [disabled]="formService.createPageForm.invalid" class="submit"
           type="submit">
-          Создать
+          {{submitButtonText}}
         </button>
 
         <button class="submit" type="button" (click)="formService.onReset()">
@@ -59,8 +54,8 @@
       </div>
     </form>
 
-    <p>{{'parent: ' + displayParent()}}</p>
+    <p>{{displayText}}</p>
 
     <a class="link-back" routerLink="/">← Карта</a>
   </div>
-</div> -->
+</div>

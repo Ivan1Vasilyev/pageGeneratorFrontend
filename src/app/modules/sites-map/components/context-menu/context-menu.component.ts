@@ -17,7 +17,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy {
   private closeMenu = (event: any) => {
     let currentElement = event.target;
     while (currentElement) {
-      if (currentElement?.classList?.contains('context-menu_item')) {
+      if (currentElement.classList?.contains('context-menu_item')) {
         return;
       }
       currentElement = currentElement.parentNode;

@@ -5,7 +5,7 @@ export class CoordsProviderService {
 
   public coords$ = this.coords.asObservable();
 
-  public getCoords(newCoords: { x: number; y: number }) {
+  public setCoords(newCoords: { x: number; y: number }) {
     this.coords.next(newCoords);
   }
 }
