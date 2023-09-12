@@ -1,29 +1,32 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+export interface iDefaultData {
+  displayText: string;
+  url: string;
+  title: string;
+  layout: string;
+}
 @Injectable()
 export class EditPagesFormService {
   createPageForm!: FormGroup;
-  initialData: any;
+  initialData!: iDefaultData;
 
   constructor(private formBuilder: FormBuilder) {}
 
-  onInit(initialData: any) {
+  onInit(initialData: iDefaultData) {
     this.initialData = initialData;
-    this.createPageForm = this.formBuilder.group(initialData);
-  }
+    const { required, pattern } = Validators;
 
-  submitText: {
-    text: string;
-    color: 'red' | 'green';
-  } = {
-    text: '',
-    color: 'red',
-  };
-
-  submitTextHandler(text: string, onError: boolean) {
-    this.submitText.color = onError ? 'red' : 'green';
-    this.submitText.text = text;
+    this.createPageForm = this.formBuilder.group({
+      displayText: [this.initialData?.displayText, [required]],
+      title: this.initialData?.title,
+      url: [
+        this.initialData?.url ?? '/',
+        [required, pattern(/^\/[^\s~`!@#$%^&*():;'"\\\.,+=\|\{\}\[\]]*$/)],
+      ],
+      layout: [this.initialData?.layout, required],
+    });
   }
 
   onValidate(fieldName: string): boolean | null {
@@ -33,21 +36,12 @@ export class EditPagesFormService {
 
   onReset(): void {
     this.createPageForm.reset();
-    Object.keys(this.initialData).forEach((key) => {
-      const currentData = this.initialData[key];
-      const defaultValue = typeof currentData === 'string' ? currentData : currentData[0];
-      if (defaultValue) {
-        this.createPageForm.controls[key].setValue(defaultValue);
-      }
-    });
-    this.createPageForm.enable();
+    Object.entries(this.initialData)
+      .filter((x) => x[1])
+      .forEach((entry) => this.createPageForm.controls[entry[0]].setValue(entry[1]));
   }
 
   getFormValues() {
     return this.createPageForm.value;
-  }
-
-  disable() {
-    this.createPageForm.disable();
   }
 }

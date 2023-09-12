@@ -47,14 +47,14 @@
         <button class="submit" type="button" (click)="formService.onReset()">
           Обнулить форму
         </button>
-        <p [ngClass]="[formService.submitText.color]" class="error-text">
-          {{formService.submitText.text}}
+        <p [ngClass]="[submitText.color]" class="error-text">
+          {{submitText.text}}
         </p>
 
       </div>
     </form>
 
-    <p>{{displayText}}</p>
+    <p>{{displayInfo}}</p>
 
     <a class="link-back" routerLink="/">← Карта</a>
   </div>

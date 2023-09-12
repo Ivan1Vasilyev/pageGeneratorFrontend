@@ -9,6 +9,7 @@ import { AddPageModule } from './modules/add-page-menu/add-page.module';
 import { FrameModule } from './modules/frame/frame.module';
 import { LeftSideBarComponent } from './common/components/left-side-bar/left-side-bar.component';
 import { MainComponent } from './common/components/main/main.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, MainComponent, LeftSideBarComponent],
@@ -20,6 +21,7 @@ import { MainComponent } from './common/components/main/main.component';
     HeaderModule,
     AddPageModule,
     FrameModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

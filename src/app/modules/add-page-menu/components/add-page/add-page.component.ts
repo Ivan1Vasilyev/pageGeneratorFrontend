@@ -1,34 +1,47 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageDataProviderService } from 'src/app/modules/sites-map/services/page-data-provider.service';
 import { EditPagesHttpService, iPage } from '../../services/edit-pages-http.service';
-import { EditPagesFormService } from '../../services/edit-pages-form.service';
-import { iDefaultData } from '../edit-pages/edit-pages.component';
+import { iDefaultData } from '../../services/edit-pages-form.service';
+import { iSubmitText } from '../edit-pages/edit-pages.component';
 
 @Component({
   selector: 'add-page',
   templateUrl: './add-page.component.html',
-  styleUrls: ['./add-page.component.scss'],
 })
 export class AddPageComponent implements OnInit, OnDestroy {
-  private parentData$: any;
+  protected parentData$: any;
+  formDefaultData: iDefaultData = { layout: '', title: '', url: '', displayText: '' };
   private subscriptions: Subscription | undefined;
 
-  defaultData: iDefaultData = { layout: '', title: '', url: '', displayText: '' };
+  submitText: iSubmitText = {
+    text: '',
+    color: 'red',
+  };
+
+  private submitTextHandler(text: string, onError: boolean) {
+    this.submitText.color = onError ? 'red' : 'green';
+    this.submitText.text = text;
+  }
 
   constructor(
     private pageDataProviderService: PageDataProviderService,
-    private editPagesHttpService: EditPagesHttpService,
-    protected formService: EditPagesFormService
+    private editPagesHttpService: EditPagesHttpService
   ) {}
 
   displayParent(): string {
-    return this.parentData$.displayText || this.parentData$.domain || 'Ошибка';
+    return `parent: ${this.parentData$.displayText || this.parentData$.domain || 'Ошибка'}`;
   }
 
   ngOnInit() {
     this.parentData$ = this.pageDataProviderService.getPageData();
-    this.defaultData.url = this.parentData$.url;
+    this.formDefaultData.url = this.parentData$.url;
+
+    if (Object.keys(this.parentData$).length) {
+      this.submitTextHandler('', false);
+    } else {
+      this.submitTextHandler('Нет данных страницы-родителя или сайта', true);
+    }
   }
 
   ngOnDestroy(): void {
@@ -39,7 +52,7 @@ export class AddPageComponent implements OnInit, OnDestroy {
     const { layout, url, displayText, title } = formData;
 
     const siteId = this.parentData$.domain ? this.parentData$._id : this.parentData$.siteId;
-    const parent = this.parentData$.parent || null;
+    const parent = this.parentData$.domain ? null : this.parentData$._id;
 
     const result: iPage = {
       layout,
@@ -52,11 +65,9 @@ export class AddPageComponent implements OnInit, OnDestroy {
 
     const temporarySub = this.editPagesHttpService.createPage(result).subscribe((res) => {
       if (res.acknowledged) {
-        this.formService.submitTextHandler('Страница создана!', false);
-        this.formService.disable();
+        this.submitTextHandler('Страница создана!', false);
       } else {
-        console.error(res);
-        this.formService.submitTextHandler('Ошибка на сервере. Смотрите консоль!', true);
+        this.submitTextHandler('Ошибка на сервере. Смотрите консоль!', true);
       }
     });
     this.subscriptions?.add(temporarySub);
