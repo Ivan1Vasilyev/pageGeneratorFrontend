@@ -1,8 +1,41 @@
 import { Component, EventEmitter, Input, Output, OnDestroy, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { LayoutsProviderService } from '../../services/layouts-provider.service';
 import { EditPagesFormService, iDefaultData } from '../../services/edit-pages-form.service';
+
+const layoutsTree = [
+  {
+    name: 'moscow-beeline',
+    children: [
+      {
+        name: 'main',
+        children: [
+          {
+            name: 'actions',
+            children: [
+              {
+                name: 'dacha',
+              },
+              { name: 'promo' },
+            ],
+          },
+          {
+            name: 'tariffs',
+            children: [
+              {
+                name: 'internet',
+              },
+              { name: 'internet-tv' },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'megafon',
+  },
+];
 
 export interface iSubmitText {
   color: 'red' | 'green';
@@ -11,17 +44,20 @@ export interface iSubmitText {
 
 @Component({
   selector: 'edit-pages',
-  templateUrl: './edit-pages.component.html',
-  styleUrls: ['./edit-pages.component.scss'],
+  templateUrl: './edit-pages-base.component.html',
+  styleUrls: ['./edit-pages-base.component.scss'],
 })
-export class EditPagesComponent implements OnInit, OnDestroy {
-  @Input() displayInfo: string | undefined;
-  @Input() submitButtonText: string | undefined;
+export class EditPagesBaseComponent implements OnInit, OnDestroy {
+  fakeLayouts = layoutsTree;
+
+  @Input() menuTitle!: string;
+  @Input() displayInfo!: string;
+  @Input() submitButtonText!: string;
   @Input() formDefaultData!: iDefaultData;
   @Input() submitText!: iSubmitText;
   @Output() customSubmit = new EventEmitter<any>();
 
-  private subscriptions: Subscription | undefined;
+  private subscriptions!: Subscription;
   layouts$: string[] = [];
 
   constructor(

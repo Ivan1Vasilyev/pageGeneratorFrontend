@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { PageDataProviderService } from 'src/app/modules/sites-map/services/page-data-provider.service';
 import { EditPagesHttpService, iPage } from '../../services/edit-pages-http.service';
 import { iDefaultData } from '../../services/edit-pages-form.service';
-import { iSubmitText } from '../edit-pages/edit-pages.component';
+import { iSubmitText } from '../edit-pages-base/edit-pages-base.component';
 
 @Component({
   selector: 'add-page',

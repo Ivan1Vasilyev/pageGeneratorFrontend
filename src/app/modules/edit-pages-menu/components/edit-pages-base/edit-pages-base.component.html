@@ -1,0 +1,57 @@
+<div class="wrap">
+  <div class="map">
+    <h2>{{menuTitle}}</h2>
+    <form [formGroup]="formService.createPageForm" (ngSubmit)="onSubmit()"
+      class="form">
+      <p [ngClass]="[submitText.color]" class="error-text">
+        {{submitText.text}}
+      </p>
+      <p>{{displayInfo}}</p>
+
+      <mat-form-field>
+        <mat-label>Display text</mat-label>
+        <input type="text" formControlName="displayText" required matInput>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>URL</mat-label>
+        <input type="text" formControlName="url" required matInput>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input type="text" formControlName="title" matInput>
+      </mat-form-field>
+
+      <label class="form-item">
+        <p class="form-item-text">Layout</p>
+
+        <select formControlName="layout" required>
+
+          <option *ngFor="let layout of layouts$" [ngValue]="layout">{{layout}}
+          </option>
+
+        </select>
+      </label>
+
+      <div class="submit-area">
+
+        <button type="submit" [disabled]="formService.createPageForm.invalid"
+          mat-raised-button color="primary">{{submitButtonText}}</button>
+
+        <button type="button" (click)="formService.onReset()" mat-raised-button
+          color="primary">Обнулить форму</button>
+
+      </div>
+
+    </form>
+
+
+
+    <a class="link-back" mat-raised-button color="accent" routerLink="/">←
+      Карта</a>
+
+    <!-- <layouts-tree [layoutsTree]="fakeLayouts"></layouts-tree> -->
+
+  </div>
+</div>

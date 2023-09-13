@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { iSubmitText } from '../edit-pages/edit-pages.component';
+import { iSubmitText } from '../edit-pages-base/edit-pages-base.component';
 import { Subscription } from 'rxjs';
 import { PageDataProviderService } from 'src/app/modules/sites-map/services/page-data-provider.service';
-import { EditPagesHttpService, iPage } from '../../services/edit-pages-http.service';
-import { iDefaultData } from '../../services/edit-pages-form.service';
+import { EditPagesHttpService } from '../../services/edit-pages-http.service';
+import { iDefaultData as iFormTemplate } from '../../services/edit-pages-form.service';
 
 @Component({
   selector: 'update-page',
   templateUrl: './update-page.component.html',
 })
 export class UpdatePageComponent {
-  currentPageData$: any;
   private subscriptions: Subscription | undefined;
-  formDefaultData: iDefaultData = { layout: '', title: '', url: '', displayText: '' };
+  currentPageData$: any;
+  formDefaultData: iFormTemplate = { layout: '', title: '', url: '', displayText: '' };
   submitText: iSubmitText = {
     text: '',
     color: 'red',
@@ -26,16 +26,6 @@ export class UpdatePageComponent {
   private submitTextHandler(text: string, onError: boolean) {
     this.submitText.color = onError ? 'red' : 'green';
     this.submitText.text = text;
-  }
-
-  private updateFormDefaultData(data: iDefaultData) {
-    const { url, layout, displayText, title } = data;
-    this.formDefaultData = {
-      url,
-      layout,
-      displayText,
-      title,
-    };
   }
 
   ngOnInit() {
@@ -55,30 +45,13 @@ export class UpdatePageComponent {
     this.subscriptions?.unsubscribe();
   }
 
-  onSubmit(data: iDefaultData): void {
-    const {
-      layout = this.formDefaultData.layout,
-      url = this.formDefaultData.url,
-      displayText = this.formDefaultData.displayText,
-      title = this.formDefaultData.title,
-    } = data;
+  onSubmit(data: iFormTemplate): void {
+    const _id = this.currentPageData$._id;
 
-    const siteId = this.currentPageData$.siteId;
-    const parent = this.currentPageData$.parent || null;
-
-    const result: iPage = {
-      layout,
-      url: url.trim(),
-      displayText,
-      siteId,
-      parent,
-      params: { title },
-    };
-
-    const temporarySub = this.editPagesHttpService.updatePage(result).subscribe((res) => {
+    const temporarySub = this.editPagesHttpService.updatePage(data, _id).subscribe((res) => {
+      console.log(res);
       if (res.ok) {
         this.submitTextHandler('Страница обновлена!', false);
-        this.updateFormDefaultData(res.value);
       } else {
         console.error(res);
         this.submitTextHandler('Ошибка на сервере. Смотрите консоль!', true);

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError, of } from 'rxjs';
 
 export interface iPage {
+  _id?: string;
   layout: string | null | undefined;
   siteId: string | null | undefined;
   url: string | null | undefined;
@@ -37,7 +38,13 @@ export class EditPagesHttpService {
     return this.http.post<any>('/api/sites/create-page', page).pipe(catchError(this.handleError));
   }
 
-  updatePage(page: iPage): Observable<any> {
-    return this.http.patch<any>('/api/sites/update-page', page).pipe(catchError(this.handleError));
+  updatePage(data: any, pageId: string): Observable<any> {
+    return this.http.patch<any>(`/api/pages/${pageId}`, data).pipe(catchError(this.handleError));
+  }
+
+  updatePagesParam(data: { name: string; value: any }, pageId: string) {
+    return this.http
+      .patch<any>(`/api/pages/${pageId}/params/${data.name}`, data.value)
+      .pipe(catchError(this.handleError));
   }
 }

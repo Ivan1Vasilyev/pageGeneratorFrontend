@@ -2,32 +2,5 @@
   display: flex;
   justify-content: space-between;
   padding: 10px 15px 25px;
-  // color: #fff;
-
-  & input {
-    border: {
-      radius: 3px;
-      color: #5c5cfa;
-    }
-    width: 200px;
-    height: 30px;
-  }
-
-  & a {
-    border: 1px solid gray;
-  }
-}
-
-.buttons-area {
-  display: flex;
-  justify-content: flex-end;
-  gap: 5px;
-
-  & button {
-    border: {
-      radius: 3px;
-      color: none;
-    }
-    background-color: #bfbfbf;
-  }
+  color: #fff;
 }

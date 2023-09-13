@@ -22,16 +22,16 @@ export class EditPagesFormService {
       displayText: [this.initialData?.displayText, [required]],
       title: this.initialData?.title,
       url: [
-        this.initialData?.url ?? '/',
-        [required, pattern(/^\/[^\s~`!@#$%^&*():;'"\\\.,+=\|\{\}\[\]]*$/)],
+        this.initialData?.url || '/',
+        [
+          required,
+          pattern(
+            /(^\/$)|(^\/(?![-_\/])[-_a-z0-9]*(?<![-_])(\/(?![-_\/])[a-z0-9]+([-_]+[a-z0-9]+)*)*$)/i
+          ),
+        ],
       ],
       layout: [this.initialData?.layout, required],
     });
-  }
-
-  onValidate(fieldName: string): boolean | null {
-    const field = this.createPageForm.controls[fieldName];
-    return field.errors && (field.dirty || field.touched);
   }
 
   onReset(): void {

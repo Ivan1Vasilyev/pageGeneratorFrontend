@@ -6,7 +6,7 @@ import { UrlSafePipe } from './pipes/url-safe.pipe';
 
 @NgModule({
   declarations: [MainFrameComponent, UrlSafePipe],
-  imports: [BrowserModule, ReactiveFormsModule],
+
   exports: [MainFrameComponent],
   providers: [],
   bootstrap: [MainFrameComponent],
