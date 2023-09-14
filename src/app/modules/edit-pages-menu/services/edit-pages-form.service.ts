@@ -23,12 +23,7 @@ export class EditPagesFormService {
       title: this.initialData?.title,
       url: [
         this.initialData?.url || '/',
-        [
-          required,
-          pattern(
-            /(^\/$)|(^\/(?![-_\/])[-_a-z0-9]*(?<![-_])(\/(?![-_\/])[a-z0-9]+([-_]+[a-z0-9]+)*)*$)/i
-          ),
-        ],
+        [required, pattern(/(^\/$)|(^(?<![-_])(\/(?![-_\/])[a-z0-9]+([-_]+[a-z0-9]+)*)+$)/i)],
       ],
       layout: [this.initialData?.layout, required],
     });

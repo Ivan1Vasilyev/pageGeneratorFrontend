@@ -13,9 +13,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
+import { LayoutsTreeComponent } from './components/layouts-tree/layouts-tree.component';
 
 @NgModule({
-  declarations: [AddPageComponent, UpdatePageComponent, EditPagesBaseComponent],
+  declarations: [
+    AddPageComponent,
+    UpdatePageComponent,
+    EditPagesBaseComponent,
+    LayoutsTreeComponent,
+  ],
   imports: [
     CommonModule,
     AppRoutingModule,
@@ -24,6 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
+    MatTreeModule,
   ],
   exports: [],
   providers: [LayoutsProviderService, EditPagesHttpService, EditPagesFormService],

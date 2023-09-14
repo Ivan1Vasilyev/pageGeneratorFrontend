@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, Output, OnDestroy, OnInit } from '@angu
 import { Subscription } from 'rxjs';
 import { LayoutsProviderService } from '../../services/layouts-provider.service';
 import { EditPagesFormService, iDefaultData } from '../../services/edit-pages-form.service';
+import { iLayoutsTree } from '../layouts-tree/layouts-tree.component';
 
-const layoutsTree = [
+const layoutsTree: iLayoutsTree[] = [
   {
     name: 'moscow-beeline',
     children: [
@@ -48,7 +49,7 @@ export interface iSubmitText {
   styleUrls: ['./edit-pages-base.component.scss'],
 })
 export class EditPagesBaseComponent implements OnInit, OnDestroy {
-  fakeLayouts = layoutsTree;
+  fakeLayouts: iLayoutsTree[] = layoutsTree;
 
   @Input() menuTitle!: string;
   @Input() displayInfo!: string;
