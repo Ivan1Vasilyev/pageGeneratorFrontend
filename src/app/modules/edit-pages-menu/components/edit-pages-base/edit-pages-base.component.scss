@@ -26,14 +26,6 @@
 
 .form-item {
   display: block;
-
-  & option {
-    text-align: center;
-  }
-}
-
-.cross-validation-error {
-  border-left: 5px solid red;
 }
 
 .submit-area {
@@ -42,15 +34,12 @@
   padding: 20px 0;
 }
 
-.submit {
-}
-
 .error-text {
   font-size: 12px;
 }
 
 .red {
-  color: red;
+  color: #f44336;
 }
 
 .green {

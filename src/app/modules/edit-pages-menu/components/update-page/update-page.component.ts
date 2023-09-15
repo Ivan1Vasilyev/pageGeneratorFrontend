@@ -18,6 +18,10 @@ export class UpdatePageComponent {
     color: 'red',
   };
 
+  log(event: string) {
+    console.log(event);
+  }
+
   constructor(
     private pageDataProviderService: PageDataProviderService,
     private editPagesHttpService: EditPagesHttpService

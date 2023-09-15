@@ -9,7 +9,7 @@ export interface iDefaultData {
 }
 @Injectable()
 export class EditPagesFormService {
-  createPageForm!: FormGroup;
+  editPagesForm!: FormGroup;
   initialData!: iDefaultData;
 
   constructor(private formBuilder: FormBuilder) {}
@@ -18,25 +18,25 @@ export class EditPagesFormService {
     this.initialData = initialData;
     const { required, pattern } = Validators;
 
-    this.createPageForm = this.formBuilder.group({
+    this.editPagesForm = this.formBuilder.group({
       displayText: [this.initialData?.displayText, [required]],
       title: this.initialData?.title,
       url: [
         this.initialData?.url || '/',
-        [required, pattern(/(^\/$)|(^(?<![-_])(\/(?![-_\/])[a-z0-9]+([-_]+[a-z0-9]+)*)+$)/i)],
+        [required, pattern(/(^\/$)|(^(\/(?![-_\/])[a-z0-9]+([-_]+[a-z0-9]+)*)+$)/i)],
       ],
-      layout: [this.initialData?.layout, required],
+      layout: [this.initialData?.layout, [required]],
     });
   }
 
   onReset(): void {
-    this.createPageForm.reset();
+    this.editPagesForm.reset();
     Object.entries(this.initialData)
       .filter((x) => x[1])
-      .forEach((entry) => this.createPageForm.controls[entry[0]].setValue(entry[1]));
+      .forEach((entry) => this.editPagesForm.controls[entry[0]].setValue(entry[1]));
   }
 
   getFormValues() {
-    return this.createPageForm.value;
+    return this.editPagesForm.value;
   }
 }

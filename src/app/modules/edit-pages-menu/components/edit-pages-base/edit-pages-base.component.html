@@ -1,7 +1,7 @@
 <div class="wrap">
   <div class="map">
     <h2>{{menuTitle}}</h2>
-    <form [formGroup]="formService.createPageForm" (ngSubmit)="onSubmit()"
+    <form [formGroup]="formService.editPagesForm" (ngSubmit)="onSubmit()"
       class="form">
       <p [ngClass]="[submitText.color]" class="error-text">
         {{submitText.text}}
@@ -23,20 +23,35 @@
         <input type="text" formControlName="title" matInput>
       </mat-form-field>
 
-      <label class="form-item">
+      <mat-form-field>
+        <mat-label>Layout</mat-label>
+        <input (change)="onChange()" type="text" formControlName="layout"
+          required matInput>
+      </mat-form-field>
+
+
+
+      <!-- <label class="form-item">
         <p class="form-item-text">Layout</p>
 
         <select formControlName="layout" required>
+
+          <option disabled [ngValue]="choosedLayout">{{choosedLayout}}
+          </option>
 
           <option *ngFor="let layout of layouts$" [ngValue]="layout">{{layout}}
           </option>
 
         </select>
-      </label>
+      </label> -->
 
+      <layouts-tree [result]="result" [trigger]="'Выбрать layout'"
+        [data]="['moscow-beeline', 'megafon']"
+        [isRootNode]="true"></layouts-tree>
       <div class="submit-area">
 
-        <button type="submit" [disabled]="formService.createPageForm.invalid"
+        <button type="submit"
+          [disabled]="!formService.editPagesForm.dirty || formService.editPagesForm.invalid"
           mat-raised-button color="primary">{{submitButtonText}}</button>
 
         <button type="button" (click)="formService.onReset()" mat-raised-button
@@ -46,12 +61,9 @@
 
     </form>
 
-
-
     <a class="link-back" mat-raised-button color="accent" routerLink="/">←
       Карта</a>
 
-    <layouts-tree [layoutsTree]="fakeLayouts"></layouts-tree>
 
   </div>
 </div>

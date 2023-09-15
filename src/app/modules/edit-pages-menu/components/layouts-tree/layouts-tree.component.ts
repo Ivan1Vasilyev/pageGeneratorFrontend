@@ -1,114 +1,56 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NestedTreeControl } from '@angular/cdk/tree';
-import {
-  MatTreeNestedDataSource,
-  MatTreeModule,
-  MatTreeFlattener,
-  MatTreeFlatDataSource,
-} from '@angular/material/tree';
-import { FlatTreeControl } from '@angular/cdk/tree';
-
-const layoutsTree: iLayoutsTree[] = [
-  {
-    name: 'moscow-beeline',
-    children: [
-      {
-        name: 'main',
-        children: [
-          {
-            name: 'actions',
-            children: [
-              {
-                name: 'dacha',
-              },
-              { name: 'promo' },
-            ],
-          },
-          {
-            name: 'tariffs',
-            children: [
-              {
-                name: 'internet',
-              },
-              { name: 'internet-tv' },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: 'megafon',
-  },
-];
-
-const TREE_DATA: iLayoutsTree[] = [
-  {
-    name: 'Fruit',
-    children: [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Fruit loops' }],
-  },
-  {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
-      },
-      {
-        name: 'Orange',
-        children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
-      },
-    ],
-  },
-];
-
-export interface iLayoutsTree {
-  name: string;
-  children?: iLayoutsTree[];
-}
-interface ExampleFlatNode {
-  expandable: boolean;
-  name: string;
-  level: number;
-}
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { layoutProviderService } from '../../services/provide-layout.service';
+import { LayoutsProviderService } from '../../services/layouts-provider.service';
+import { Subscription, of } from 'rxjs';
 
 @Component({
   selector: 'layouts-tree',
   templateUrl: './layouts-tree.component.html',
-  styleUrls: ['./layouts-tree.component.scss'],
 })
-export class LayoutsTreeComponent implements OnInit {
-  @Input() layoutsTree!: iLayoutsTree[];
+export class LayoutsTreeComponent implements OnInit, OnDestroy {
+  @Input() data: string[] = [];
+  @Input() trigger: string = '';
+  @Input() isRootNode = false;
+  @Input() result: string = '';
+  private subscriptions!: Subscription;
 
-  private _transformer = (node: iLayoutsTree, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.name,
-      level: level,
-    };
-  };
+  constructor(
+    private layoutProviderService: layoutProviderService,
+    private layoutsProviderService: LayoutsProviderService
+  ) {}
+
+  dataMap: any;
+
+  isExpandable(node: string): boolean {
+    return this.dataMap?.has(node);
+  }
 
   ngOnInit(): void {
-    this.dataSource.data = this.layoutsTree;
+    const layoutsSub = this.layoutsProviderService.getLayouts().subscribe((layouts) => {
+      this.dataMap = new Map<string, string[]>(layouts);
+    });
+    this.subscriptions?.add(layoutsSub);
   }
 
-  treeControl = new FlatTreeControl<ExampleFlatNode>(
-    (node) => node.level,
-    (node) => node.expandable
-  );
-
-  treeFlattener = new MatTreeFlattener(
-    this._transformer,
-    (node) => node.level,
-    (node) => node.expandable,
-    (node) => node.children
-  );
-
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-  constructor() {
-    this.dataSource.data = TREE_DATA;
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    this.result = '';
   }
 
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+  getData(node: string) {
+    of(this.dataMap.get(node)).subscribe((d) => {
+      this.data = d || [];
+    });
+  }
+
+  dirHandler(node: string) {
+    if (!this.result.includes(node)) {
+      this.result += this.result ? `.${node}` : node;
+    }
+  }
+
+  emit(event: string) {
+    this.layoutProviderService.setLayout(this.result + `.${event.trim()}`);
+    this.result = '';
+  }
 }

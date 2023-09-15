@@ -14,6 +14,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutsTreeComponent } from './components/layouts-tree/layouts-tree.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { layoutProviderService } from './services/provide-layout.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -31,9 +34,16 @@ import { LayoutsTreeComponent } from './components/layouts-tree/layouts-tree.com
     MatButtonModule,
     MatIconModule,
     MatTreeModule,
+    MatMenuModule,
+    MatCheckboxModule,
   ],
   exports: [],
-  providers: [LayoutsProviderService, EditPagesHttpService, EditPagesFormService],
-  bootstrap: [EditPagesBaseComponent],
+  providers: [
+    LayoutsProviderService,
+    layoutProviderService,
+    EditPagesHttpService,
+    EditPagesFormService,
+  ],
+  bootstrap: [LayoutsTreeComponent],
 })
 export class EditPagesModule {}
