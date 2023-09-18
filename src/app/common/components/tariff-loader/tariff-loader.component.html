@@ -1,0 +1,41 @@
+<div class="wrap">
+
+  <h2>Заголовок</h2>
+  <form class="form" [formGroup]="formService.form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field>
+      <mat-label>Выбрать файл</mat-label>
+      <mat-select formControlName="file" required>
+        <mat-option *ngFor="let file of files" [value]="file">
+          {{file}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Выбрать загрузчик</mat-label>
+      <mat-select formControlName="loader" required>
+        <mat-option *ngFor="let loader of loaders" [value]="loader">
+          {{loader}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <p class="submit-text">{{submitText}}</p>
+
+    <div class="submit-area">
+
+      <button [disabled]="formService.form.invalid" type="submit"
+        mat-raised-button color="primary">загрузить</button>
+
+      <button (click)="formService.onReset()" type="button" mat-raised-button
+        color="primary">Сброс</button>
+
+    </div>
+
+  </form>
+
+</div>
+<div class="file-input">
+  <input type="file" />
+</div>

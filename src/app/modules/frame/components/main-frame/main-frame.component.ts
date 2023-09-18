@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 })
 export class MainFrameComponent implements OnInit, OnDestroy {
   url: string = '';
+  isFullScreen: boolean = false;
   private subs: Subscription = new Subscription();
 
   constructor(private readonly urlProviderService: UrlProviderService) {}
@@ -21,5 +22,14 @@ export class MainFrameComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+  }
+
+  onClose() {
+    this.url = '';
+    this.isFullScreen = false;
+  }
+
+  toggleFullScreen() {
+    this.isFullScreen = !this.isFullScreen;
   }
 }

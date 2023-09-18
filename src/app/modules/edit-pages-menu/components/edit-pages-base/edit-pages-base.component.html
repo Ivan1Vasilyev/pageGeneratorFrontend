@@ -18,7 +18,9 @@
         <input type="text" formControlName="url" required matInput>
       </mat-form-field>
 
-      <mat-form-field class="mat-input">
+      <mat-form-field
+        [hideRequiredMarker]="formService.hideRequiredControl.value"
+        class="mat-input">
         <mat-label>Title</mat-label>
         <input type="text" formControlName="title" matInput>
       </mat-form-field>
@@ -33,6 +35,8 @@
       <layouts-tree [dataMap]="dataMap" [result]="''"
         [trigger]="'Выбрать layout'" [data]="initialLayouts"
         [isRootNode]="true"></layouts-tree>
+
+      <mat-checkbox formControlName="checkbox">Checkbox</mat-checkbox>
 
       <div class="submit-area">
 

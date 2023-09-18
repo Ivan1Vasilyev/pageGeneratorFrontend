@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LayoutProviderService } from './layout-provider.service';
 import { Subscription } from 'rxjs';
 
@@ -14,6 +14,7 @@ export class EditPagesFormService {
   editPagesForm!: FormGroup;
   initialData!: iDefaultData;
   layoutControl!: AbstractControl;
+  hideRequiredControl = new FormControl(false);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,6 +33,7 @@ export class EditPagesFormService {
         [required, pattern(/(^\/$)|(^(\/(?![-_\/])[a-z0-9]+([-_]+[a-z0-9]+)*)+$)/i)],
       ],
       layout: [this.initialData?.layout, [required]],
+      checkbox: false,
     });
     this.layoutControl = this.editPagesForm.controls['layout'];
 

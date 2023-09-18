@@ -4,6 +4,7 @@ import { SitesMapComponent } from './modules/sites-map/components/sites-map/site
 import { MainComponent } from './common/components/main/main.component';
 import { AddPageComponent } from './modules/edit-pages-menu/components/add-page/add-page.component';
 import { UpdatePageComponent } from './modules/edit-pages-menu/components/update-page/update-page.component';
+import { TariffLoaderComponent } from './common/components/tariff-loader/tariff-loader.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
         component: UpdatePageComponent,
       },
     ],
+  },
+  {
+    path: 'tariffs-loader',
+    component: TariffLoaderComponent,
   },
 ];
 
