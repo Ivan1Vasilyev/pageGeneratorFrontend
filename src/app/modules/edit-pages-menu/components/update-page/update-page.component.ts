@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { iSubmitText } from '../edit-pages-base/edit-pages-base.component';
 import { Subscription } from 'rxjs';
-import { PageDataProviderService } from 'src/app/modules/sites-map/services/page-data-provider.service';
+import { PageDataProviderService } from '../../../../shared/page-data-provider.service';
 import { EditPagesHttpService } from '../../services/edit-pages-http.service';
 import { iDefaultData as iFormTemplate } from '../../services/edit-pages-form.service';
 
@@ -10,17 +10,14 @@ import { iDefaultData as iFormTemplate } from '../../services/edit-pages-form.se
   templateUrl: './update-page.component.html',
 })
 export class UpdatePageComponent {
-  private subscriptions: Subscription | undefined;
+  private submitSub: Subscription = new Subscription();
   currentPageData$: any;
   formDefaultData: iFormTemplate = { layout: '', title: '', url: '', displayText: '' };
+
   submitText: iSubmitText = {
     text: '',
     color: 'red',
   };
-
-  log(event: string) {
-    console.log(event);
-  }
 
   constructor(
     private pageDataProviderService: PageDataProviderService,
@@ -46,14 +43,13 @@ export class UpdatePageComponent {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions?.unsubscribe();
+    this.submitSub?.unsubscribe();
   }
 
   onSubmit(data: iFormTemplate): void {
     const _id = this.currentPageData$._id;
 
-    const temporarySub = this.editPagesHttpService.updatePage(data, _id).subscribe((res) => {
-      console.log(res);
+    this.submitSub = this.editPagesHttpService.updatePage(data, _id).subscribe((res) => {
       if (res.ok) {
         this.submitTextHandler('Страница обновлена!', false);
       } else {
@@ -61,6 +57,5 @@ export class UpdatePageComponent {
         this.submitTextHandler('Ошибка на сервере. Смотрите консоль!', true);
       }
     });
-    this.subscriptions?.add(temporarySub);
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Injectable()
-export class layoutProviderService {
+export class LayoutProviderService {
   private layout = new Subject<string>();
 
   public layout$ = this.layout.asObservable();

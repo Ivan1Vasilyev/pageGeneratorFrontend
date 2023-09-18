@@ -1,16 +1,14 @@
-.context-menu {
-  position: absolute;
-  border: 1px solid gray;
-  background-color: #fff;
-  z-index: 1000;
-}
-
-.item-text {
+.text {
+  max-width: 100%;
+  padding: 5px;
   white-space: nowrap;
-  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
-
+  border: 1px solid transparent;
+  border-radius: 5px;
+  transition: border-color 0.3s;
   &:hover {
-    background-color: #5f9ba4;
+    border-color: #927b74;
   }
 }

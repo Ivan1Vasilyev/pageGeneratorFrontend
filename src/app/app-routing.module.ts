@@ -19,7 +19,7 @@ const routes: Routes = [
         component: AddPageComponent,
       },
       {
-        path: 'edit-page',
+        path: 'update-page',
         component: UpdatePageComponent,
       },
     ],

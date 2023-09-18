@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Injectable, OnDestroy } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LayoutProviderService } from './layout-provider.service';
+import { Subscription } from 'rxjs';
 
 export interface iDefaultData {
   displayText: string;
@@ -11,10 +13,14 @@ export interface iDefaultData {
 export class EditPagesFormService {
   editPagesForm!: FormGroup;
   initialData!: iDefaultData;
+  layoutControl!: AbstractControl;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private layoutProviderService: LayoutProviderService
+  ) {}
 
-  onInit(initialData: iDefaultData) {
+  onInit(initialData: iDefaultData): Subscription {
     this.initialData = initialData;
     const { required, pattern } = Validators;
 
@@ -27,6 +33,20 @@ export class EditPagesFormService {
       ],
       layout: [this.initialData?.layout, [required]],
     });
+    this.layoutControl = this.editPagesForm.controls['layout'];
+
+    return this.layoutProviderService.layout$.subscribe((layout) => {
+      this.layoutControl.setValue(layout);
+      this.layoutControl.markAsDirty();
+    });
+  }
+
+  onFocusLayout() {
+    this.layoutControl.disable();
+  }
+
+  onBlurLayout() {
+    this.layoutControl.enable();
   }
 
   onReset(): void {
@@ -37,6 +57,9 @@ export class EditPagesFormService {
   }
 
   getFormValues() {
-    return this.editPagesForm.value;
+    const result = this.editPagesForm.value;
+
+    this.editPagesForm.markAsPristine();
+    return result;
   }
 }

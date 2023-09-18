@@ -4,6 +4,11 @@
   flex-direction: column;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
 .map {
   padding: 15px;
   background-color: #fff;
@@ -26,6 +31,10 @@
 
 .form-item {
   display: block;
+}
+
+.mat-input {
+  width: 300px;
 }
 
 .submit-area {

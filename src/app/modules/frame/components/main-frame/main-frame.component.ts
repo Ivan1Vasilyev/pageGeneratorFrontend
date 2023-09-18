@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UrlProviderService } from '../../../sites-map/services/url-provider.service';
+import { UrlProviderService } from '../../../../shared/url-provider.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 })
 export class MainFrameComponent implements OnInit, OnDestroy {
   url: string = '';
-  private subs: Subscription | undefined;
+  private subs: Subscription = new Subscription();
 
   constructor(private readonly urlProviderService: UrlProviderService) {}
 
@@ -20,6 +20,6 @@ export class MainFrameComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subs?.unsubscribe();
+    this.subs.unsubscribe();
   }
 }

@@ -8,46 +8,32 @@
       </p>
       <p>{{displayInfo}}</p>
 
-      <mat-form-field>
+      <mat-form-field class="mat-input">
         <mat-label>Display text</mat-label>
         <input type="text" formControlName="displayText" required matInput>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="mat-input">
         <mat-label>URL</mat-label>
         <input type="text" formControlName="url" required matInput>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="mat-input">
         <mat-label>Title</mat-label>
         <input type="text" formControlName="title" matInput>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="mat-input">
         <mat-label>Layout</mat-label>
-        <input (change)="onChange()" type="text" formControlName="layout"
-          required matInput>
+        <input type="text" (focus)="formService.onFocusLayout()"
+          (blur)="formService.onBlurLayout()" formControlName="layout" required
+          matInput>
       </mat-form-field>
 
-
-
-      <!-- <label class="form-item">
-        <p class="form-item-text">Layout</p>
-
-        <select formControlName="layout" required>
-
-          <option disabled [ngValue]="choosedLayout">{{choosedLayout}}
-          </option>
-
-          <option *ngFor="let layout of layouts$" [ngValue]="layout">{{layout}}
-          </option>
-
-        </select>
-      </label> -->
-
-      <layouts-tree [result]="result" [trigger]="'Выбрать layout'"
-        [data]="['moscow-beeline', 'megafon']"
+      <layouts-tree [dataMap]="dataMap" [result]="''"
+        [trigger]="'Выбрать layout'" [data]="initialLayouts"
         [isRootNode]="true"></layouts-tree>
+
       <div class="submit-area">
 
         <button type="submit"

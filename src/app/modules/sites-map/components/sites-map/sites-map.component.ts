@@ -1,19 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { SitesTreeService } from '../../services/sites-tree.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'sites-map',
   templateUrl: './sites-map.component.html',
   styleUrls: ['./sites-map.component.scss'],
 })
-export class SitesMapComponent implements OnInit {
+export class SitesMapComponent implements OnInit, OnDestroy {
   sites: any[] = [];
+  private subscription: Subscription = new Subscription();
 
-  constructor(private siteService: SitesTreeService) {}
+  constructor(private siteService: SitesTreeHttpService) {}
 
   ngOnInit(): void {
-    this.siteService.getSites().subscribe((sites) => {
+    const sub = this.siteService.getSites().subscribe((sites) => {
       this.sites = sites;
     });
+    this.subscription.add(sub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

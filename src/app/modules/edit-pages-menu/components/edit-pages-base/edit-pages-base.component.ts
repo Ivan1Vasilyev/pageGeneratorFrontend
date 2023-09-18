@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { EditPagesFormService, iDefaultData } from '../../services/edit-pages-form.service';
-
-import { layoutProviderService } from '../../services/provide-layout.service';
+import { LayoutsHttprService } from '../../services/layouts-http.service';
 
 export interface iSubmitText {
   color: 'red' | 'green';
@@ -21,32 +20,30 @@ export class EditPagesBaseComponent implements OnInit, OnDestroy {
   @Input() formDefaultData!: iDefaultData;
   @Input() submitText!: iSubmitText;
   @Output() customSubmit = new EventEmitter<any>();
+  dataMap!: Map<string, string[]>;
+  initialLayouts: string[] = [];
 
-  result: string = '';
-
-  private subscriptions!: Subscription;
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
-    private layoutProviderService: layoutProviderService,
+    private layoutsHttpService: LayoutsHttprService,
     protected formService: EditPagesFormService
   ) {}
 
-  onChange() {
-    this.formService.editPagesForm.controls['layout'].markAsDirty();
-  }
-
   ngOnInit() {
-    this.formService.onInit(this.formDefaultData);
+    const formSub = this.formService.onInit(this.formDefaultData);
+    this.subscriptions.add(formSub);
 
-    const layoutSub = this.layoutProviderService.layout$.subscribe((layout) => {
-      this.formService.editPagesForm.controls['layout'].setValue(layout);
+    const layoutsHttpSub = this.layoutsHttpService.getLayouts().subscribe((layouts) => {
+      this.dataMap = new Map<string, string[]>(layouts.allLayouts);
+      this.initialLayouts = layouts.initial;
     });
 
-    this.subscriptions?.add(layoutSub);
+    this.subscriptions.add(layoutsHttpSub);
   }
 
   ngOnDestroy(): void {
-    this.subscriptions?.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   onSubmit(): void {

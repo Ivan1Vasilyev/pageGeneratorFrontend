@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AddPageComponent } from './components/add-page/add-page.component';
 import { AppRoutingModule } from 'src/app/app-routing.module';
-import { LayoutsProviderService } from './services/layouts-provider.service';
+import { LayoutsHttprService } from './services/layouts-http.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EditPagesHttpService } from './services/edit-pages-http.service';
 import { EditPagesFormService } from './services/edit-pages-form.service';
@@ -15,8 +15,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutsTreeComponent } from './components/layouts-tree/layouts-tree.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { layoutProviderService } from './services/provide-layout.service';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { LayoutProviderService } from './services/layout-provider.service';
 
 @NgModule({
   declarations: [
@@ -35,12 +34,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatIconModule,
     MatTreeModule,
     MatMenuModule,
-    MatCheckboxModule,
   ],
   exports: [],
   providers: [
-    LayoutsProviderService,
-    layoutProviderService,
+    LayoutsHttprService,
+    LayoutProviderService,
     EditPagesHttpService,
     EditPagesFormService,
   ],

@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss', './_app.component-theme.scss'],
 })
-export class AppComponent {
-  activeComponent: string = 'sites-map';
-}
+export class AppComponent {}

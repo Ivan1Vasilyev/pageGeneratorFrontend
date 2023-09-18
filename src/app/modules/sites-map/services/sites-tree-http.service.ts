@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class SitesTreeService {
+export class SitesTreeHttpService {
   constructor(private http: HttpClient) {}
 
   getSites(): Observable<any[]> {

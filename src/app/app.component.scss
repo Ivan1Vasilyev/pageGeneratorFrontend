@@ -1,17 +1,1 @@
-@use '../styles/common/variables' as v;
 
-.app {
-  // background-color: v.$main-background;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-}
-
-main {
-  display: grid;
-  grid-template: 1fr/0fr 3fr 8fr;
-  gap: 15px;
-  flex: 1;
-}

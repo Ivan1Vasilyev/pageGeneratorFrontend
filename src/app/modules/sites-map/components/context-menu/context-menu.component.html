@@ -1,21 +1,7 @@
-<menu *ngIf="isActive" class="context-menu" [style.left.px]="coords.x"
-  [style.top.px]="coords.y">
-  <li class="context-menu_item">
-    <a class="item-text" routerLink="/add-page">Добавить страницу</a>
-  </li>
-  <li class="context-menu_item">
-    <a class="item-text" routerLink="/edit-page">Редактировать</a>
-  </li>
-  <li class="context-menu_item">
-    <a class="item-text">Опубликовать</a>
-  </li>
-  <li class="context-menu_item">
-    <a class="item-text">Удалить</a>
-  </li>
-</menu>
-
-<!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+<button (contextmenu)="openMenu($event)" class="text"
+  (click)="preventLeftClick()" mat-button
+  [matMenuTriggerFor]="menu">{{buttonText}}</button>
 <mat-menu #menu="matMenu">
   <a routerLink="/add-page" mat-menu-item>Добавить страницу</a>
-  <a routerLink="/edit-page" mat-menu-item>Редактировать</a>
-</mat-menu> -->
+  <a routerLink="/update-page" mat-menu-item>Редактировать</a>
+</mat-menu>

@@ -3,10 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class LayoutsProviderService {
+export class LayoutsHttprService {
   constructor(private http: HttpClient) {}
 
-  getLayouts(): Observable<any[]> {
-    return this.http.get<any[]>('/api/layouts');
+  result!: Map<string, string[]>;
+
+  getLayouts(): Observable<any> {
+    return this.http.get<any>('/api/layouts');
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PageDataProviderService } from 'src/app/modules/sites-map/services/page-data-provider.service';
+import { PageDataProviderService } from '../../../../shared/page-data-provider.service';
 import { EditPagesHttpService, iPage } from '../../services/edit-pages-http.service';
 import { iDefaultData } from '../../services/edit-pages-form.service';
 import { iSubmitText } from '../edit-pages-base/edit-pages-base.component';
@@ -10,9 +10,9 @@ import { iSubmitText } from '../edit-pages-base/edit-pages-base.component';
   templateUrl: './add-page.component.html',
 })
 export class AddPageComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription = new Subscription();
   protected parentData$: any;
   formDefaultData: iDefaultData = { layout: '', title: '', url: '', displayText: '' };
-  private subscriptions: Subscription | undefined;
 
   submitText: iSubmitText = {
     text: '',
@@ -45,7 +45,7 @@ export class AddPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions?.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   onSubmit(formData: iDefaultData): void {
@@ -63,13 +63,13 @@ export class AddPageComponent implements OnInit, OnDestroy {
       params: { title },
     };
 
-    const temporarySub = this.editPagesHttpService.createPage(result).subscribe((res) => {
+    const sub = this.editPagesHttpService.createPage(result).subscribe((res) => {
       if (res.acknowledged) {
         this.submitTextHandler('Страница создана!', false);
       } else {
         this.submitTextHandler('Ошибка на сервере. Смотрите консоль!', true);
       }
     });
-    this.subscriptions?.add(temporarySub);
+    this.subscriptions.add(sub);
   }
 }

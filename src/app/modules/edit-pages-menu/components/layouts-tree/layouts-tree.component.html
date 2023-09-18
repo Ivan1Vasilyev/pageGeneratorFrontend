@@ -8,11 +8,11 @@
 <mat-menu #menu="matMenu">
   <ng-container *ngFor="let node of data">
     <button type="button" mat-menu-item style="padding: 0;">
-      <layouts-tree [result]="result" [trigger]="node"
+      <layouts-tree [dataMap]="dataMap" [result]="result" [trigger]="node"
         *ngIf="isExpandable(node); else menuItem"></layouts-tree>
     </button>
     <ng-template #menuItem>
-      <button (click)="emit(node)" type="button" mat-menu-item>{{ node
+      <button (click)="emitResult(node)" type="button" mat-menu-item>{{ node
         }}</button>
     </ng-template>
   </ng-container>

@@ -1,35 +1,23 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { layoutProviderService } from '../../services/provide-layout.service';
-import { LayoutsProviderService } from '../../services/layouts-provider.service';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { LayoutProviderService } from '../../services/layout-provider.service';
 import { Subscription, of } from 'rxjs';
 
 @Component({
   selector: 'layouts-tree',
   templateUrl: './layouts-tree.component.html',
 })
-export class LayoutsTreeComponent implements OnInit, OnDestroy {
+export class LayoutsTreeComponent implements OnDestroy {
   @Input() data: string[] = [];
   @Input() trigger: string = '';
   @Input() isRootNode = false;
   @Input() result: string = '';
-  private subscriptions!: Subscription;
+  @Input() dataMap!: Map<string, string[]>;
+  private subscriptions: Subscription = new Subscription();
 
-  constructor(
-    private layoutProviderService: layoutProviderService,
-    private layoutsProviderService: LayoutsProviderService
-  ) {}
-
-  dataMap: any;
+  constructor(private layoutProviderService: LayoutProviderService) {}
 
   isExpandable(node: string): boolean {
     return this.dataMap?.has(node);
-  }
-
-  ngOnInit(): void {
-    const layoutsSub = this.layoutsProviderService.getLayouts().subscribe((layouts) => {
-      this.dataMap = new Map<string, string[]>(layouts);
-    });
-    this.subscriptions?.add(layoutsSub);
   }
 
   ngOnDestroy(): void {
@@ -38,9 +26,10 @@ export class LayoutsTreeComponent implements OnInit, OnDestroy {
   }
 
   getData(node: string) {
-    of(this.dataMap.get(node)).subscribe((d) => {
+    const sub = of(this.dataMap.get(node)).subscribe((d) => {
       this.data = d || [];
     });
+    this.subscriptions.add(sub);
   }
 
   dirHandler(node: string) {
@@ -49,7 +38,7 @@ export class LayoutsTreeComponent implements OnInit, OnDestroy {
     }
   }
 
-  emit(event: string) {
+  emitResult(event: string) {
     this.layoutProviderService.setLayout(this.result + `.${event.trim()}`);
     this.result = '';
   }

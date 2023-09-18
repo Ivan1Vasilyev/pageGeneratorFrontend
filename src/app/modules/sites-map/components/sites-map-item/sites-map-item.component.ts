@@ -1,25 +1,30 @@
-import { Component, Input } from '@angular/core';
-import { UrlProviderService } from '../../services/url-provider.service';
-import { SitesTreeService } from '../../services/sites-tree.service';
-import { CoordsProviderService } from '../../services/coords-provider.service';
-import { PageDataProviderService } from '../../services/page-data-provider.service';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { UrlProviderService } from '../../../../shared/url-provider.service';
+import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
+import { PageDataProviderService } from '../../../../shared/page-data-provider.service';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'sites-map-item',
   templateUrl: './sites-map-item.component.html',
   styleUrls: ['./sites-map-item.component.scss'],
 })
-export class SitesMapItemComponent {
+export class SitesMapItemComponent implements OnDestroy {
   @Input() page: any | undefined;
   @Input() site: any | undefined;
   subItems: any[] = [];
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
-    private coordsProviderService: CoordsProviderService,
-    private siteTreeService: SitesTreeService,
+    private siteTreeService: SitesTreeHttpService,
     private pageDataProviderServise: PageDataProviderService,
     private urlProviderServise: UrlProviderService
   ) {}
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 
   toggleItem(event: any) {
     if (event.target.checked) {
@@ -36,20 +41,17 @@ export class SitesMapItemComponent {
   }
 
   getSubItems() {
-    if (this.page) {
-      this.siteTreeService.getChildPages(this.site._id, this.page._id).subscribe((pages) => {
-        this.subItems = pages;
-      });
-    } else {
-      this.siteTreeService.getRootPages(this.site._id).subscribe((pages: any[]) => {
-        this.subItems = pages;
-      });
-    }
+    const sub = this.page
+      ? this.siteTreeService.getChildPages(this.site._id, this.page._id).subscribe((pages) => {
+          this.subItems = pages;
+        })
+      : this.siteTreeService.getRootPages(this.site._id).subscribe((pages: any[]) => {
+          this.subItems = pages;
+        });
+    this.subscriptions.add(sub);
   }
 
-  onRightClickHandler(event: any): void {
-    event.preventDefault();
-    this.coordsProviderService.setCoords({ x: event.pageX, y: event.pageY });
+  onRightClickHandler(): void {
     this.pageDataProviderServise.setPageData(this.page || this.site);
   }
 }
