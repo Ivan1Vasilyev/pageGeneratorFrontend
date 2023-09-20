@@ -1,23 +1,21 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
+import { HttpErrorHandler } from 'src/app/shared/http-error-handler.service';
 
 @Injectable({ providedIn: 'root' })
 export class TariffLoaderHttpService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler) {}
 
-  downloadTariffs(data: { file: string; loader: string }): Observable<any> {
-    return this.http.post<any>(
-      `/tariff-loader/update/loaders/${data.loader}/files/${data.file}`,
-      {}
-    );
+  downloadTariffs(data: FormData): Observable<any | HttpErrorResponse> {
+    return this.http
+      .post<any>(`/tariff-loader/update/loaders`, data)
+      .pipe(catchError(this.httpErrorHandler.handleError));
   }
 
-  getLoaders(): Observable<string[]> {
-    return this.http.get<string[]>('/tariff-loader/loaders');
-  }
-
-  getFiles(): Observable<string[]> {
-    return this.http.get<string[]>('/tariff-loader/files');
+  getLoaders(): Observable<string[] | HttpErrorResponse> {
+    return this.http
+      .get<string[]>('/tariff-loader/loaders')
+      .pipe(catchError(this.httpErrorHandler.handleError));
   }
 }

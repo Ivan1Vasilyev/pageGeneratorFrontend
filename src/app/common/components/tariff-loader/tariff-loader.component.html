@@ -1,16 +1,14 @@
 <div class="wrap">
 
-  <h2>Заголовок</h2>
+  <h2>Загрузка тарифов</h2>
   <form class="form" [formGroup]="formService.form" (ngSubmit)="onSubmit()">
 
-    <mat-form-field>
-      <mat-label>Выбрать файл</mat-label>
-      <mat-select formControlName="file" required>
-        <mat-option *ngFor="let file of files" [value]="file">
-          {{file}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <button class="file-input" type="button" mat-raised-button
+      (click)="fileInput.click()">Выбрать
+      файл</button>
+    <input formControlName="file" (change)="formService.onFileSelected($event)"
+      hidden #fileInput type="file">
+    <span class="file-name">{{formService.selectedFile?.name}}</span>
 
     <mat-form-field>
       <mat-label>Выбрать загрузчик</mat-label>
@@ -23,19 +21,9 @@
 
     <p class="submit-text">{{submitText}}</p>
 
-    <div class="submit-area">
-
-      <button [disabled]="formService.form.invalid" type="submit"
-        mat-raised-button color="primary">загрузить</button>
-
-      <button (click)="formService.onReset()" type="button" mat-raised-button
-        color="primary">Сброс</button>
-
-    </div>
+    <button [disabled]="formService.form.invalid" type="submit"
+      mat-raised-button color="primary">загрузить</button>
 
   </form>
 
-</div>
-<div class="file-input">
-  <input type="file" />
 </div>

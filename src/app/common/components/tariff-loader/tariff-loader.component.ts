@@ -25,8 +25,7 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class TariffLoaderComponent implements OnInit, OnDestroy {
-  files: string[] = ['beeline', 'megafon'];
-  loaders: string[] = ['BeelineTariffParser'];
+  loaders: string[] = ['BeelineTariffParser', 'another'];
   submitText: string = '';
   subscriptions: Subscription = new Subscription();
 
@@ -38,15 +37,10 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.formService.onInit();
 
-    const filesSub = this.httpService.getFiles().subscribe((files) => {
-      this.files = files;
-    });
-
     // const loadersSub = this.httpService.getLoaders().subscribe((loaders) => {
     //   this.loaders = loaders;
     // });
 
-    this.subscriptions.add(filesSub);
     // this.subscriptions.add(loadersSub);
   }
 
@@ -56,10 +50,12 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     const data = this.formService.getFormValues();
+
     const submitSub = this.httpService.downloadTariffs(data).subscribe((response) => {
       if (response.ok) {
         this.submitText = 'Файл загружен';
       } else {
+        console.log(response);
         this.submitText = 'Ошибка на сервере';
       }
     });

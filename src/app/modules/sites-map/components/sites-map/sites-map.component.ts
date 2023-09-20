@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
 import { Subscription } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'sites-map',
@@ -15,7 +16,11 @@ export class SitesMapComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const sub = this.siteService.getSites().subscribe((sites) => {
-      this.sites = sites;
+      if (sites instanceof HttpErrorResponse) {
+        console.error(sites);
+      } else {
+        this.sites = sites;
+      }
     });
     this.subscription.add(sub);
   }

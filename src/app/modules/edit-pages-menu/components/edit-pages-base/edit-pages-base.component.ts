@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, OnDestroy, OnInit } from '@angu
 import { Subscription } from 'rxjs';
 import { EditPagesFormService, iDefaultData } from '../../services/edit-pages-form.service';
 import { LayoutsHttpService } from '../../services/layouts-http.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface iSubmitText {
   color: 'red' | 'green';
@@ -33,12 +34,14 @@ export class EditPagesBaseComponent implements OnInit, OnDestroy {
     const formSub = this.formService.onInit(this.formDefaultData);
     this.subscriptions.add(formSub);
 
-    const layoutsHttpSub = this.layoutsHttpService
-      .getLayouts()
-      .subscribe(({ layouts, initial }) => {
-        this.dataMap = new Map<string, string[]>(layouts);
-        this.initialLayouts = initial;
-      });
+    const layoutsHttpSub = this.layoutsHttpService.getLayouts().subscribe((data) => {
+      if (data instanceof HttpErrorResponse) {
+        console.error('failed in getting layouts');
+      } else {
+        this.dataMap = new Map<string, string[]>(data.layouts);
+        this.initialLayouts = data.initial;
+      }
+    });
 
     this.subscriptions.add(layoutsHttpSub);
   }

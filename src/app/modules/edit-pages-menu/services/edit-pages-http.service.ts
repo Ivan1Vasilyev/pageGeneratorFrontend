@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError, of } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
+import { HttpErrorHandler } from 'src/app/shared/http-error-handler.service';
 
 export interface iPage {
   _id?: string;
@@ -16,35 +17,26 @@ export interface iPage {
 
 @Injectable()
 export class EditPagesHttpService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler) {}
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
-      console.error('An error occurred:', error.error);
-    }
-
-    if (error.error.code === 11000) {
-      console.error('Страница с таким URL уже есть на этом сайте');
-    }
-
-    if (error.error.code === 121) {
-      console.error('Ошибка валидации', error.error.errInfo?.details);
-    }
-
-    return of(error);
+  createPage(page: iPage): Observable<any | HttpErrorResponse> {
+    return this.http
+      .post<any>('/api/sites/create-page', page)
+      .pipe(catchError(this.httpErrorHandler.handleError));
   }
 
-  createPage(page: iPage): Observable<any> {
-    return this.http.post<any>('/api/sites/create-page', page).pipe(catchError(this.handleError));
+  updatePage(data: any, pageId: string): Observable<any | HttpErrorResponse> {
+    return this.http
+      .patch<any>(`/api/pages/${pageId}`, data)
+      .pipe(catchError(this.httpErrorHandler.handleError));
   }
 
-  updatePage(data: any, pageId: string): Observable<any> {
-    return this.http.patch<any>(`/api/pages/${pageId}`, data).pipe(catchError(this.handleError));
-  }
-
-  updatePagesParam(data: { name: string; value: any }, pageId: string) {
+  updatePagesParam(
+    data: { name: string; value: any },
+    pageId: string
+  ): Observable<any | HttpErrorResponse> {
     return this.http
       .patch<any>(`/api/pages/${pageId}/params/${data.name}`, data.value)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.httpErrorHandler.handleError));
   }
 }

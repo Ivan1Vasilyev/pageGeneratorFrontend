@@ -4,6 +4,7 @@ import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
 import { PageDataProviderService } from '../../../../shared/page-data-provider.service';
 
 import { Subscription } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'sites-map-item',
@@ -43,15 +44,23 @@ export class SitesMapItemComponent implements OnDestroy {
   getSubItems() {
     const sub = this.page
       ? this.siteTreeService.getChildPages(this.site._id, this.page._id).subscribe((pages) => {
-          this.subItems = pages;
+          if (pages instanceof HttpErrorResponse) {
+            console.error(pages);
+          } else {
+            this.subItems = pages;
+          }
         })
-      : this.siteTreeService.getRootPages(this.site._id).subscribe((pages: any[]) => {
-          this.subItems = pages;
+      : this.siteTreeService.getRootPages(this.site._id).subscribe((pages) => {
+          if (pages instanceof HttpErrorResponse) {
+            console.error(pages);
+          } else {
+            this.subItems = pages;
+          }
         });
     this.subscriptions.add(sub);
   }
 
-  onRightClickHandler(): void {
+  onRightClickHandler() {
     this.pageDataProviderServise.setPageData(this.page || this.site);
   }
 }
