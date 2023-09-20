@@ -8,6 +8,7 @@ import { TariffLoaderFormService } from '../../services/tariff-loader-form.servi
 import { TariffLoaderHttpService } from '../../services/tariff-loader-http.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-tariff-loader',
@@ -25,7 +26,7 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class TariffLoaderComponent implements OnInit, OnDestroy {
-  loaders: string[] = ['BeelineTariffParser', 'another'];
+  loaders: string[] = [];
   submitText: string = '';
   subscriptions: Subscription = new Subscription();
 
@@ -37,11 +38,15 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.formService.onInit();
 
-    // const loadersSub = this.httpService.getLoaders().subscribe((loaders) => {
-    //   this.loaders = loaders;
-    // });
+    const loadersSub = this.httpService.getLoaders().subscribe((loaders) => {
+      if (loaders instanceof HttpErrorResponse) {
+        console.error('failed in loaders');
+      } else {
+        this.loaders = loaders;
+      }
+    });
 
-    // this.subscriptions.add(loadersSub);
+    this.subscriptions.add(loadersSub);
   }
 
   ngOnDestroy(): void {
