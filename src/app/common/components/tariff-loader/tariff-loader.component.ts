@@ -28,6 +28,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class TariffLoaderComponent implements OnInit, OnDestroy {
   loaders: string[] = [];
   submitText: string = '';
+  isSubmitOnError: boolean = false;
   subscriptions: Subscription = new Subscription();
 
   constructor(
@@ -40,7 +41,8 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
 
     const loadersSub = this.httpService.getLoaders().subscribe((loaders) => {
       if (loaders instanceof HttpErrorResponse) {
-        console.error('failed in loaders');
+        this.submitText = 'Ошибка на сервере при загрузке лоадеров';
+        this.isSubmitOnError = true;
       } else {
         this.loaders = loaders;
       }
@@ -53,15 +55,22 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  onChange() {
+    if (this.isSubmitOnError) this.isSubmitOnError = false;
+    if (this.submitText) this.submitText = '';
+  }
+
   onSubmit() {
     const data = this.formService.getFormValues();
 
     const submitSub = this.httpService.downloadTariffs(data).subscribe((response) => {
       if (response.ok) {
         this.submitText = 'Файл загружен';
+        this.isSubmitOnError = false;
       } else {
         console.log(response);
         this.submitText = 'Ошибка на сервере';
+        this.isSubmitOnError = true;
       }
     });
 

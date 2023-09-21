@@ -1,0 +1,14 @@
+.text {
+  max-width: 100%;
+  padding: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+  &:hover {
+    border-color: #927b74;
+  }
+}

@@ -6,13 +6,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderModule } from './modules/header/header.module';
 import { SitesMapModule } from './modules/sites-map/sites-map.module';
 import { FrameModule } from './modules/frame/frame.module';
-import { LeftSideBarComponent } from './common/components/left-side-bar/left-side-bar.component';
 import { MainComponent } from './common/components/main/main.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditPagesModule } from './modules/edit-pages-menu/edit-pages.module';
 
 @NgModule({
-  declarations: [AppComponent, MainComponent, LeftSideBarComponent],
+  declarations: [AppComponent, MainComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

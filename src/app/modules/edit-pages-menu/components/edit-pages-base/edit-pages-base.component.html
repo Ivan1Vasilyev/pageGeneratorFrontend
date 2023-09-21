@@ -3,9 +3,7 @@
     <h2>{{menuTitle}}</h2>
     <form [formGroup]="formService.editPagesForm" (ngSubmit)="onSubmit()"
       class="form">
-      <p [ngClass]="[submitText.color]" class="error-text">
-        {{submitText.text}}
-      </p>
+
       <p>{{displayInfo}}</p>
 
       <mat-form-field class="mat-input">
@@ -38,8 +36,10 @@
 
       <mat-checkbox formControlName="checkbox">Checkbox</mat-checkbox>
 
+      <p [ngClass]="[submitText.color]" class="error-text">
+        {{submitText.text}}
+      </p>
       <div class="submit-area">
-
         <button type="submit"
           [disabled]="!formService.editPagesForm.dirty || formService.editPagesForm.invalid"
           mat-raised-button color="primary">{{submitButtonText}}</button>
@@ -51,7 +51,7 @@
 
     </form>
 
-    <a class="link-back" mat-raised-button color="accent" routerLink="/">←
+    <a class="link-back" mat-raised-button color="accent" routerLink="/main">←
       Карта</a>
 
 

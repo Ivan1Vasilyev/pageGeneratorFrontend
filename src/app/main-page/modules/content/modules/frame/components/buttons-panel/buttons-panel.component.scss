@@ -1,0 +1,15 @@
+.panel {
+  z-index: 1001;
+  position: absolute;
+  top: -23px;
+  right: 0;
+
+  & svg {
+    cursor: pointer;
+  }
+}
+
+.fullscreen {
+  top: 5px;
+  right: 20px;
+}

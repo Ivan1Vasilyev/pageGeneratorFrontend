@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SitesMapComponent } from './modules/sites-map/components/sites-map/sites-map.component';
+import { SitesMapComponent } from './modules/sites-map/sites-map.component';
 import { MainComponent } from './common/components/main/main.component';
 import { AddPageComponent } from './modules/edit-pages-menu/components/add-page/add-page.component';
 import { UpdatePageComponent } from './modules/edit-pages-menu/components/update-page/update-page.component';
@@ -8,7 +8,7 @@ import { TariffLoaderComponent } from './common/components/tariff-loader/tariff-
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'main',
     component: MainComponent,
     children: [
       {
@@ -29,6 +29,7 @@ const routes: Routes = [
     path: 'tariffs-loader',
     component: TariffLoaderComponent,
   },
+  { path: '', redirectTo: 'main', pathMatch: 'full' },
 ];
 
 @NgModule({

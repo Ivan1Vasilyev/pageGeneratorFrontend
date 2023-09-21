@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
+import { SitesTreeHttpService } from './services/sites-tree-http.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
