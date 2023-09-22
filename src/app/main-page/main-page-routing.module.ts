@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainComponent } from '../common/components/main/main.component';
-import { SitesMapComponent } from './modules/content/modules/sites-map/sites-map.component';
-import { AddPageComponent } from '../modules/edit-pages-menu/components/add-page/add-page.component';
-import { UpdatePageComponent } from '../modules/edit-pages-menu/components/update-page/update-page.component';
-import { TariffLoaderComponent } from '../common/components/tariff-loader/tariff-loader.component';
+import { SitesMapComponent } from './modules/sites-map/sites-map.component';
+import { AddPageComponent } from './modules/edit-pages-menu/components/add-page/add-page.component';
+import { UpdatePageComponent } from './modules/edit-pages-menu/components/update-page/update-page.component';
+import { TariffLoaderComponent } from './components/tariff-loader/tariff-loader.component';
+import { InitialComponent } from './components/initial/initial.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: MainComponent,
+    component: InitialComponent,
     children: [
       {
         path: '',

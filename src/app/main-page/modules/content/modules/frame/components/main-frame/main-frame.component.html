@@ -1,7 +1,0 @@
-<div [class.fullscreen]="isFullScreen" class="wrap">
-
-  <buttons-panel [isFullScreen]="isFullScreen" (fullScreen)="toggleFullScreen()"
-    (closeFrame)="onClose()" *ngIf="url"></buttons-panel>
-
-  <iframe [src]='url | safeUrl'></iframe>
-</div>

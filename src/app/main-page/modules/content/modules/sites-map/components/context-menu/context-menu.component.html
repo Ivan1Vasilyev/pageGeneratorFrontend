@@ -1,7 +1,0 @@
-<button (contextmenu)="openMenu($event)" class="text"
-  (click)="preventLeftClick()" mat-button
-  [matMenuTriggerFor]="menu">{{buttonText}}</button>
-<mat-menu #menu="matMenu">
-  <a routerLink="/add-page" mat-menu-item>Добавить страницу</a>
-  <a routerLink="/update-page" mat-menu-item>Редактировать</a>
-</mat-menu>
