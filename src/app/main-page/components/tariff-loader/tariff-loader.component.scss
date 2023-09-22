@@ -1,4 +1,5 @@
-@use '../../../../styles/common/variables' as v;
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/extends';
 
 :host {
   display: flex;
@@ -11,10 +12,9 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-
   width: 370px;
   padding: 15px;
-  background-color: #fff;
+  background-color: v.$white-background-color;
   & h2 {
     margin-bottom: 20px;
   }
@@ -26,11 +26,9 @@
 }
 
 .map {
-  padding: 15px;
-  background-color: #fff;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  @extend %left-side-bar;
+  @extend %stretched-column;
+
   position: relative;
 
   & h2 {
@@ -55,7 +53,6 @@
 }
 
 .file-input {
-  background-color: #fff;
   width: 200px;
 }
 

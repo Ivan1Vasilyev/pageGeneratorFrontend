@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UrlProviderService } from '../../../../../shared/services/url-provider.service';
+import { UrlProviderService } from '../../../../services/url-provider.service';
 import { Subscription } from 'rxjs';
 
 @Component({

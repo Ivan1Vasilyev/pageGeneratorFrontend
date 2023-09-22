@@ -1,0 +1,39 @@
+@use '../../styles/extends';
+@use '../../styles//variables' as v;
+
+:host {
+  @extend %stretched-column;
+}
+
+.form-wrap {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 80px;
+
+  & form {
+    display: flex;
+    flex-direction: column;
+    background-color: v.$white-background-color;
+    padding: 15px 15px 15px;
+  }
+}
+
+.map {
+  @extend %left-side-bar;
+  position: relative;
+
+  & h2 {
+    margin-bottom: 20px;
+  }
+}
+
+.error-text {
+  font-size: 12px;
+  margin-left: 10px;
+  min-height: 20px;
+}
+
+.onError {
+  color: v.$error-text-color;
+}

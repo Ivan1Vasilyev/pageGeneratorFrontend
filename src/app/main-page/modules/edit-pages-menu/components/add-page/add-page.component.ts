@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PageDataProviderService } from '../../../../../shared/services/page-data-provider.service';
+import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { EditPagesHttpService, iPage } from '../../services/edit-pages-http.service';
-import { iDefaultData } from '../../services/edit-pages-form.service';
-import { iSubmitText } from '../edit-pages-base/edit-pages-base.component';
+import { iFormTemplate } from '../../services/edit-pages-form.service';
+import { iSubmitText } from '../../edit-pages-menu.component';
 
 @Component({
   selector: 'add-page',
@@ -12,7 +12,7 @@ import { iSubmitText } from '../edit-pages-base/edit-pages-base.component';
 export class AddPageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   protected parentData$: any;
-  formDefaultData: iDefaultData = { layout: '', title: '', url: '', displayText: '' };
+  formDefaultData = { url: '' };
 
   submitText: iSubmitText = {
     text: '',
@@ -30,7 +30,7 @@ export class AddPageComponent implements OnInit, OnDestroy {
   ) {}
 
   displayParent(): string {
-    return `parent: ${this.parentData$.displayText || this.parentData$.domain || 'Ошибка'}`;
+    return `parent: ${this.parentData$.displayText || this.parentData$.domain || 'Ошибка!'}`;
   }
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class AddPageComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  onSubmit(formData: iDefaultData): void {
+  onSubmit(formData: iFormTemplate): void {
     const { layout, url, displayText, title } = formData;
 
     const siteId = this.parentData$.domain ? this.parentData$._id : this.parentData$.siteId;

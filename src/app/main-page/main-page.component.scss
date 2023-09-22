@@ -1,5 +1,11 @@
+@use '../../styles/extends';
+
 :host {
-  flex: 1;
+  @extend %stretched-column;
+}
+
+.nav {
   display: flex;
-  flex-direction: column;
+
+  gap: 15px;
 }

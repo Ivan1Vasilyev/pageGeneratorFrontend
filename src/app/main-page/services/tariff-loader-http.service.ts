@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { HttpErrorHandler } from 'src/app/shared/services/http-error-handler.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class TariffLoaderHttpService {
   constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler) {}
 

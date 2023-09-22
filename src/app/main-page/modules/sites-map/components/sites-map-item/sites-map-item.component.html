@@ -10,7 +10,7 @@
 
 </div>
 
-<div class="map">
+<div *ngIf="subItems.length" class="map">
   <sites-map-item *ngFor="let page of subItems" [site]="site" [page]="page">
   </sites-map-item>
 </div>

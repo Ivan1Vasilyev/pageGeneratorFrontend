@@ -1,10 +1,27 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { UrlProviderService } from '../../../../../shared/services/url-provider.service';
+import { UrlProviderService } from '../../../../services/url-provider.service';
 import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
-import { PageDataProviderService } from '../../../../../shared/services/page-data-provider.service';
-
+import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+
+type iSite = {
+  domain: string;
+  _id: string;
+};
+
+interface iPageInTree {
+  _id: string;
+  childsCount: number;
+  layout: string;
+  siteId: string;
+  url: string;
+  displayText: string;
+  parent: string;
+  params?: {
+    title: string;
+  };
+}
 
 @Component({
   selector: 'sites-map-item',
@@ -12,8 +29,8 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./sites-map-item.component.scss'],
 })
 export class SitesMapItemComponent implements OnDestroy {
-  @Input() page: any | undefined;
-  @Input() site: any | undefined;
+  @Input() page?: iPageInTree;
+  @Input() site: iSite | any;
   subItems: any[] = [];
   private subscriptions: Subscription = new Subscription();
 
@@ -41,21 +58,21 @@ export class SitesMapItemComponent implements OnDestroy {
     }
   }
 
+  private defineSubItems(data: any[] | HttpErrorResponse) {
+    if (data instanceof HttpErrorResponse) {
+      console.error(data);
+    } else {
+      this.subItems = data;
+    }
+  }
+
   getSubItems() {
     const sub = this.page
       ? this.siteTreeService.getChildPages(this.site._id, this.page._id).subscribe((pages) => {
-          if (pages instanceof HttpErrorResponse) {
-            console.error(pages);
-          } else {
-            this.subItems = pages;
-          }
+          this.defineSubItems(pages);
         })
       : this.siteTreeService.getRootPages(this.site._id).subscribe((pages) => {
-          if (pages instanceof HttpErrorResponse) {
-            console.error(pages);
-          } else {
-            this.subItems = pages;
-          }
+          this.defineSubItems(pages);
         });
     this.subscriptions.add(sub);
   }

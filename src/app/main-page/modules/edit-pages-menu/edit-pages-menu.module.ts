@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EditPagesHttpService } from './services/edit-pages-http.service';
 import { EditPagesFormService } from './services/edit-pages-form.service';
 import { UpdatePageComponent } from './components/update-page/update-page.component';
-import { EditPagesBaseComponent } from './components/edit-pages-base/edit-pages-base.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,12 +15,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { LayoutProviderService } from './services/layout-provider.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MainPageRoutingModule } from '../../main-page-routing.module';
+import { EditPagesMenuComponent } from './edit-pages-menu.component';
 
 @NgModule({
   declarations: [
     AddPageComponent,
     UpdatePageComponent,
-    EditPagesBaseComponent,
+    EditPagesMenuComponent,
     LayoutsTreeComponent,
   ],
   imports: [
@@ -42,4 +42,4 @@ import { MainPageRoutingModule } from '../../main-page-routing.module';
     EditPagesFormService,
   ],
 })
-export class EditPagesModule {}
+export class EditPagesMenuModule {}

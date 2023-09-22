@@ -5,13 +5,13 @@ import { HttpErrorHandler } from 'src/app/shared/services/http-error-handler.ser
 
 export interface iPage {
   _id?: string;
-  layout: string | null | undefined;
-  siteId: string | null | undefined;
-  url: string | null | undefined;
-  displayText: string | null | undefined;
-  parent: string | null | undefined;
+  layout: string;
+  siteId: string;
+  url: string;
+  displayText: string;
+  parent: string;
   params?: {
-    title: string | null | undefined;
+    title: string;
   };
 }
 

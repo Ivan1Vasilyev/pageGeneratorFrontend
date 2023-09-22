@@ -1,0 +1,19 @@
+@use './variables' as v;
+
+%left-side-bar {
+  padding: 15px;
+  background-color: v.$white-background-color;
+  flex: 1;
+}
+
+%stretched-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+%no-wrap-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

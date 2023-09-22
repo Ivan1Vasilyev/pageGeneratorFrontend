@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { LayoutProviderService } from './layout-provider.service';
 import { Subscription } from 'rxjs';
 
-export interface iDefaultData {
+export interface iFormTemplate {
   displayText: string;
   url: string;
   title: string;
@@ -12,7 +12,7 @@ export interface iDefaultData {
 @Injectable()
 export class EditPagesFormService {
   editPagesForm!: FormGroup;
-  initialData!: iDefaultData;
+  initialData!: iFormTemplate;
   layoutControl!: AbstractControl;
   hideRequiredControl = new FormControl(false);
 
@@ -21,18 +21,18 @@ export class EditPagesFormService {
     private layoutProviderService: LayoutProviderService
   ) {}
 
-  onInit(initialData: iDefaultData): Subscription {
+  onInit(initialData: iFormTemplate): Subscription {
     this.initialData = initialData;
     const { required, pattern } = Validators;
 
     this.editPagesForm = this.formBuilder.group({
-      displayText: [this.initialData?.displayText, [required]],
-      title: this.initialData?.title,
+      displayText: [this.initialData?.displayText || '', [required]],
+      title: this.initialData?.title || '',
       url: [
         this.initialData?.url || '/',
         [required, pattern(/(^\/$)|(^(\/(?![-_\/])[a-z0-9]+([-_]+[a-z0-9]+)*)+$)/i)],
       ],
-      layout: [this.initialData?.layout, [required]],
+      layout: [this.initialData?.layout || '', [required]],
       checkbox: false,
     });
     this.layoutControl = this.editPagesForm.controls['layout'];

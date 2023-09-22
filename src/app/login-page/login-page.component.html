@@ -1,0 +1,31 @@
+<app-header>
+  <nav class="nav">
+    <a mat-raised-button routerLink="../main">Карта сайтов</a>
+  </nav>
+</app-header>
+<div class="form-wrap">
+  <form [formGroup]="formService.form" (ngSubmit)="onSubmit()">
+
+    <h2>Вход</h2>
+
+    <mat-form-field class="mat-input">
+      <mat-label>Логин</mat-label>
+      <input type="text" formControlName="login" required matInput>
+    </mat-form-field>
+
+    <mat-form-field class="mat-input">
+      <mat-label>Пароль</mat-label>
+      <input type="password" formControlName="password" required matInput>
+    </mat-form-field>
+
+    <p [class.onError]="[submitText.onError]" class="error-text">
+      {{submitText.text}}
+    </p>
+    <div class="submit-area">
+      <button type="submit"
+        [disabled]="!formService.form.dirty || formService.form.invalid"
+        mat-raised-button color="primary">Войти</button>
+
+    </div>
+  </form>
+</div>

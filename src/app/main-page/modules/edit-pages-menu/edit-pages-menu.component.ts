@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { EditPagesFormService, iDefaultData } from '../../services/edit-pages-form.service';
-import { LayoutsHttpService } from '../../services/layouts-http.service';
+import { EditPagesFormService } from './services/edit-pages-form.service';
+import { LayoutsHttpService } from './services/layouts-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 export interface iSubmitText {
@@ -10,15 +10,15 @@ export interface iSubmitText {
 }
 
 @Component({
-  selector: 'edit-pages',
-  templateUrl: './edit-pages-base.component.html',
-  styleUrls: ['./edit-pages-base.component.scss'],
+  selector: 'edit-pages-menu',
+  templateUrl: './edit-pages-menu.component.html',
+  styleUrls: ['./edit-pages-menu.component.scss'],
 })
-export class EditPagesBaseComponent implements OnInit, OnDestroy {
+export class EditPagesMenuComponent implements OnInit, OnDestroy {
   @Input() menuTitle!: string;
   @Input() displayInfo!: string;
   @Input() submitButtonText!: string;
-  @Input() formDefaultData!: iDefaultData;
+  @Input() formDefaultData!: any;
   @Input() submitText!: iSubmitText;
   @Output() customSubmit = new EventEmitter<any>();
   dataMap!: Map<string, string[]>;

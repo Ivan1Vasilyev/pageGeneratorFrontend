@@ -10,9 +10,11 @@ const routes: Routes = [
   {
     path: '',
     component: InitialComponent,
+    // outlet: 'main-page',
     children: [
       {
         path: '',
+
         component: SitesMapComponent,
       },
       {
@@ -28,6 +30,7 @@ const routes: Routes = [
   {
     path: 'tariffs-loader',
     component: TariffLoaderComponent,
+    // outlet: 'main-page',
   },
 ];
 

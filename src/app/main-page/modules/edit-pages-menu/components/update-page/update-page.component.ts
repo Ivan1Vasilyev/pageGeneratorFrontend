@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { iSubmitText } from '../edit-pages-base/edit-pages-base.component';
+import { iSubmitText } from '../../edit-pages-menu.component';
 import { Subscription } from 'rxjs';
-import { PageDataProviderService } from '../../../../../shared/services/page-data-provider.service';
+import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { EditPagesHttpService } from '../../services/edit-pages-http.service';
-import { iDefaultData as iFormTemplate } from '../../services/edit-pages-form.service';
+import { iFormTemplate } from '../../services/edit-pages-form.service';
 
 @Component({
   selector: 'update-page',
@@ -12,7 +12,7 @@ import { iDefaultData as iFormTemplate } from '../../services/edit-pages-form.se
 export class UpdatePageComponent {
   private submitSub: Subscription = new Subscription();
   currentPageData$: any;
-  formDefaultData: iFormTemplate = { layout: '', title: '', url: '', displayText: '' };
+  formDefaultData = { layout: '', title: '', url: '', displayText: '' };
 
   submitText: iSubmitText = {
     text: '',
@@ -31,7 +31,7 @@ export class UpdatePageComponent {
 
   ngOnInit() {
     this.currentPageData$ = this.pageDataProviderService.getPageData();
-    if (this.currentPageData$.layout) {
+    if (this.currentPageData$.siteId) {
       this.submitTextHandler('', false);
     } else {
       this.submitTextHandler('Нет данных страницы!', true);
