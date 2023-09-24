@@ -6,12 +6,6 @@ import { LoginPageComponent } from './login-page/login-page.component';
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   {
-    path: 'main',
-    component: MainPageComponent,
-    loadChildren: () => import('./main-page/main-page.module').then((m) => m.MainPageModule),
-    data: { preload: true },
-  },
-  {
     path: 'login',
     component: LoginPageComponent,
   },

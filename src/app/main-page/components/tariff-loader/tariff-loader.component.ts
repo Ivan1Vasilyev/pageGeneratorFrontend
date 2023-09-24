@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { TariffLoaderFormService } from '../../services/tariff-loader-form.service';
 import { TariffLoaderHttpService } from '../../services/tariff-loader-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tariff-loader',
@@ -14,10 +15,12 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
   submitText: string = '';
   isSubmitOnError: boolean = false;
   subscriptions: Subscription = new Subscription();
+  uuid: string = '';
 
   constructor(
     protected formService: TariffLoaderFormService,
-    private httpService: TariffLoaderHttpService
+    private httpService: TariffLoaderHttpService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -49,7 +52,7 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
 
     const submitSub = this.httpService.downloadTariffs(data).subscribe((response) => {
       if (response.ok) {
-        this.submitText = 'Файл загружен';
+        this.router.navigate([`/main/city-difference/${response.uuid}`]);
         this.isSubmitOnError = false;
       } else {
         console.log(response);

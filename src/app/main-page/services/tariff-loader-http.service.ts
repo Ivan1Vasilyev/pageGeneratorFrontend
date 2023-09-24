@@ -18,4 +18,10 @@ export class TariffLoaderHttpService {
       .get<string[]>('/tariff-loader/loaders')
       .pipe(catchError(this.httpErrorHandler.handleError));
   }
+
+  getCityDifference(uuid: string): Observable<string[] | HttpErrorResponse> {
+    return this.http
+      .get<string[]>(`/tariff-loader/city-difference/${uuid}`)
+      .pipe(catchError(this.httpErrorHandler.handleError));
+  }
 }

@@ -5,32 +5,42 @@ import { AddPageComponent } from './modules/edit-pages-menu/components/add-page/
 import { UpdatePageComponent } from './modules/edit-pages-menu/components/update-page/update-page.component';
 import { TariffLoaderComponent } from './components/tariff-loader/tariff-loader.component';
 import { InitialComponent } from './components/initial/initial.component';
+import { MainPageComponent } from './main-page.component';
+import { CityDifferenceComponent } from './components/city-difference/city-difference.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: InitialComponent,
-    // outlet: 'main-page',
+    path: 'main',
+    component: MainPageComponent,
     children: [
       {
         path: '',
+        component: InitialComponent,
+        children: [
+          {
+            path: '',
 
-        component: SitesMapComponent,
+            component: SitesMapComponent,
+          },
+          {
+            path: 'add-page',
+            component: AddPageComponent,
+          },
+          {
+            path: 'update-page',
+            component: UpdatePageComponent,
+          },
+        ],
       },
       {
-        path: 'add-page',
-        component: AddPageComponent,
+        path: 'tariffs-loader',
+        component: TariffLoaderComponent,
       },
       {
-        path: 'update-page',
-        component: UpdatePageComponent,
+        path: 'city-difference/:uuid',
+        component: CityDifferenceComponent,
       },
     ],
-  },
-  {
-    path: 'tariffs-loader',
-    component: TariffLoaderComponent,
-    // outlet: 'main-page',
   },
 ];
 

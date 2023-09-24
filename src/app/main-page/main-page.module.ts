@@ -11,14 +11,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MainPageRoutingModule } from './main-page-routing.module';
-import { HeaderModule } from '../shared/modules/header/header.module';
 import { PageDataProviderService } from './services/page-data-provider.service';
 import { UrlProviderService } from './services/url-provider.service';
 import { TariffLoaderFormService } from './services/tariff-loader-form.service';
 import { TariffLoaderHttpService } from './services/tariff-loader-http.service';
+import { HeaderComponent } from '../shared/components/header/header.component';
+import { CityDifferenceComponent } from './components/city-difference/city-difference.component';
 
 @NgModule({
-  declarations: [MainPageComponent, InitialComponent, TariffLoaderComponent],
+  declarations: [
+    MainPageComponent,
+    InitialComponent,
+    TariffLoaderComponent,
+    CityDifferenceComponent,
+  ],
   providers: [
     PageDataProviderService,
     UrlProviderService,
@@ -35,7 +41,7 @@ import { TariffLoaderHttpService } from './services/tariff-loader-http.service';
     MatSelectModule,
     ReactiveFormsModule,
     MatButtonModule,
-    HeaderModule,
+    HeaderComponent,
   ],
 })
 export class MainPageModule {}
