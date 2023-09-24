@@ -1,18 +1,12 @@
-<form *ngIf="cityDifferenceForm" [formGroup]="cityDifferenceForm"
-  (ngSubmit)="onSubmit()">
-  <ng-container formArrayName="citiesAliases">
-
-    <ng-container *ngFor="let city of citiesAliases.controls; let i = index">
-
-      <div [formControlName]="i" class="city">
-        <p>
-          {{city.value}}
-        </p>
-
+<form *ngIf="form && aliases" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <ng-container formArrayName="aliases">
+    <ng-container
+      *ngFor="let control of aliasesControls; let i = index"
+      [formGroupName]="i.toString()"
+    >
+      <div class="city" [formGroup]="control">
         <mat-form-field class="mat-input">
-          <mat-label formControlName="alias"> </mat-label>
-          <input [name]="city" type="text" formControlName="city" required
-            matInput>
+          <input type="text" [formControlName]="'alias'" required matInput />
         </mat-form-field>
       </div>
     </ng-container>

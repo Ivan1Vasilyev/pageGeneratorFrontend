@@ -17,6 +17,7 @@ import { TariffLoaderFormService } from './services/tariff-loader-form.service';
 import { TariffLoaderHttpService } from './services/tariff-loader-http.service';
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { CityDifferenceComponent } from './components/city-difference/city-difference.component';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CityDifferenceComponent } from './components/city-difference/city-diffe
     ReactiveFormsModule,
     MatButtonModule,
     HeaderComponent,
+    MatInputModule,
   ],
 })
 export class MainPageModule {}
