@@ -7,6 +7,7 @@ import { TariffLoaderComponent } from './components/tariff-loader/tariff-loader.
 import { InitialComponent } from './components/initial/initial.component';
 import { MainPageComponent } from './main-page.component';
 import { CityDifferenceComponent } from './components/city-difference/city-difference.component';
+import { CheckTariffsComponent } from './components/check-tariffs/check-tariffs.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
       {
         path: 'city-difference/:uuid',
         component: CityDifferenceComponent,
+      },
+      {
+        path: 'tariff-buffer/:uuid',
+        component: CheckTariffsComponent,
       },
     ],
   },

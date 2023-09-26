@@ -8,7 +8,7 @@ import { EditPagesMenuModule } from './modules/edit-pages-menu/edit-pages-menu.m
 import { SitesMapModule } from './modules/sites-map/sites-map.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MainPageRoutingModule } from './main-page-routing.module';
 import { PageDataProviderService } from './services/page-data-provider.service';
@@ -18,6 +18,11 @@ import { TariffLoaderHttpService } from './services/tariff-loader-http.service';
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { CityDifferenceComponent } from './components/city-difference/city-difference.component';
 import { MatInputModule } from '@angular/material/input';
+import { CheckTariffsComponent } from './components/check-tariffs/check-tariffs.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -25,6 +30,7 @@ import { MatInputModule } from '@angular/material/input';
     InitialComponent,
     TariffLoaderComponent,
     CityDifferenceComponent,
+    CheckTariffsComponent,
   ],
   providers: [
     PageDataProviderService,
@@ -34,6 +40,7 @@ import { MatInputModule } from '@angular/material/input';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     MainPageRoutingModule,
     FrameModule,
     EditPagesMenuModule,
@@ -42,8 +49,12 @@ import { MatInputModule } from '@angular/material/input';
     MatSelectModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatCheckboxModule,
     HeaderComponent,
     MatInputModule,
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
   ],
 })
 export class MainPageModule {}

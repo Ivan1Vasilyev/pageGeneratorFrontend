@@ -1,12 +1,17 @@
+<mat-checkbox [(ngModel)]="differenceOnly" class="checkbox"
+  (change)="refreshForm()">Только различия</mat-checkbox>
 <form *ngIf="form && aliases" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <button class="submit-button" type="submit"
+    mat-raised-button>загрузить</button>
+
   <ng-container formArrayName="aliases">
-    <ng-container
-      *ngFor="let control of aliasesControls; let i = index"
-      [formGroupName]="i.toString()"
-    >
+
+    <ng-container *ngFor="let control of aliasesControls; let i = index"
+      [formGroupName]="i.toString()">
       <div class="city" [formGroup]="control">
         <mat-form-field class="mat-input">
-          <input type="text" [formControlName]="'alias'" required matInput />
+          <mat-label>{{control.get('alias').value}}</mat-label>
+          <input type="text" formControlName="city" required matInput />
         </mat-form-field>
       </div>
     </ng-container>

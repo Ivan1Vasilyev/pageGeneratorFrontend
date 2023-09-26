@@ -1,15 +1,8 @@
-import { Component, OnInit, forwardRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TariffLoaderHttpService } from '../../services/tariff-loader-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  NG_VALUE_ACCESSOR,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-city-difference',
@@ -19,6 +12,8 @@ import {
 export class CityDifferenceComponent implements OnInit {
   uuid: string;
   form!: FormGroup;
+  differenceOnly: boolean = true;
+
   get aliases() {
     return this.form.get('aliases') as FormArray;
   }
@@ -29,13 +24,14 @@ export class CityDifferenceComponent implements OnInit {
   constructor(
     activateRoute: ActivatedRoute,
     private tariffLoaderService: TariffLoaderHttpService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.uuid = activateRoute.snapshot.params['uuid'];
   }
-  
-  initForm() {
-    this.tariffLoaderService.getCityDifference(this.uuid).subscribe((data) => {
+
+  refreshForm() {
+    this.tariffLoaderService.getCityDifference(this.uuid, this.differenceOnly).subscribe((data) => {
       if (data instanceof HttpErrorResponse) {
         console.error(data);
       } else {
@@ -61,8 +57,18 @@ export class CityDifferenceComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initForm();
+    this.refreshForm();
   }
 
-  onSubmit() {}
+  onSubmit() {
+    const result = this.form.value;
+
+    this.tariffLoaderService.saveCityDifference(this.uuid, result).subscribe((response) => {
+      if (response instanceof HttpErrorResponse) {
+        console.error(response);
+      } else {
+        this.router.navigate([`/main/tariff-buffer/${this.uuid}`]);
+      }
+    });
+  }
 }
