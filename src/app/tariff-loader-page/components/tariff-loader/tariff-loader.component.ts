@@ -52,7 +52,7 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
 
     const submitSub = this.httpService.downloadTariffs(data).subscribe((response) => {
       if (response.ok) {
-        this.router.navigate([`/main/city-difference/${response.uuid}`]);
+        this.router.navigate([`/tariffs-loader/city-difference/${response.uuid}`]);
         this.isSubmitOnError = false;
       } else {
         console.log(response);

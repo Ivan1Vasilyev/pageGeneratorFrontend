@@ -16,9 +16,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { TariffLoaderComponent } from './components/tariff-loader/tariff-loader.component';
 
 @NgModule({
-  declarations: [TariffLoaderPageComponent, CityDifferenceComponent, CheckTariffsComponent],
+  declarations: [
+    TariffLoaderPageComponent,
+    CityDifferenceComponent,
+    CheckTariffsComponent,
+    TariffLoaderComponent,
+  ],
   imports: [
     CommonModule,
     TariffLoaderPageRoutingModule,
