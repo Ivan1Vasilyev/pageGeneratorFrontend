@@ -1,3 +1,5 @@
+@use '../../../../styles/variables' as v;
+
 .example-container {
   height: 80vh;
   overflow: auto;
@@ -7,8 +9,25 @@
   position: relative;
 }
 
-.submit-button {
+.onError {
+  color: v.$error-text-color;
+}
+
+.submit-area {
   position: absolute;
   left: 10px;
   bottom: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.submit-text-area {
+  display: flex;
+  align-items: center;
+  min-height: 25px;
+}
+
+.submit-text {
+  margin-right: 10px;
+  margin-left: 10px;
 }

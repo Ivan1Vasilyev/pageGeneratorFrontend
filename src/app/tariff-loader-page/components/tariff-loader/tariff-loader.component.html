@@ -15,7 +15,7 @@
 
     <mat-form-field>
       <mat-label>Выбрать загрузчик</mat-label>
-      <mat-select (selectionChange)="onChange()" [formControlName]="'loader'"
+      <mat-select (selectionChange)="onChange()" formControlName="loader"
         required>
         <mat-option *ngFor="let loader of loaders" [value]="loader">
           {{loader}}
@@ -23,8 +23,7 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="submit-text-area">
-
+    <div>
       <span [class.onError]="isSubmitOnError"
         class="submit-text">{{submitText}}</span>
 

@@ -22,9 +22,24 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </div>
+    <div class="submit-area">
+      <div class="submit-text-area">
 
-    <button (click)="onSave()" class="submit-button" type="button"
-      mat-raised-button color="primary">загрузить</button>
+        <button (click)="onSave()" class="submit-button" type="button"
+          mat-raised-button color="primary">загрузить</button>
+
+        <span [class.onError]="isSubmitOnError"
+          class="submit-text">{{submitText}}</span>
+
+        <svg *ngIf="!isSubmitOnError && submitText"
+          xmlns="http://www.w3.org/2000/svg" height="24"
+          viewBox="0 -960 960 960" width="24">
+          <path fill="#019f01"
+            d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+        </svg>
+      </div>
+
+    </div>
   </div>
   <mat-paginator [length]="resultsLength" [pageSize]="10">
   </mat-paginator>

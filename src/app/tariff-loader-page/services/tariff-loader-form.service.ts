@@ -6,12 +6,12 @@ export class TariffLoaderFormService {
   form!: FormGroup;
   selectedFile: any;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private fb: FormBuilder) {}
 
   onInit() {
     const { required } = Validators;
 
-    this.form = this.formBuilder.group({
+    this.form = this.fb.group({
       loader: ['', [required]],
       file: ['', [required]],
     });
@@ -19,10 +19,6 @@ export class TariffLoaderFormService {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
-  }
-
-  onReset(): void {
-    this.form.reset();
   }
 
   getFormValues() {

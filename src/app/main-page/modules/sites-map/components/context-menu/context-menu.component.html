@@ -2,6 +2,6 @@
   (click)="preventLeftClick()" mat-button
   [matMenuTriggerFor]="menu">{{buttonText}}</button>
 <mat-menu #menu="matMenu">
-  <a routerLink="/main/add-page" mat-menu-item>Добавить страницу</a>
-  <a routerLink="/main/update-page" mat-menu-item>Редактировать</a>
+  <ng-content></ng-content>
+
 </mat-menu>

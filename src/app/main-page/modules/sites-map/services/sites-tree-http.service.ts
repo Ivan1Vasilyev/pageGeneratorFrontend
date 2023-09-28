@@ -13,6 +13,12 @@ export class SitesTreeHttpService {
       .pipe(catchError(this.httpErrorHandler.handleError));
   }
 
+  getCities(): Observable<any[] | HttpErrorResponse> {
+    return this.http
+      .get<any[]>('/api/sites/cities')
+      .pipe(catchError(this.httpErrorHandler.handleError));
+  }
+
   getRootPages(siteId: string): Observable<any[] | HttpErrorResponse> {
     return this.http
       .get<any[]>(`/api/sites/tree/site/${siteId}`)
