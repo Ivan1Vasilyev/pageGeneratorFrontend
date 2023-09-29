@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { SvgCloseComponent } from 'src/assets/svg/svg-close/svg-close.component';
 import { SvgLocationComponent } from 'src/assets/svg/svg-location/svg-location.component';
+import { PopupComponent } from '../shared/components/popup/popup.component';
 
 @NgModule({
   declarations: [MainPageComponent, InitialComponent, SelectCityComponent],
@@ -30,8 +31,8 @@ import { SvgLocationComponent } from 'src/assets/svg/svg-location/svg-location.c
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
-    SvgCloseComponent,
     SvgLocationComponent,
+    PopupComponent,
   ],
 })
 export class MainPageModule {}

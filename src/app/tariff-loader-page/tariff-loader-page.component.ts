@@ -1,9 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { TariffLoaderFormService } from './services/tariff-loader-form.service';
-import { TariffLoaderHttpService } from './services/tariff-loader-http.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-tariff-loader-page',

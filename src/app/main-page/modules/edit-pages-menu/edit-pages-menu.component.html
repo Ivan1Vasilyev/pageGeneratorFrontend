@@ -1,8 +1,8 @@
 <div class="wrap">
   <div class="map">
     <h2>{{menuTitle}}</h2>
-    <form [formGroup]="formService.editPagesForm" (ngSubmit)="onSubmit()"
-      class="form">
+    <form [formGroup]="formService.form" (input)="formService.resetSubmitText()"
+      (ngSubmit)="onSubmit()" class="form">
 
       <p>{{displayInfo}}</p>
 
@@ -16,8 +16,7 @@
         <input type="text" formControlName="url" required matInput>
       </mat-form-field>
 
-      <mat-form-field
-        [hideRequiredMarker]="formService.hideRequiredControl.value"
+      <mat-form-field [hideRequiredMarker]="hideRequiredControl.value"
         class="mat-input">
         <mat-label>Title</mat-label>
         <input type="text" formControlName="title" matInput>
@@ -25,9 +24,8 @@
 
       <mat-form-field class="mat-input">
         <mat-label>Layout</mat-label>
-        <input type="text" (focus)="formService.onFocusLayout()"
-          (blur)="formService.onBlurLayout()" formControlName="layout" required
-          matInput>
+        <input type="text" (focus)="onFocusLayout()" (blur)="onBlurLayout()"
+          formControlName="layout" required matInput>
       </mat-form-field>
 
       <layouts-tree [dataMap]="dataMap" [result]="''"
@@ -36,15 +34,19 @@
 
       <mat-checkbox formControlName="checkbox">Checkbox</mat-checkbox>
 
-      <p [ngClass]="[submitText.color]" class="error-text">
-        {{submitText.text}}
-      </p>
+      <div class="submit-text">
+        <p submitText [success]="formService.submitSuccessText"
+          [error]="formService.submitErrorText">
+        </p>
+
+        <svg-done *ngIf="submitSuccessText" [color]="'#019f01'"></svg-done>
+      </div>
+
       <div class="submit-area">
-        <button type="submit"
-          [disabled]="!formService.editPagesForm.dirty || formService.editPagesForm.invalid"
+        <button type="submit" [disabled]="formService.isSubmitDisabled()"
           mat-raised-button color="primary">{{submitButtonText}}</button>
 
-        <button type="button" (click)="formService.onReset()" mat-raised-button
+        <button type="button" (click)="onReset()" mat-raised-button
           color="primary">Обнулить форму</button>
 
       </div>

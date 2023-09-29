@@ -11,8 +11,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class SelectCityComponent implements OnInit, OnDestroy {
   cities: any[] = [];
   displayedCities: any[] = [];
-  isActive: boolean = false;
-  selectedCity: any = { name: 'Москва' };
+  isOpen: boolean = false;
+  selectedCity: any;
   private subscription: Subscription = new Subscription();
 
   constructor(private citiesProviderService: CitiesProviderService) {}
@@ -23,6 +23,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
         console.error('Ошибка при загрузке сайтов', data);
       } else {
         this.cities = data;
+        this.selectedCity = this.cities.find((city) => city.name === 'Москва');
         this.displayedCities = this.cities.sort(
           (a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0)
         );
@@ -36,7 +37,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   }
 
   openSearch() {
-    this.isActive = true;
+    this.isOpen = true;
   }
 
   onChange(event: any) {
@@ -46,10 +47,10 @@ export class SelectCityComponent implements OnInit, OnDestroy {
 
   selectCity(city: any) {
     this.selectedCity = city;
-    this.isActive = false;
+    this.isOpen = false;
   }
 
   onClose() {
-    this.isActive = false;
+    this.isOpen = false;
   }
 }

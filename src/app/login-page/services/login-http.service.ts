@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpErrorHandler } from 'src/app/shared/services/http-error-handler.service';
 import { Observable, catchError } from 'rxjs';
-import { iLoginFormData } from './form-login.service';
+import { iLoginFormData } from '../models/ilogin-form-data';
 
 @Injectable()
 export class LoginHttpService {

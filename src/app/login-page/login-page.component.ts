@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormLoginService } from './services/form-login.service';
 import { LoginHttpService } from './services/login-http.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Validators } from '@angular/forms';
+import { FormService } from '../shared/services/form.service';
+import { iLoginFormData } from './models/ilogin-form-data';
 
 @Component({
   selector: 'login-page',
@@ -11,25 +13,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  submitText = {
-    text: '',
-    onError: false,
-  };
 
-  private submitTextHandler(text: string, onError: boolean) {
-    this.submitText.onError = onError;
-    this.submitText.text = text;
-  }
-
-  constructor(protected formService: FormLoginService, private httpService: LoginHttpService) {}
+  constructor(protected formService: FormService, private loginHttpService: LoginHttpService) {}
 
   ngOnInit() {
-    this.formService.onInit();
-    this.submitTextHandler('', false);
-  }
+    const { required } = Validators;
 
-  onChange() {
-    this.submitTextHandler('', false);
+    this.formService.onInit({
+      login: ['', [required]],
+      password: ['', [required]],
+    });
   }
 
   ngOnDestroy(): void {
@@ -37,15 +30,13 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const data = this.formService.getFormValues();
-    const sub = this.httpService.login(data).subscribe((response) => {
-      console.log(response);
+    const data: iLoginFormData = this.formService.getFormValues();
+    const sub = this.loginHttpService.login(data).subscribe((response) => {
       if (response instanceof HttpErrorResponse) {
         console.error('failed in login');
-        this.submitTextHandler('Неверный логин или пароль', true);
+        this.formService.submitErrorText = 'Неверный логин или пароль';
       } else {
         console.log('success in login');
-        this.submitTextHandler('', false);
       }
     });
     this.subscriptions.add(sub);

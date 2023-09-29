@@ -1,4 +1,3 @@
-@use '../../../../styles/variables' as v;
 @use '../../../../styles/extends';
 
 .wrap {
@@ -41,16 +40,14 @@
   padding: 5px 0;
 }
 
-.error-text {
+.submit-text {
   font-size: 12px;
   margin-left: 10px;
   min-height: 20px;
-}
+  display: flex;
+  gap: 10px;
 
-.red {
-  color: v.$error-text-color;
-}
-
-.green {
-  color: v.$green;
+  & p {
+    margin-top: 5px;
+  }
 }

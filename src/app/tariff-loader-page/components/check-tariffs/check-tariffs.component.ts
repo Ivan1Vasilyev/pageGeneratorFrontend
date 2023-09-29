@@ -49,8 +49,8 @@ export class CheckTariffsComponent implements OnInit {
   displayedColumns: string[] = Object.keys(HEADERS);
   tariffTemplate: string[] = Object.values(HEADERS);
 
-  submitText: string = '';
-  isSubmitOnError: boolean = false;
+  submitSuccessText: string = '';
+  submitErrorText: string = '';
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -60,18 +60,16 @@ export class CheckTariffsComponent implements OnInit {
   }
 
   onSave() {
-    this.isSubmitOnError = false;
-    this.submitText = '';
+    this.submitSuccessText = '';
+    this.submitErrorText = '';
 
     this.tariffLoaderService.saveTariffs(this.uuid).subscribe((response) => {
       if (response instanceof HttpErrorResponse) {
         console.error(response);
-        this.submitText = 'Ошибка на сервере';
-        this.isSubmitOnError = true;
+        this.submitErrorText = 'Ошибка на сервере';
       } else {
         console.log(response);
-        this.submitText = 'Тарифы загружены';
-        this.isSubmitOnError = false;
+        this.submitSuccessText = 'Тарифы загружены';
       }
     });
   }

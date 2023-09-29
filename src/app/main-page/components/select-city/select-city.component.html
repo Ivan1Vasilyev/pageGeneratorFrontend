@@ -1,21 +1,21 @@
 <span class="search-button" (click)="openSearch()">
   <svg-location [size]="20"></svg-location>
-  <p>{{selectedCity.name}}</p>
+  <p>{{selectedCity?.name || 'Город не выбран'}}</p>
 </span>
 
-<div class="overlay" [class.opened]="isActive">
-  <div class="container">
-    <svg-close (click)="onClose()" class="close-icon"></svg-close>
+<app-popup [isOpen]="isOpen" [cssClass]="'select-city'"
+  (closePopup)="onClose()">
+  <form class="search-form">
 
     <mat-form-field class="mat-input">
-      <mat-label>Выбрать город</mat-label>
+      <mat-label>Поиск города</mat-label>
       <input (input)="onChange($event)" type="search" matInput>
     </mat-form-field>
+  </form>
 
-
-    <div class="cities">
-      <button *ngFor="let city of displayedCities"
-        (click)="selectCity(city)">{{city.name}}</button>
-    </div>
+  <div class="cities">
+    <button *ngFor="let city of displayedCities"
+      (click)="selectCity(city)">{{city.name}}</button>
   </div>
-</div>
+
+</app-popup>

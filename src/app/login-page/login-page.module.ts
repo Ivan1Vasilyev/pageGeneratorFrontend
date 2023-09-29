@@ -4,10 +4,10 @@ import { LoginPageComponent } from './login-page.component';
 import { MatButtonModule } from '@angular/material/button';
 import { AppRoutingModule } from '../app-routing.module';
 import { MatInputModule } from '@angular/material/input';
-import { FormLoginService } from './services/form-login.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginHttpService } from './services/login-http.service';
 import { HeaderComponent } from '../shared/components/header/header.component';
+import { SubmitTextDirective } from '../shared/directives/submit-text.directive';
 
 @NgModule({
   declarations: [LoginPageComponent],
@@ -18,7 +18,8 @@ import { HeaderComponent } from '../shared/components/header/header.component';
     MatButtonModule,
     MatInputModule,
     ReactiveFormsModule,
+    SubmitTextDirective,
   ],
-  providers: [FormLoginService, LoginHttpService],
+  providers: [LoginHttpService],
 })
 export class LoginPageModule {}

@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
-import { EditPagesHttpService, iPage } from '../../services/edit-pages-http.service';
-import { iFormTemplate } from '../../services/edit-pages-form.service';
-import { iSubmitText } from '../../edit-pages-menu.component';
+import { EditPagesHttpService } from '../../services/edit-pages-http.service';
+
+import { iEditPagesFormTemplate } from '../../models/iedit-pages-form-template';
+import { iPageData } from '../../models/ipage-data';
 
 @Component({
   selector: 'add-page',
@@ -11,18 +12,11 @@ import { iSubmitText } from '../../edit-pages-menu.component';
 })
 export class AddPageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  protected parentData$: any;
+  private parentData$: any;
   formDefaultData = { url: '' };
 
-  submitText: iSubmitText = {
-    text: '',
-    color: 'red',
-  };
-
-  private submitTextHandler(text: string, onError: boolean) {
-    this.submitText.color = onError ? 'red' : 'green';
-    this.submitText.text = text;
-  }
+  submitSuccessText: string = '';
+  submitErrorText: string = '';
 
   constructor(
     private pageDataProviderService: PageDataProviderService,
@@ -37,10 +31,8 @@ export class AddPageComponent implements OnInit, OnDestroy {
     this.parentData$ = this.pageDataProviderService.getPageData();
     this.formDefaultData.url = this.parentData$.url;
 
-    if (Object.keys(this.parentData$).length) {
-      this.submitTextHandler('', false);
-    } else {
-      this.submitTextHandler('Нет данных страницы-родителя или сайта', true);
+    if (!Object.keys(this.parentData$).length) {
+      this.submitErrorText = 'Нет данных страницы-родителя или сайта';
     }
   }
 
@@ -48,13 +40,13 @@ export class AddPageComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  onSubmit(formData: iFormTemplate): void {
+  onSubmit(formData: iEditPagesFormTemplate): void {
     const { layout, url, displayText, title } = formData;
 
     const siteId = this.parentData$.domain ? this.parentData$._id : this.parentData$.siteId;
     const parent = this.parentData$.domain ? null : this.parentData$._id;
 
-    const result: iPage = {
+    const result: iPageData = {
       layout,
       url: url.trim(),
       displayText,
@@ -64,10 +56,11 @@ export class AddPageComponent implements OnInit, OnDestroy {
     };
 
     const sub = this.editPagesHttpService.createPage(result).subscribe((res) => {
+      console.log(res);
       if (res.acknowledged) {
-        this.submitTextHandler('Страница создана!', false);
+        this.submitSuccessText = 'Страница создана!';
       } else {
-        this.submitTextHandler('Ошибка на сервере. Смотрите консоль!', true);
+        this.submitErrorText = res.error.message || 'Ошибка на сервере. Смотрите консоль!';
       }
     });
     this.subscriptions.add(sub);

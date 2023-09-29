@@ -38,7 +38,7 @@ export class CityDifferenceComponent implements OnInit {
         const { required } = Validators;
 
         const aliases = this.fb.array([]);
-        const form = this.fb.group({
+        this.form = this.fb.group({
           aliases: aliases,
         });
 
@@ -50,8 +50,6 @@ export class CityDifferenceComponent implements OnInit {
             }) as any
           );
         });
-
-        this.form = form;
       }
     });
   }

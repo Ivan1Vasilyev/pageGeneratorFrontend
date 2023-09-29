@@ -10,11 +10,11 @@ export class HttpErrorHandler {
     }
 
     if (error.error.code === 11000) {
-      console.error('Страница с таким URL уже есть на этом сайте');
+      error.error.message = 'Страница с таким URL уже есть на этом сайте';
     }
 
     if (error.error.code === 121) {
-      console.error('Ошибка валидации', error.error.errInfo?.details);
+      error.error.message = 'Ошибка валидации';
     }
 
     return of(error);

@@ -1,38 +1,68 @@
-import { Component, EventEmitter, Input, Output, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnDestroy,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { EditPagesFormService } from './services/edit-pages-form.service';
 import { LayoutsHttpService } from './services/layouts-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
-
-export interface iSubmitText {
-  color: 'red' | 'green';
-  text: string;
-}
+import { FormService } from 'src/app/shared/services/form.service';
+import { AbstractControl, FormControl, Validators } from '@angular/forms';
+import { LayoutProviderService } from './services/layout-provider.service';
 
 @Component({
   selector: 'edit-pages-menu',
   templateUrl: './edit-pages-menu.component.html',
   styleUrls: ['./edit-pages-menu.component.scss'],
 })
-export class EditPagesMenuComponent implements OnInit, OnDestroy {
+export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
+  private subscriptions: Subscription = new Subscription();
   @Input() menuTitle!: string;
   @Input() displayInfo!: string;
   @Input() submitButtonText!: string;
   @Input() formDefaultData!: any;
-  @Input() submitText!: iSubmitText;
+  @Input() submitSuccessText!: string;
+  @Input() submitErrorText!: string;
   @Output() customSubmit = new EventEmitter<any>();
   dataMap!: Map<string, string[]>;
   initialLayouts: string[] = [];
-  private subscriptions: Subscription = new Subscription();
+  layoutControl!: AbstractControl;
+  hideRequiredControl = new FormControl(false);
 
   constructor(
     private layoutsHttpService: LayoutsHttpService,
-    protected formService: EditPagesFormService
+    private layoutProviderService: LayoutProviderService,
+    protected formService: FormService
   ) {}
 
   ngOnInit() {
-    const formSub = this.formService.onInit(this.formDefaultData);
-    this.subscriptions.add(formSub);
+    const { required, pattern } = Validators;
+
+    const formInitObject = {
+      displayText: [this.formDefaultData?.displayText || '', [required]],
+      title: this.formDefaultData?.title || '',
+      url: [
+        this.formDefaultData?.url || '/',
+        [required, pattern(/(^\/$)|(^(\/(?![-_\/])[a-z0-9]+([-_]+[a-z0-9]+)*)+$)/i)],
+      ],
+      layout: [this.formDefaultData?.layout || '', [required]],
+      checkbox: false,
+    };
+
+    this.formService.onInit(formInitObject);
+
+    this.layoutControl = this.formService.form.controls['layout'];
+
+    const layoutSub = this.layoutProviderService.layout$.subscribe((layout) => {
+      this.layoutControl.setValue(layout);
+      this.layoutControl.markAsDirty();
+    });
+    this.subscriptions.add(layoutSub);
 
     const layoutsHttpSub = this.layoutsHttpService.getLayouts().subscribe((data) => {
       if (data instanceof HttpErrorResponse) {
@@ -48,6 +78,32 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const errorChanges = changes['submitErrorText'];
+    const successChanges = changes['submitSuccessText'];
+    if (successChanges && !successChanges.firstChange) {
+      this.formService.submitSuccessText = successChanges.currentValue;
+    }
+    if (errorChanges) {
+      this.formService.submitErrorText = errorChanges.currentValue;
+    }
+  }
+
+  onFocusLayout() {
+    this.layoutControl.disable();
+  }
+
+  onBlurLayout() {
+    this.layoutControl.enable();
+  }
+
+  onReset(): void {
+    this.formService.resetForm();
+    Object.entries(this.formDefaultData)
+      .filter((x) => x[1])
+      .forEach((entry) => this.formService.form.controls[entry[0]].setValue(entry[1]));
   }
 
   onSubmit(): void {

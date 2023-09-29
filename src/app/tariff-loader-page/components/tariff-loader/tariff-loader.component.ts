@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { TariffLoaderFormService } from '../../services/tariff-loader-form.service';
 import { TariffLoaderHttpService } from '../../services/tariff-loader-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { FormService } from 'src/app/shared/services/form.service';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-tariff-loader',
@@ -12,24 +13,27 @@ import { Router } from '@angular/router';
 })
 export class TariffLoaderComponent implements OnInit, OnDestroy {
   loaders: string[] = [];
-  submitText: string = '';
-  isSubmitOnError: boolean = false;
   subscriptions: Subscription = new Subscription();
   uuid: string = '';
+  selectedFile: any;
 
   constructor(
-    protected formService: TariffLoaderFormService,
-    private httpService: TariffLoaderHttpService,
+    protected formService: FormService,
+    private tariffLoaderHttpService: TariffLoaderHttpService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.formService.onInit();
+    const { required } = Validators;
 
-    const loadersSub = this.httpService.getLoaders().subscribe((loaders) => {
+    this.formService.onInit({
+      loader: ['', [required]],
+      file: ['', [required]],
+    });
+
+    const loadersSub = this.tariffLoaderHttpService.getLoaders().subscribe((loaders) => {
       if (loaders instanceof HttpErrorResponse) {
-        this.submitText = 'Ошибка на сервере при загрузке лоадеров';
-        this.isSubmitOnError = true;
+        this.formService.submitErrorText = 'Ошибка на сервере при загрузке лоадеров';
       } else {
         this.loaders = loaders;
       }
@@ -42,24 +46,26 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  onChange() {
-    if (this.isSubmitOnError) this.isSubmitOnError = false;
-    if (this.submitText) this.submitText = '';
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
   }
 
   onSubmit() {
-    const data = this.formService.getFormValues();
+    const { loader } = this.formService.getFormValues();
+    const formControl = new FormData();
+    formControl.append('file', this.selectedFile);
+    formControl.append('loader', loader);
 
-    const submitSub = this.httpService.downloadTariffs(data).subscribe((response) => {
-      if (response.ok) {
-        this.router.navigate([`/tariffs-loader/city-difference/${response.uuid}`]);
-        this.isSubmitOnError = false;
-      } else {
-        console.log(response);
-        this.submitText = 'Ошибка на сервере';
-        this.isSubmitOnError = true;
-      }
-    });
+    const submitSub = this.tariffLoaderHttpService
+      .downloadTariffs(formControl)
+      .subscribe((response) => {
+        if (response.ok) {
+          this.router.navigate([`/tariffs-loader/city-difference/${response.uuid}`]);
+        } else {
+          console.log(response);
+          this.formService.submitErrorText = 'Ошибка на сервере';
+        }
+      });
 
     this.subscriptions.add(submitSub);
   }

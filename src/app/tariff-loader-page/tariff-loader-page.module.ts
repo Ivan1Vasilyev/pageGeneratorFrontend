@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TariffLoaderPageComponent } from './tariff-loader-page.component';
 import { TariffLoaderHttpService } from './services/tariff-loader-http.service';
-import { TariffLoaderFormService } from './services/tariff-loader-form.service';
 import { CityDifferenceComponent } from './components/city-difference/city-difference.component';
 import { CheckTariffsComponent } from './components/check-tariffs/check-tariffs.component';
 import { TariffLoaderPageRoutingModule } from './tariff-loader-page-routing.module';
@@ -17,6 +16,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { TariffLoaderComponent } from './components/tariff-loader/tariff-loader.component';
+import { SvgDoneComponent } from 'src/assets/svg/svg-done/svg-done.component';
+import { SubmitTextDirective } from '../shared/directives/submit-text.directive';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { TariffLoaderComponent } from './components/tariff-loader/tariff-loader.
     MatTableModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    SvgDoneComponent,
+    SubmitTextDirective,
   ],
-  providers: [TariffLoaderHttpService, TariffLoaderFormService],
+  providers: [TariffLoaderHttpService],
 })
 export class TariffLoaderPageModule {}

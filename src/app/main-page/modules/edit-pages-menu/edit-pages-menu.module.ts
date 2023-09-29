@@ -4,7 +4,6 @@ import { AddPageComponent } from './components/add-page/add-page.component';
 import { LayoutsHttpService } from './services/layouts-http.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EditPagesHttpService } from './services/edit-pages-http.service';
-import { EditPagesFormService } from './services/edit-pages-form.service';
 import { UpdatePageComponent } from './components/update-page/update-page.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,6 +15,8 @@ import { LayoutProviderService } from './services/layout-provider.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MainPageRoutingModule } from '../../main-page-routing.module';
 import { EditPagesMenuComponent } from './edit-pages-menu.component';
+import { SubmitTextDirective } from 'src/app/shared/directives/submit-text.directive';
+import { SvgDoneComponent } from 'src/assets/svg/svg-done/svg-done.component';
 
 @NgModule({
   declarations: [
@@ -34,12 +35,9 @@ import { EditPagesMenuComponent } from './edit-pages-menu.component';
     MatTreeModule,
     MatMenuModule,
     MatCheckboxModule,
+    SubmitTextDirective,
+    SvgDoneComponent,
   ],
-  providers: [
-    LayoutsHttpService,
-    LayoutProviderService,
-    EditPagesHttpService,
-    EditPagesFormService,
-  ],
+  providers: [LayoutsHttpService, LayoutProviderService, EditPagesHttpService],
 })
 export class EditPagesMenuModule {}

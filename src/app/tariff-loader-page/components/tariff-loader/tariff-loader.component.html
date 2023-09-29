@@ -1,22 +1,22 @@
 <div class="wrap">
 
   <h2>Загрузка тарифов</h2>
-  <form class="form" [formGroup]="formService.form" (change)="onChange()"
-    (ngSubmit)="onSubmit()">
+  <form class="form" [formGroup]="formService.form"
+    (change)="formService.resetSubmitText()" (ngSubmit)="onSubmit()">
 
     <button class="file-input" type="button" mat-raised-button
       (click)="fileInput.click()">Выбрать
       файл</button>
-    <input formControlName="file" (change)="formService.onFileSelected($event)"
-      hidden #fileInput type="file">
+    <input formControlName="file" (change)="onFileSelected($event)" hidden
+      #fileInput type="file">
     <p class="file-name">
-      <span>{{formService.selectedFile?.name}}</span>
+      <span>{{selectedFile?.name}}</span>
     </p>
 
     <mat-form-field>
       <mat-label>Выбрать загрузчик</mat-label>
-      <mat-select (selectionChange)="onChange()" formControlName="loader"
-        required>
+      <mat-select (selectionChange)="formService.resetSubmitText()"
+        formControlName="loader" required>
         <mat-option *ngFor="let loader of loaders" [value]="loader">
           {{loader}}
         </mat-option>
@@ -24,15 +24,12 @@
     </mat-form-field>
 
     <div>
-      <span [class.onError]="isSubmitOnError"
-        class="submit-text">{{submitText}}</span>
+      <span submitText [error]="formService.submitErrorText"
+        class="submit-text"></span>
 
-      <svg *ngIf="!isSubmitOnError && submitText"
-        xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
-        width="24">
-        <path fill="#019f01"
-          d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
-      </svg>
+      <!-- <svg-done *ngIf="!isSubmitOnError && submitText"
+        [color]="'#019f01'"></svg-done> -->
+
     </div>
 
     <button [disabled]="formService.form.invalid" type="submit"
