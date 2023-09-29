@@ -1,0 +1,21 @@
+<span class="search-button" (click)="openSearch()">
+  <svg-location [size]="20"></svg-location>
+  <p>{{selectedCity.name}}</p>
+</span>
+
+<div class="overlay" [class.opened]="isActive">
+  <div class="container">
+    <svg-close (click)="onClose()" class="close-icon"></svg-close>
+
+    <mat-form-field class="mat-input">
+      <mat-label>Выбрать город</mat-label>
+      <input (input)="onChange($event)" type="search" matInput>
+    </mat-form-field>
+
+
+    <div class="cities">
+      <button *ngFor="let city of displayedCities"
+        (click)="selectCity(city)">{{city.name}}</button>
+    </div>
+  </div>
+</div>

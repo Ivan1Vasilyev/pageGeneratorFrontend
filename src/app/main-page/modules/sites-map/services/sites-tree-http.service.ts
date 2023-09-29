@@ -13,9 +13,9 @@ export class SitesTreeHttpService {
       .pipe(catchError(this.httpErrorHandler.handleError));
   }
 
-  getCities(): Observable<any[] | HttpErrorResponse> {
+  getProviders(): Observable<any[] | HttpErrorResponse> {
     return this.http
-      .get<any[]>('/api/sites/cities')
+      .get<any[]>('/api/sites/providers')
       .pipe(catchError(this.httpErrorHandler.handleError));
   }
 

@@ -10,10 +10,16 @@ import { PageDataProviderService } from './services/page-data-provider.service';
 import { UrlProviderService } from './services/url-provider.service';
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { MatButtonModule } from '@angular/material/button';
+import { SelectCityComponent } from './components/select-city/select-city.component';
+import { CitiesProviderService } from './services/cities-provider.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { SvgCloseComponent } from 'src/assets/svg/svg-close/svg-close.component';
+import { SvgLocationComponent } from 'src/assets/svg/svg-location/svg-location.component';
 
 @NgModule({
-  declarations: [MainPageComponent, InitialComponent],
-  providers: [PageDataProviderService, UrlProviderService],
+  declarations: [MainPageComponent, InitialComponent, SelectCityComponent],
+  providers: [PageDataProviderService, UrlProviderService, CitiesProviderService],
   imports: [
     CommonModule,
     MainPageRoutingModule,
@@ -22,6 +28,10 @@ import { MatButtonModule } from '@angular/material/button';
     SitesMapModule,
     HeaderComponent,
     MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    SvgCloseComponent,
+    SvgLocationComponent,
   ],
 })
 export class MainPageModule {}

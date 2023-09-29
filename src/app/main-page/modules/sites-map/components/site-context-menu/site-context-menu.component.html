@@ -1,0 +1,6 @@
+<button mat-button [matMenuTriggerFor]="providersList">Выбрать
+  провайдер</button>
+<mat-menu #providersList="matMenu">
+  <button mat-button (click)="selectProvider(provider)"
+    *ngFor="let provider of providers">{{provider.name}}</button>
+</mat-menu>
