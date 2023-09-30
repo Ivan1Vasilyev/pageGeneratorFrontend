@@ -11,16 +11,22 @@ import { UrlProviderService } from './services/url-provider.service';
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { MatButtonModule } from '@angular/material/button';
 import { SelectCityComponent } from './components/select-city/select-city.component';
-import { CitiesProviderService } from './services/cities-provider.service';
+import { CitiesProviderHttpService } from './services/cities-provider-http.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { SvgCloseComponent } from 'src/assets/svg/svg-close/svg-close.component';
 import { SvgLocationComponent } from 'src/assets/svg/svg-location/svg-location.component';
 import { PopupComponent } from '../shared/components/popup/popup.component';
+import { SvgBaseDirective } from 'src/assets/svg/svg-base.directive';
+import { CityDataProviderService } from './services/city-data-provider.service';
 
 @NgModule({
   declarations: [MainPageComponent, InitialComponent, SelectCityComponent],
-  providers: [PageDataProviderService, UrlProviderService, CitiesProviderService],
+  providers: [
+    PageDataProviderService,
+    UrlProviderService,
+    CitiesProviderHttpService,
+    CityDataProviderService,
+  ],
   imports: [
     CommonModule,
     MainPageRoutingModule,
@@ -33,6 +39,7 @@ import { PopupComponent } from '../shared/components/popup/popup.component';
     MatFormFieldModule,
     SvgLocationComponent,
     PopupComponent,
+    SvgBaseDirective,
   ],
 })
 export class MainPageModule {}

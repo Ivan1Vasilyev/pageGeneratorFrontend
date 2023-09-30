@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CitiesProviderService } from '../../services/cities-provider.service';
+import { CitiesProviderHttpService } from '../../services/cities-provider-http.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CityDataProviderService } from '../../services/city-data-provider.service';
+import { ICity } from '../models/icity';
 
 @Component({
   selector: 'select-city',
@@ -9,13 +11,16 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./select-city.component.scss'],
 })
 export class SelectCityComponent implements OnInit, OnDestroy {
-  cities: any[] = [];
-  displayedCities: any[] = [];
+  cities: ICity[] = [];
+  displayedCities: ICity[] = [];
   isOpen: boolean = false;
-  selectedCity: any;
+  selectedCity!: ICity | any;
   private subscription: Subscription = new Subscription();
 
-  constructor(private citiesProviderService: CitiesProviderService) {}
+  constructor(
+    private citiesProviderService: CitiesProviderHttpService,
+    private cityDataProviderService: CityDataProviderService
+  ) {}
 
   ngOnInit() {
     const sub = this.citiesProviderService.getCities().subscribe((data) => {
@@ -24,6 +29,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
       } else {
         this.cities = data;
         this.selectedCity = this.cities.find((city) => city.name === 'Москва');
+        this.cityDataProviderService.setCity(this.selectedCity);
         this.displayedCities = this.cities.sort(
           (a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0)
         );
@@ -45,8 +51,9 @@ export class SelectCityComponent implements OnInit, OnDestroy {
     this.displayedCities = this.cities.filter((city) => regexp.test(city.name));
   }
 
-  selectCity(city: any) {
+  selectCity(city: ICity) {
     this.selectedCity = city;
+    this.cityDataProviderService.setCity(this.selectedCity);
     this.isOpen = false;
   }
 

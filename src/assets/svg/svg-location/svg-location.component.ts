@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'svg-location',
@@ -6,7 +6,4 @@ import { Component, Input } from '@angular/core';
   styles: [':host {display: flex;}'],
   standalone: true,
 })
-export class SvgLocationComponent {
-  @Input() color: string = '#fff';
-  @Input() size: number = 24;
-}
+export class SvgLocationComponent {}

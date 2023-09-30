@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UrlProviderService } from '../../../../services/url-provider.service';
 import { Subscription } from 'rxjs';
+import { CityDataProviderService } from 'src/app/main-page/services/city-data-provider.service';
+import { ICity } from 'src/app/main-page/components/models/icity';
 
 @Component({
   selector: 'main-frame',
@@ -10,14 +12,24 @@ import { Subscription } from 'rxjs';
 export class MainFrameComponent implements OnInit, OnDestroy {
   url: string = '';
   isFullScreen: boolean = false;
+  currentCity!: ICity;
   private subs: Subscription = new Subscription();
 
-  constructor(private readonly urlProviderService: UrlProviderService) {}
+  constructor(
+    private readonly urlProviderService: UrlProviderService,
+    private cityDataProviderService: CityDataProviderService
+  ) {}
 
   ngOnInit(): void {
-    this.subs = this.urlProviderService.url$.subscribe((url) => {
+    const urlSub = this.urlProviderService.url$.subscribe((url) => {
       this.url = `/sites/${url}`;
+      const citySub = this.cityDataProviderService.city$.subscribe((city) => {
+        this.currentCity = city;
+        this.url = `/sites/${this.currentCity.translitName}.${url}`;
+      });
+      this.subs.add(citySub);
     });
+    this.subs.add(urlSub);
   }
 
   ngOnDestroy(): void {
