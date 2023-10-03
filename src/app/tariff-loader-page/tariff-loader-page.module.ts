@@ -16,8 +16,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { TariffLoaderComponent } from './components/tariff-loader/tariff-loader.component';
-import { SvgDoneComponent } from 'src/assets/svg/svg-done/svg-done.component';
+import { SvgDoneComponent } from 'src/app/shared/components/svg/svg-done/svg-done.component';
 import { SubmitTextDirective } from '../shared/directives/submit-text.directive';
+import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { SubmitTextDirective } from '../shared/directives/submit-text.directive'
     MatProgressSpinnerModule,
     MatPaginatorModule,
     SvgDoneComponent,
+    SvgBaseDirective,
     SubmitTextDirective,
   ],
   providers: [TariffLoaderHttpService],

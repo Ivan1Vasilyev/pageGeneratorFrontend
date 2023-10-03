@@ -3,7 +3,7 @@ import { CitiesProviderHttpService } from '../../services/cities-provider-http.s
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CityDataProviderService } from '../../services/city-data-provider.service';
-import { ICity } from '../models/icity';
+import { ICity } from '../../models/icity';
 
 @Component({
   selector: 'select-city',
@@ -11,11 +11,11 @@ import { ICity } from '../models/icity';
   styleUrls: ['./select-city.component.scss'],
 })
 export class SelectCityComponent implements OnInit, OnDestroy {
-  cities: ICity[] = [];
+  private subscription: Subscription = new Subscription();
+  private cities: ICity[] = [];
   displayedCities: ICity[] = [];
   isOpen: boolean = false;
   selectedCity!: ICity | any;
-  private subscription: Subscription = new Subscription();
 
   constructor(
     private citiesProviderService: CitiesProviderHttpService,

@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffLoaderHttpService } from '../../services/tariff-loader-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-city-difference',
   templateUrl: './city-difference.component.html',
   styleUrls: ['./city-difference.component.scss'],
 })
-export class CityDifferenceComponent implements OnInit {
-  uuid: string;
+export class CityDifferenceComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription = new Subscription();
+  private uuid: string;
   form!: FormGroup;
   differenceOnly: boolean = true;
 
@@ -30,43 +32,57 @@ export class CityDifferenceComponent implements OnInit {
     this.uuid = activateRoute.snapshot.params['uuid'];
   }
 
-  refreshForm() {
-    this.tariffLoaderService.getCityDifference(this.uuid, this.differenceOnly).subscribe((data) => {
-      if (data instanceof HttpErrorResponse) {
-        console.error(data);
-      } else {
-        const { required } = Validators;
+  private initForm(data: any[]) {
+    const { required } = Validators;
 
-        const aliases = this.fb.array([]);
-        this.form = this.fb.group({
-          aliases: aliases,
-        });
-
-        data.forEach((city) => {
-          aliases.push(
-            this.fb.group({
-              alias: [city, [required]],
-              city: [city, [required]],
-            }) as any
-          );
-        });
-      }
+    const aliases = this.fb.array([]);
+    this.form = this.fb.group({
+      aliases: aliases,
     });
+
+    data.forEach((city) => {
+      aliases.push(
+        this.fb.group({
+          alias: [city, [required]],
+          city: [city, [required]],
+        }) as any
+      );
+    });
+  }
+
+  refreshForm() {
+    const sub = this.tariffLoaderService
+      .getCityDifference(this.uuid, this.differenceOnly)
+      .subscribe((data) => {
+        if (data instanceof HttpErrorResponse) {
+          console.error(data);
+        } else {
+          this.initForm(data);
+        }
+      });
+    this.subscriptions.add(sub);
   }
 
   ngOnInit() {
     this.refreshForm();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   onSubmit() {
     const result = this.form.value;
 
-    this.tariffLoaderService.saveCityDifference(this.uuid, result).subscribe((response) => {
-      if (response instanceof HttpErrorResponse) {
-        console.error(response);
-      } else {
-        this.router.navigate([`/tariffs-loader/tariff-buffer/${this.uuid}`]);
-      }
-    });
+    const sub = this.tariffLoaderService
+      .saveCityDifference(this.uuid, result)
+      .subscribe((response) => {
+        if (response instanceof HttpErrorResponse) {
+          console.error(response);
+        } else {
+          this.router.navigate([`/tariffs-loader/tariff-buffer/${this.uuid}`]);
+        }
+      });
+    this.subscriptions.add(sub);
   }
 }

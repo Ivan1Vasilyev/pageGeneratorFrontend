@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { EditPagesHttpService } from '../../services/edit-pages-http.service';
-
 import { iEditPagesFormTemplate } from '../../models/iedit-pages-form-template';
 import { iPageData } from '../../models/ipage-data';
 

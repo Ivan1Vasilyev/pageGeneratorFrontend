@@ -16,8 +16,7 @@
         <input type="text" formControlName="url" required matInput>
       </mat-form-field>
 
-      <mat-form-field [hideRequiredMarker]="hideRequiredControl.value"
-        class="mat-input">
+      <mat-form-field reqiured class="mat-input">
         <mat-label>Title</mat-label>
         <input type="text" formControlName="title" matInput>
       </mat-form-field>
@@ -39,7 +38,8 @@
           [error]="formService.submitErrorText">
         </p>
 
-        <svg-done *ngIf="submitSuccessText" [color]="'#019f01'"></svg-done>
+        <svg-done svgBase *ngIf="submitSuccessText"
+          [color]="'#019f01'"></svg-done>
       </div>
 
       <div class="submit-area">

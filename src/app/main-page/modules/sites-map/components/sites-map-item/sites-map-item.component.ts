@@ -1,11 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { UrlProviderService } from '../../../../services/url-provider.service';
 import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CityDataProviderService } from 'src/app/main-page/services/city-data-provider.service';
-import { ICity } from 'src/app/main-page/components/models/icity';
 
 type iSite = {
   domain: string;
@@ -34,7 +32,6 @@ export class SitesMapItemComponent implements OnDestroy {
   @Input() page?: iPageInTree;
   @Input() site: iSite | any;
   subItems: any[] = [];
-  currentCity!: ICity;
 
   private subscriptions: Subscription = new Subscription();
 
@@ -44,6 +41,13 @@ export class SitesMapItemComponent implements OnDestroy {
     private urlProviderServise: UrlProviderService
   ) {}
 
+  private defineSubItems(data: any[] | HttpErrorResponse) {
+    if (data instanceof HttpErrorResponse) {
+      console.error(data);
+    } else {
+      this.subItems = data;
+    }
+  }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
@@ -59,14 +63,6 @@ export class SitesMapItemComponent implements OnDestroy {
   getPagesUrl() {
     if (this.page) {
       this.urlProviderServise.setUrl(`${this.site.domain}${this.page.url}`);
-    }
-  }
-
-  private defineSubItems(data: any[] | HttpErrorResponse) {
-    if (data instanceof HttpErrorResponse) {
-      console.error(data);
-    } else {
-      this.subItems = data;
     }
   }
 

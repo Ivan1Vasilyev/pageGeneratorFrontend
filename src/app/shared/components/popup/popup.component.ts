@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
-import { SvgBaseDirective } from 'src/assets/svg/svg-base.directive';
-import { SvgCloseComponent } from 'src/assets/svg/svg-close/svg-close.component';
+import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
+import { SvgCloseComponent } from 'src/app/shared/components/svg/svg-close/svg-close.component';
 
 @Component({
   selector: 'popup',
@@ -15,22 +15,22 @@ export class PopupComponent implements OnChanges {
   @Input() cssClass: string = '';
   @Output() closePopup = new EventEmitter();
 
+  private handleEscClose = (event: any) => {
+    if (event.key == 'Escape') this.onClose();
+  };
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes['isOpen'].currentValue) {
-      const handleEscClose = (event: any) => {
-        if (event.key === 'Escape') this.onClose();
-        document.removeEventListener('keydown', handleEscClose);
-      };
-
-      document.addEventListener('keydown', handleEscClose);
+      document.addEventListener('keydown', this.handleEscClose);
     }
   }
 
   handleClickClosePopup(event: any) {
-    if (event.target === event.currentTarget) this.onClose();
+    if (event.target == event.currentTarget) this.onClose();
   }
 
   onClose() {
+    document.removeEventListener('keydown', this.handleEscClose);
     this.closePopup.emit();
   }
 }

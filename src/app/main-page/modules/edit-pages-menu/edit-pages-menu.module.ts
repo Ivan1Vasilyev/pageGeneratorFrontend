@@ -16,7 +16,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MainPageRoutingModule } from '../../main-page-routing.module';
 import { EditPagesMenuComponent } from './edit-pages-menu.component';
 import { SubmitTextDirective } from 'src/app/shared/directives/submit-text.directive';
-import { SvgDoneComponent } from 'src/assets/svg/svg-done/svg-done.component';
+import { SvgDoneComponent } from 'src/app/shared/components/svg/svg-done/svg-done.component';
+import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { SvgDoneComponent } from 'src/assets/svg/svg-done/svg-done.component';
     MatCheckboxModule,
     SubmitTextDirective,
     SvgDoneComponent,
+    SvgBaseDirective,
   ],
   providers: [LayoutsHttpService, LayoutProviderService, EditPagesHttpService],
 })

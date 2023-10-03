@@ -19,8 +19,7 @@
       <input type="password" formControlName="password" required matInput>
     </mat-form-field>
 
-    <p submitText [success]="formService.submitSuccessText"
-      [error]="formService.submitErrorText" class="submit-text">
+    <p submitText [error]="formService.submitErrorText" class="submit-text">
     </p>
     <div class="submit-area">
       <button type="submit" [disabled]="formService.isSubmitDisabled()"

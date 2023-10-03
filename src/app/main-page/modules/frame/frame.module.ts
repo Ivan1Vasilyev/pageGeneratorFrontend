@@ -4,10 +4,20 @@ import { UrlSafePipe } from './pipes/url-safe.pipe';
 import { ButtonsPanelComponent } from './components/buttons-panel/buttons-panel.component';
 import { CommonModule } from '@angular/common';
 import { FrameComponent } from './frame.component';
+import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
+import { SvgCloseComponent } from 'src/app/shared/components/svg/svg-close/svg-close.component';
+import { SvgFullscreenComponent } from 'src/app/shared/components/svg/svg-fullscreen/svg-fullscreen.component';
+import { SvgFitFullscreenComponent } from 'src/app/shared/components/svg/svg-fit-fullscreen/svg-fit-fullscreen.component';
 
 @NgModule({
   declarations: [MainFrameComponent, UrlSafePipe, ButtonsPanelComponent, FrameComponent],
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    SvgBaseDirective,
+    SvgCloseComponent,
+    SvgFullscreenComponent,
+    SvgFitFullscreenComponent,
+  ],
   exports: [FrameComponent],
 })
 export class FrameModule {}

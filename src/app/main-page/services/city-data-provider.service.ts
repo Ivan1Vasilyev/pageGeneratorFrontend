@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ICity } from '../components/models/icity';
+import { ICity } from '../models/icity';
 
 @Injectable()
 export class CityDataProviderService {

@@ -9,8 +9,8 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./sites-map.component.scss'],
 })
 export class SitesMapComponent implements OnInit, OnDestroy {
-  sites: any[] = [];
   private subscription: Subscription = new Subscription();
+  sites: any[] = [];
 
   constructor(private siteService: SitesTreeHttpService) {}
 

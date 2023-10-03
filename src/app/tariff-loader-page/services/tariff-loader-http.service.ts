@@ -34,17 +34,9 @@ export class TariffLoaderHttpService {
       .pipe(catchError(this.httpErrorHandler.handleError));
   }
 
-  getTariffs(
-    uuid: string,
-    skip: number,
-    take: number
-  ): Observable<
-    { ok: boolean; tariffs: { totalCount: number; items: any[] } } | HttpErrorResponse
-  > {
+  getTariffs(uuid: string): Observable<any[] | HttpErrorResponse> {
     return this.http
-      .get<{ ok: boolean; tariffs: { totalCount: number; items: any[] } }>(
-        `./tariff-loader/tariff-buffer/${uuid}/${skip}/${take}`
-      )
+      .get<any[]>(`./tariff-loader/tariff-buffer/${uuid}`)
       .pipe(catchError(this.httpErrorHandler.handleError));
   }
 

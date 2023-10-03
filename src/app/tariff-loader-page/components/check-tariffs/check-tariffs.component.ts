@@ -1,51 +1,24 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TariffLoaderHttpService } from '../../services/tariff-loader-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
-import { merge, Observable, of } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-
-const HEADERS = {
-  city: 'Город',
-  tariffName: 'Название тарифа',
-  priceWithDiscount: 'Цена со скидкой',
-  price: 'Цена',
-  discountDuration: 'Длительность скидки в мес',
-  priceInfo: 'Доп. информация по цене',
-  tariffInfo: 'Доп. информация по тарифу',
-  discountMark: 'Признак акции',
-  speed: 'Скорость мбит/сек',
-  routerIncluded: 'WiFi-роутер в комплекте',
-  routerForRent: 'WiFi-роутер в аренду',
-  routerToBuy: 'WiFi-роутер покупка',
-  routerOnInstallment: 'WiFi-роутер в рассрочку',
-  tv: 'ТВ Каналов',
-  hd: 'HD каналов',
-  uhd: 'UHD каналов',
-  interactiveTV: 'Интерактивное ТВ каналов',
-  tvBoxIncluded: 'ТВ-приставка в комплекте',
-  tvBoxForRent: 'ТВ-приставка в аренду',
-  tvBoxToBuy: 'ТВ-приставка покупка',
-  tvBoxOnInstallment: 'ТВ-приставка в рассрочку',
-  mobMinutes: 'Мин',
-  mobSms: 'Смс',
-  mobGb: 'Гб',
-  comment: 'Комментарий к моб. связи',
-  priority: 'Приоритет',
-};
+import { Subscription } from 'rxjs';
+import HEADERS from '../../constants/tariff-table-headers';
 
 @Component({
   selector: 'app-check-tariffs',
   templateUrl: './check-tariffs.component.html',
   styleUrls: ['./check-tariffs.component.scss'],
 })
-export class CheckTariffsComponent implements OnInit {
-  uuid: string = '';
+export class CheckTariffsComponent implements OnInit, OnDestroy, AfterViewInit {
+  private subscriptions: Subscription = new Subscription();
+  private uuid: string;
+  private storageTariffs: any[] = [];
+  isLoading = false;
+  pageSizeOptions: number[] = [10, 25, 100, 200, 500];
   tariffs: any[] = [];
-  resultsLength = 0;
-  isLoadingResults = true;
-  isRateLimitReached = false;
+  resultsLength: number = 0;
   displayedColumns: string[] = Object.keys(HEADERS);
   tariffTemplate: string[] = Object.values(HEADERS);
 
@@ -53,36 +26,72 @@ export class CheckTariffsComponent implements OnInit {
   submitErrorText: string = '';
 
   @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
+  private paginator!: MatPaginator;
 
   constructor(activateRoute: ActivatedRoute, private tariffLoaderService: TariffLoaderHttpService) {
     this.uuid = activateRoute.snapshot.params['uuid'];
   }
 
-  onSave() {
-    this.submitSuccessText = '';
-    this.submitErrorText = '';
+  private calcSkip(pageIndex: number, pageSize: number): number {
+    return pageSize * pageIndex + 1;
+  }
 
-    this.tariffLoaderService.saveTariffs(this.uuid).subscribe((response) => {
+  private getTariffsFromStorage(pageIndex: number, pageSize: number): any[] {
+    const skip = this.calcSkip(pageIndex, pageSize);
+    return this.storageTariffs.slice(skip, Math.min(skip + pageSize, this.storageTariffs.length));
+  }
+
+  private getTariffsFromServer() {
+    this.isLoading = true;
+    const sub = this.tariffLoaderService.getTariffs(this.uuid).subscribe((response) => {
       if (response instanceof HttpErrorResponse) {
         console.error(response);
-        this.submitErrorText = 'Ошибка на сервере';
+        this.submitErrorText = 'Ошибка на сервере при попытке загрузить тарифы';
       } else {
-        console.log(response);
-        this.submitSuccessText = 'Тарифы загружены';
+        this.storageTariffs = response;
+        this.resultsLength = response.length;
+        this.tariffs = this.getTariffsFromStorage(0, this.pageSizeOptions[0]);
       }
+      this.isLoading = false;
     });
+    this.subscriptions.add(sub);
   }
 
   ngOnInit() {
-    this.tariffLoaderService.getTariffs(this.uuid, 0, 19).subscribe((response) => {
+    this.getTariffsFromServer();
+  }
+
+  ngAfterViewInit() {
+    this.paginator._intl.itemsPerPageLabel = 'Тарифов на странице: ';
+
+    const sub = this.paginator.page.subscribe((page) => {
+      const { pageSize, pageIndex } = page;
+
+      this.tariffs = this.getTariffsFromStorage(pageIndex, pageSize);
+    });
+    this.subscriptions.add(sub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  onSave() {
+    this.isLoading = true;
+
+    this.submitSuccessText = '';
+    this.submitErrorText = '';
+
+    const sub = this.tariffLoaderService.saveTariffs(this.uuid).subscribe((response) => {
       if (response instanceof HttpErrorResponse) {
         console.error(response);
+        this.submitErrorText = 'Ошибка на сервере при попытке сохранить тарифы';
       } else {
-        this.tariffs = response.tariffs.items;
-        this.resultsLength += response.tariffs.totalCount;
-        console.log(this.tariffs);
+        this.submitSuccessText = 'Тарифы загружены';
       }
+      this.isLoading = false;
     });
+
+    this.subscriptions.add(sub);
   }
 }

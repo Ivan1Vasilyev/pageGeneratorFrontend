@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 import { LayoutsHttpService } from './services/layouts-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormService } from 'src/app/shared/services/form.service';
-import { AbstractControl, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
 import { LayoutProviderService } from './services/layout-provider.service';
 
 @Component({
@@ -32,7 +32,6 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
   dataMap!: Map<string, string[]>;
   initialLayouts: string[] = [];
   layoutControl!: AbstractControl;
-  hideRequiredControl = new FormControl(false);
 
   constructor(
     private layoutsHttpService: LayoutsHttpService,
@@ -81,13 +80,11 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const errorChanges = changes['submitErrorText'];
-    const successChanges = changes['submitSuccessText'];
-    if (successChanges && !successChanges.firstChange) {
-      this.formService.submitSuccessText = successChanges.currentValue;
+    if (changes['submitSuccessText']) {
+      this.formService.submitSuccessText = this.submitErrorText;
     }
-    if (errorChanges) {
-      this.formService.submitErrorText = errorChanges.currentValue;
+    if (changes['submitErrorText']) {
+      this.formService.submitErrorText = this.submitErrorText;
     }
   }
 
@@ -101,9 +98,9 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
 
   onReset(): void {
     this.formService.resetForm();
-    Object.entries(this.formDefaultData)
-      .filter((x) => x[1])
-      .forEach((entry) => this.formService.form.controls[entry[0]].setValue(entry[1]));
+    Object.entries(this.formDefaultData).forEach((entry) =>
+      this.formService.form.controls[entry[0]].setValue(entry[1])
+    );
   }
 
   onSubmit(): void {

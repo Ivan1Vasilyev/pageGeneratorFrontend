@@ -13,9 +13,8 @@ import { Validators } from '@angular/forms';
 })
 export class TariffLoaderComponent implements OnInit, OnDestroy {
   loaders: string[] = [];
-  subscriptions: Subscription = new Subscription();
-  uuid: string = '';
   selectedFile: any;
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     protected formService: FormService,

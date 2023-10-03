@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { HttpErrorHandler } from 'src/app/shared/services/http-error-handler.service';
-import { ICity } from '../components/models/icity';
+import { ICity } from '../models/icity';
 
 @Injectable()
 export class CitiesProviderHttpService {

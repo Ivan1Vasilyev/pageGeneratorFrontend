@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UrlProviderService } from '../../../../services/url-provider.service';
 import { Subscription } from 'rxjs';
 import { CityDataProviderService } from 'src/app/main-page/services/city-data-provider.service';
-import { ICity } from 'src/app/main-page/components/models/icity';
+import { ICity } from 'src/app/main-page/models/icity';
 
 @Component({
   selector: 'main-frame',
