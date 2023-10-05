@@ -20,3 +20,15 @@ iframe {
   height: 100%;
   border: none;
 }
+
+.checkbox {
+  z-index: 1001;
+  position: absolute;
+  top: -33px;
+  left: 0;
+}
+
+.on-fullscreen {
+  top: 5px;
+  left: 20px;
+}

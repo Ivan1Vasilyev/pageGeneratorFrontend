@@ -11,12 +11,9 @@ import { MatMenuTrigger } from '@angular/material/menu';
 })
 export class SiteContextMenuComponent implements OnInit, OnDestroy {
   @Input() providerIds: string[] = [];
-
-  providers: any[] = [];
-
-  selectedProvider: any;
-  selectedCity: any;
   private subscription: Subscription = new Subscription();
+  private selectedProvider: any;
+  providers: any[] = [];
 
   constructor(private sitesTreeHttpService: SitesTreeHttpService) {}
 

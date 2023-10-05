@@ -10,15 +10,21 @@ import { ICity } from 'src/app/main-page/models/icity';
   styleUrls: ['./main-frame.component.scss'],
 })
 export class MainFrameComponent implements OnInit, OnDestroy {
+  private subs: Subscription = new Subscription();
+  private currentCity!: ICity;
+  isDebug: boolean = false;
   url: string = '';
   isFullScreen: boolean = false;
-  currentCity!: ICity;
-  private subs: Subscription = new Subscription();
 
   constructor(
     private readonly urlProviderService: UrlProviderService,
     private cityDataProviderService: CityDataProviderService
   ) {}
+
+  toggleDebug() {
+    const debug = `${this.url.endsWith('/') ? '' : '/'}?DEBUG=true`;
+    this.url = this.isDebug ? this.url + debug : this.url.replace(debug, '');
+  }
 
   ngOnInit(): void {
     const urlSub = this.urlProviderService.url$.subscribe((url) => {

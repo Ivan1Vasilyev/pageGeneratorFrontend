@@ -3,5 +3,8 @@
   <buttons-panel [isFullScreen]="isFullScreen" (fullScreen)="toggleFullScreen()"
     (closeFrame)="onClose()" *ngIf="url"></buttons-panel>
 
+  <mat-checkbox (change)="toggleDebug()" color="warn" [(ngModel)]="isDebug"
+    *ngIf="url" [class.on-fullscreen]="isFullScreen"
+    class="checkbox">DEBUG</mat-checkbox>
   <iframe [src]='url | safeUrl'></iframe>
 </div>

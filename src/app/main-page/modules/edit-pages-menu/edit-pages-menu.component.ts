@@ -21,7 +21,6 @@ import { LayoutProviderService } from './services/layout-provider.service';
   styleUrls: ['./edit-pages-menu.component.scss'],
 })
 export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
-  private subscriptions: Subscription = new Subscription();
   @Input() menuTitle!: string;
   @Input() displayInfo!: string;
   @Input() submitButtonText!: string;
@@ -29,9 +28,10 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
   @Input() submitSuccessText!: string;
   @Input() submitErrorText!: string;
   @Output() customSubmit = new EventEmitter<any>();
+  private subscriptions: Subscription = new Subscription();
+  private layoutControl!: AbstractControl;
   dataMap!: Map<string, string[]>;
   initialLayouts: string[] = [];
-  layoutControl!: AbstractControl;
 
   constructor(
     private layoutsHttpService: LayoutsHttpService,
@@ -39,7 +39,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
     protected formService: FormService
   ) {}
 
-  ngOnInit() {
+  private initForm() {
     const { required, pattern } = Validators;
 
     const formInitObject = {
@@ -54,7 +54,9 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
     };
 
     this.formService.onInit(formInitObject);
+  }
 
+  private initLayoutControl() {
     this.layoutControl = this.formService.form.controls['layout'];
 
     const layoutSub = this.layoutProviderService.layout$.subscribe((layout) => {
@@ -62,7 +64,9 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
       this.layoutControl.markAsDirty();
     });
     this.subscriptions.add(layoutSub);
+  }
 
+  private getLayouts() {
     const layoutsHttpSub = this.layoutsHttpService.getLayouts().subscribe((data) => {
       if (data instanceof HttpErrorResponse) {
         console.error('failed in getting layouts');
@@ -73,6 +77,12 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.subscriptions.add(layoutsHttpSub);
+  }
+
+  ngOnInit() {
+    this.initForm();
+    this.initLayoutControl();
+    this.getLayouts();
   }
 
   ngOnDestroy(): void {

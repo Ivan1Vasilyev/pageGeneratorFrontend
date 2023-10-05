@@ -8,6 +8,8 @@ import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
 import { SvgCloseComponent } from 'src/app/shared/components/svg/svg-close/svg-close.component';
 import { SvgFullscreenComponent } from 'src/app/shared/components/svg/svg-fullscreen/svg-fullscreen.component';
 import { SvgFitFullscreenComponent } from 'src/app/shared/components/svg/svg-fit-fullscreen/svg-fit-fullscreen.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [MainFrameComponent, UrlSafePipe, ButtonsPanelComponent, FrameComponent],
@@ -17,6 +19,8 @@ import { SvgFitFullscreenComponent } from 'src/app/shared/components/svg/svg-fit
     SvgCloseComponent,
     SvgFullscreenComponent,
     SvgFitFullscreenComponent,
+    MatCheckboxModule,
+    FormsModule,
   ],
   exports: [FrameComponent],
 })

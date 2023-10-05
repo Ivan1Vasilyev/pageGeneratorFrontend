@@ -7,8 +7,6 @@ import { HttpErrorHandler } from 'src/app/shared/services/http-error-handler.ser
 export class LayoutsHttpService {
   constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler) {}
 
-  result!: Map<string, string[]>;
-
   getLayouts(): Observable<any | HttpErrorResponse> {
     return this.http.get<any>('/api/layouts').pipe(catchError(this.httpErrorHandler.handleError));
   }

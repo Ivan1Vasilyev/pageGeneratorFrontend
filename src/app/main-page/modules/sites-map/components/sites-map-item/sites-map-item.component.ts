@@ -48,6 +48,18 @@ export class SitesMapItemComponent implements OnDestroy {
       this.subItems = data;
     }
   }
+
+  private getSubItems() {
+    const sub = this.page
+      ? this.siteTreeService.getChildPages(this.site._id, this.page._id).subscribe((pages) => {
+          this.defineSubItems(pages);
+        })
+      : this.siteTreeService.getRootPages(this.site._id).subscribe((pages) => {
+          this.defineSubItems(pages);
+        });
+    this.subscriptions.add(sub);
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
@@ -64,17 +76,6 @@ export class SitesMapItemComponent implements OnDestroy {
     if (this.page) {
       this.urlProviderServise.setUrl(`${this.site.domain}${this.page.url}`);
     }
-  }
-
-  getSubItems() {
-    const sub = this.page
-      ? this.siteTreeService.getChildPages(this.site._id, this.page._id).subscribe((pages) => {
-          this.defineSubItems(pages);
-        })
-      : this.siteTreeService.getRootPages(this.site._id).subscribe((pages) => {
-          this.defineSubItems(pages);
-        });
-    this.subscriptions.add(sub);
   }
 
   onRightClickHandler() {
