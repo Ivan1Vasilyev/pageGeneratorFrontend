@@ -9,6 +9,16 @@
     "changeOrigin": true,
     "secure": false
   },
+  "/files/*": {
+    "target": "http://localhost:3000",
+    "changeOrigin": true,
+    "secure": false
+  },
+  "/static/*": {
+    "target": "http://localhost:3000",
+    "changeOrigin": true,
+    "secure": false
+  },
   "/tariff-loader/*": {
     "target": "http://localhost:3000",
     "changeOrigin": true,

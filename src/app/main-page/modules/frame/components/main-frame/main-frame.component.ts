@@ -13,6 +13,7 @@ export class MainFrameComponent implements OnInit, OnDestroy {
   private subs: Subscription = new Subscription();
   private currentCity!: ICity;
   isDebug: boolean = false;
+  baseUrl: string = escape(`${window.location.protocol}://${window.location.host}/sites`);
   url: string = '';
   isFullScreen: boolean = false;
 
@@ -21,17 +22,12 @@ export class MainFrameComponent implements OnInit, OnDestroy {
     private cityDataProviderService: CityDataProviderService
   ) {}
 
-  toggleDebug() {
-    const debug = `${this.url.endsWith('/') ? '' : '/'}?DEBUG=true`;
-    this.url = this.isDebug ? this.url + debug : this.url.replace(debug, '');
-  }
-
   ngOnInit(): void {
     const urlSub = this.urlProviderService.url$.subscribe((url) => {
-      this.url = `/sites/${url}`;
+      this.url = `/sites/${url}/?baseUrl=${this.baseUrl}`;
       const citySub = this.cityDataProviderService.city$.subscribe((city) => {
         this.currentCity = city;
-        this.url = `/sites/${this.currentCity.translitName}.${url}`;
+        this.url = `/sites/${this.currentCity.translitName}.${url}/?baseUrl=${this.baseUrl}`;
       });
       this.subs.add(citySub);
     });
