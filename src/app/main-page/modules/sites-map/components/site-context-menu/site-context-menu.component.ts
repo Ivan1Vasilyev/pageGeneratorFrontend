@@ -27,7 +27,7 @@ export class SiteContextMenuComponent implements OnInit, OnDestroy {
       if (data instanceof HttpErrorResponse) {
         console.error(data);
       } else {
-        this.providers = data;
+        this.providers = data.filter((p) => this.providerIds.includes(p._id));
       }
     });
     this.subscription.add(sub);

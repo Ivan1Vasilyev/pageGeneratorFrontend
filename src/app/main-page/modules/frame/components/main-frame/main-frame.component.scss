@@ -21,14 +21,13 @@ iframe {
   border: none;
 }
 
-.checkbox {
+.radio-group {
   z-index: 1001;
   position: absolute;
   top: -33px;
   left: 0;
-}
 
-.on-fullscreen {
-  top: 5px;
-  left: 20px;
+  &.on-fullscreen {
+    top: 5px;
+  }
 }

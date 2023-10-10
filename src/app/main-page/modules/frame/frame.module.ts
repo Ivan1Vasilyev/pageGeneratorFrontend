@@ -9,6 +9,7 @@ import { SvgCloseComponent } from 'src/app/shared/components/svg/svg-close/svg-c
 import { SvgFullscreenComponent } from 'src/app/shared/components/svg/svg-fullscreen/svg-fullscreen.component';
 import { SvgFitFullscreenComponent } from 'src/app/shared/components/svg/svg-fit-fullscreen/svg-fit-fullscreen.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     SvgCloseComponent,
     SvgFullscreenComponent,
     SvgFitFullscreenComponent,
+    MatRadioModule,
     MatCheckboxModule,
     FormsModule,
   ],

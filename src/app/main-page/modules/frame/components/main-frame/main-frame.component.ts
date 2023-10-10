@@ -12,22 +12,26 @@ import { ICity } from 'src/app/main-page/models/icity';
 export class MainFrameComponent implements OnInit, OnDestroy {
   private subs: Subscription = new Subscription();
   private currentCity!: ICity;
-  isDebug: boolean = false;
-  baseUrl: string = escape(`${window.location.protocol}://${window.location.host}/sites`);
+  private baseUrl: string = encodeURI(`${window.location.protocol}//${window.location.host}/sites`);
+  mode: 'DEBUG' | 'DESIGN' | '' = '';
   url: string = '';
   isFullScreen: boolean = false;
 
   constructor(
-    private readonly urlProviderService: UrlProviderService,
+    private urlProviderService: UrlProviderService,
     private cityDataProviderService: CityDataProviderService
   ) {}
 
+  patchFlags(): string {
+    return this.mode ? `&${this.mode}=true` : '';
+  }
+
   ngOnInit(): void {
     const urlSub = this.urlProviderService.url$.subscribe((url) => {
-      this.url = `/sites/${url}/?baseUrl=${this.baseUrl}`;
+      this.url = `/sites/${url}?baseUrl=${this.baseUrl}`;
       const citySub = this.cityDataProviderService.city$.subscribe((city) => {
         this.currentCity = city;
-        this.url = `/sites/${this.currentCity.translitName}.${url}/?baseUrl=${this.baseUrl}`;
+        this.url = `/sites/${this.currentCity.translitName}.${url}?baseUrl=${this.baseUrl}`;
       });
       this.subs.add(citySub);
     });

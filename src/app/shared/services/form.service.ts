@@ -7,10 +7,10 @@ export class FormService {
   submitSuccessText: string = '';
   submitErrorText: string = '';
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private fb: FormBuilder) {}
 
   onInit(initialData: any) {
-    this.form = this.formBuilder.group(initialData);
+    this.form = this.fb.group(initialData);
   }
 
   resetSubmitText() {

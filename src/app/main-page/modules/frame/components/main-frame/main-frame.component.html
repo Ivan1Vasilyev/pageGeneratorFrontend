@@ -1,9 +1,15 @@
-<div [class.fullscreen]="isFullScreen" class="wrap">
+<div *ngIf="url" [class.fullscreen]="isFullScreen" class="wrap">
 
   <buttons-panel [isFullScreen]="isFullScreen" (fullScreen)="toggleFullScreen()"
-    (closeFrame)="onClose()" *ngIf="url"></buttons-panel>
+    (closeFrame)="onClose()"></buttons-panel>
 
-  <mat-checkbox color="warn" [(ngModel)]="isDebug" *ngIf="url"
-    [class.on-fullscreen]="isFullScreen" class="checkbox">DEBUG</mat-checkbox>
-  <iframe [src]="(url + (isDebug ? '&DEBUG=true':'')) | safeUrl"></iframe>
+  <mat-radio-group [(ngModel)]="mode" [class.on-fullscreen]="isFullScreen"
+    class="radio-group">
+
+    <mat-radio-button color="warn" value="">Default</mat-radio-button>
+    <mat-radio-button color="warn" value="DEBUG">Debug</mat-radio-button>
+    <mat-radio-button color="warn" value="DESIGN">Design</mat-radio-button>
+
+  </mat-radio-group>
+  <iframe [src]="(url + patchFlags()) | safeUrl"></iframe>
 </div>
