@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UrlProviderService } from '../../../../services/url-provider.service';
-import { Subscription } from 'rxjs';
+import { Subscription, mergeMap, map } from 'rxjs';
 import { CityDataProviderService } from 'src/app/main-page/services/city-data-provider.service';
-import { ICity } from 'src/app/main-page/models/icity';
 
 @Component({
   selector: 'main-frame',
@@ -11,7 +10,6 @@ import { ICity } from 'src/app/main-page/models/icity';
 })
 export class MainFrameComponent implements OnInit, OnDestroy {
   private subs: Subscription = new Subscription();
-  private currentCity!: ICity;
   private baseUrl: string = encodeURI(`${window.location.protocol}//${window.location.host}/sites`);
   mode: 'DEBUG' | 'DESIGN' | '' = '';
   url: string = '';
@@ -27,14 +25,18 @@ export class MainFrameComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const urlSub = this.urlProviderService.url$.subscribe((url) => {
-      this.url = `/sites/${url}?baseUrl=${this.baseUrl}`;
-      const citySub = this.cityDataProviderService.city$.subscribe((city) => {
-        this.currentCity = city;
-        this.url = `/sites/${this.currentCity.translitName}.${url}?baseUrl=${this.baseUrl}`;
+    const urlSub = this.urlProviderService.url$
+      .pipe(
+        mergeMap((url) =>
+          this.cityDataProviderService.city$.pipe(
+            map((city) => `/sites/${city.translitName}.${url}?baseUrl=${this.baseUrl}`)
+          )
+        )
+      )
+      .subscribe((url) => {
+        this.url = url;
       });
-      this.subs.add(citySub);
-    });
+
     this.subs.add(urlSub);
   }
 
