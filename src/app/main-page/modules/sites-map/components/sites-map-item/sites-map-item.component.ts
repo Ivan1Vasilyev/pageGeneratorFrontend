@@ -4,24 +4,8 @@ import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-
-type iSite = {
-  domain: string;
-  _id: string;
-};
-
-interface iPageInTree {
-  _id: string;
-  childsCount: number;
-  layout: string;
-  siteId: string;
-  url: string;
-  displayText: string;
-  parent: string;
-  params?: {
-    title: string;
-  };
-}
+import { iSiteInTree } from 'src/app/main-page/models/isite-in-tree';
+import { iPageInTree } from 'src/app/main-page/models/ipage-in-tree';
 
 @Component({
   selector: 'sites-map-item',
@@ -30,8 +14,8 @@ interface iPageInTree {
 })
 export class SitesMapItemComponent implements OnDestroy {
   @Input() page?: iPageInTree;
-  @Input() site: iSite | any;
-  subItems: any[] = [];
+  @Input() site!: iSiteInTree;
+  subItems: iPageInTree[] = [];
 
   private subscriptions: Subscription = new Subscription();
 
@@ -41,7 +25,7 @@ export class SitesMapItemComponent implements OnDestroy {
     private urlProviderServise: UrlProviderService
   ) {}
 
-  private defineSubItems(data: any[] | HttpErrorResponse) {
+  private defineSubItems(data: iPageInTree[] | HttpErrorResponse) {
     if (data instanceof HttpErrorResponse) {
       console.error(data);
     } else {

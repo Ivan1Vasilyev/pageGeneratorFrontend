@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { iSiteInTree } from '../models/isite-in-tree';
+import { iPageInTree } from '../models/ipage-in-tree';
 
 @Injectable()
 export class PageDataProviderService {
-  private pageData = new BehaviorSubject<any>({});
+  private pageData = new BehaviorSubject<iSiteInTree | iPageInTree>({} as iSiteInTree);
 
   public getPageData() {
     return this.pageData.getValue();
   }
 
-  public setPageData(data: any) {
+  public setPageData(data: iSiteInTree | iPageInTree) {
     this.pageData.next(data);
   }
 }

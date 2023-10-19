@@ -4,6 +4,8 @@ import { PageDataProviderService } from '../../../../services/page-data-provider
 import { EditPagesHttpService } from '../../services/edit-pages-http.service';
 import { iEditPagesFormTemplate } from '../../models/iedit-pages-form-template';
 import { iPageData } from '../../models/ipage-data';
+import { iSiteInTree, isISiteInTree } from 'src/app/main-page/models/isite-in-tree';
+import { iPageInTree } from 'src/app/main-page/models/ipage-in-tree';
 
 @Component({
   selector: 'add-page',
@@ -11,8 +13,11 @@ import { iPageData } from '../../models/ipage-data';
 })
 export class AddPageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  private parentData$: any;
-  formDefaultData = { url: '' };
+  private parentData$: iSiteInTree | iPageInTree = {} as iSiteInTree;
+  private parentName: string = '';
+  private parent: null | string = null;
+  private siteId: string = '';
+  formDefaultData: { url: string } = { url: '' };
 
   submitSuccessText: string = '';
   submitErrorText: string = '';
@@ -23,12 +28,21 @@ export class AddPageComponent implements OnInit, OnDestroy {
   ) {}
 
   displayParent(): string {
-    return `parent: ${this.parentData$.displayText || this.parentData$.domain || 'Ошибка!'}`;
+    return `parent: ${this.parentName || 'Ошибка!'}`;
   }
 
   ngOnInit() {
     this.parentData$ = this.pageDataProviderService.getPageData();
-    this.formDefaultData.url = this.parentData$.url;
+
+    if (isISiteInTree(this.parentData$)) {
+      this.parentName = this.parentData$.domain;
+      this.siteId = this.parentData$._id;
+    } else {
+      this.parentName = this.parentData$.displayText;
+      this.formDefaultData.url = this.parentData$.url;
+      this.siteId = this.parentData$.siteId;
+      this.parent = this.parentData$._id;
+    }
 
     if (!Object.keys(this.parentData$).length) {
       this.submitErrorText = 'Нет данных страницы-родителя или сайта';
@@ -42,20 +56,16 @@ export class AddPageComponent implements OnInit, OnDestroy {
   onSubmit(formData: iEditPagesFormTemplate): void {
     const { layout, url, displayText, title } = formData;
 
-    const siteId = this.parentData$.domain ? this.parentData$._id : this.parentData$.siteId;
-    const parent = this.parentData$.domain ? null : this.parentData$._id;
-
     const result: iPageData = {
       layout,
       url: url.trim(),
       displayText,
-      siteId,
-      parent,
+      siteId: this.siteId,
+      parent: this.parent,
       params: { title },
     };
 
     const sub = this.editPagesHttpService.createPage(result).subscribe((res) => {
-      console.log(res);
       if (res.acknowledged) {
         this.submitSuccessText = 'Страница создана!';
       } else {
