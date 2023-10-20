@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UrlProviderService } from '../../../../services/url-provider.service';
 import { Subscription, mergeMap, map } from 'rxjs';
 import { CityDataProviderService } from 'src/app/main-page/services/city-data-provider.service';
@@ -9,8 +9,9 @@ import { CityDataProviderService } from 'src/app/main-page/services/city-data-pr
   styleUrls: ['./main-frame.component.scss'],
 })
 export class MainFrameComponent implements OnInit, OnDestroy {
-  private subs: Subscription = new Subscription();
+  private subscriptions: Subscription = new Subscription();
   private baseUrl: string = encodeURI(`${window.location.protocol}//${window.location.host}/sites`);
+  @ViewChild('frame') private frame!: ElementRef;
   mode: 'DEBUG' | 'DESIGN' | '' = '';
   url: string = '';
   isFullScreen: boolean = false;
@@ -37,11 +38,11 @@ export class MainFrameComponent implements OnInit, OnDestroy {
         this.url = url;
       });
 
-    this.subs.add(urlSub);
+    this.subscriptions.add(urlSub);
   }
 
   ngOnDestroy(): void {
-    this.subs.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   onClose() {
@@ -51,5 +52,9 @@ export class MainFrameComponent implements OnInit, OnDestroy {
 
   toggleFullScreen() {
     this.isFullScreen = !this.isFullScreen;
+  }
+
+  onRefresh() {
+    this.frame.nativeElement.contentWindow.location.reload();
   }
 }

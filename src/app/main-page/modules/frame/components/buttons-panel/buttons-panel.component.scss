@@ -3,10 +3,16 @@
   position: absolute;
   top: -23px;
   right: 0;
+  display: flex;
+  gap: 2px;
 }
 
 .svg {
   cursor: pointer;
+  transition: opacity 0.3s;
+  &:hover {
+    opacity: 0.4;
+  }
 }
 
 .fullscreen {

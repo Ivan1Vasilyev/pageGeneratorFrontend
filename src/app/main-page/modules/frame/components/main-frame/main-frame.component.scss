@@ -1,6 +1,11 @@
 .wrap {
   height: 100%;
   position: relative;
+  display: none;
+
+  &.shown {
+    display: block;
+  }
 }
 
 .fullscreen {

@@ -8,8 +8,6 @@ export class SubmitTextDirective implements OnChanges {
   @Input() success!: string;
   @Input() error!: string;
 
-  constructor(private elRef: ElementRef) {}
-
   @HostBinding('style.color')
   color = 'inherit';
 

@@ -1,5 +1,8 @@
 <div [class.fullscreen]="isFullScreen" class="panel">
 
+  <svg-refresh (click)="onRefresh()" class="svg" svgBase
+    color="#000"></svg-refresh>
+
   <svg-fullscreen (click)="toggleFullScreen()"
     *ngIf="isFullScreen; else fitFullScreen" class="svg" svgBase
     color="#000"></svg-fullscreen>

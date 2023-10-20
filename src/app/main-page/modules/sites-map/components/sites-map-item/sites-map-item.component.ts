@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UrlProviderService } from '../../../../services/url-provider.service';
 import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
@@ -12,12 +12,12 @@ import { iPageInTree } from 'src/app/main-page/models/ipage-in-tree';
   templateUrl: './sites-map-item.component.html',
   styleUrls: ['./sites-map-item.component.scss'],
 })
-export class SitesMapItemComponent implements OnDestroy {
+export class SitesMapItemComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription = new Subscription();
   @Input() page?: iPageInTree;
   @Input() site!: iSiteInTree;
   subItems: iPageInTree[] = [];
-
-  private subscriptions: Subscription = new Subscription();
+  isOpen: boolean = false;
 
   constructor(
     private siteTreeService: SitesTreeHttpService,
@@ -33,7 +33,7 @@ export class SitesMapItemComponent implements OnDestroy {
     }
   }
 
-  private getSubItems() {
+  ngOnInit(): void {
     const sub = this.page
       ? this.siteTreeService.getChildPages(this.site._id, this.page._id).subscribe((pages) => {
           this.defineSubItems(pages);
@@ -46,14 +46,6 @@ export class SitesMapItemComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-  }
-
-  toggleItem(event: any) {
-    if (event.target.checked) {
-      this.getSubItems();
-    } else {
-      this.subItems = [];
-    }
   }
 
   getPagesUrl() {

@@ -11,6 +11,7 @@ import { SvgFitFullscreenComponent } from 'src/app/shared/components/svg/svg-fit
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { SvgRefreshComponent } from 'src/app/shared/components/svg/svg-refresh/svg-refresh.component';
 
 @NgModule({
   declarations: [MainFrameComponent, UrlSafePipe, ButtonsPanelComponent, FrameComponent],
@@ -18,6 +19,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     SvgBaseDirective,
     SvgCloseComponent,
+    SvgRefreshComponent,
     SvgFullscreenComponent,
     SvgFitFullscreenComponent,
     MatRadioModule,
