@@ -10,10 +10,10 @@
 
 .fullscreen {
   position: static;
-  z-index: 1000;
+  z-index: 100;
 
   & iframe {
-    z-index: 1000;
+    z-index: 100;
   }
 }
 
@@ -27,7 +27,7 @@ iframe {
 }
 
 .radio-group {
-  z-index: 1001;
+  z-index: 101;
   position: absolute;
   top: -33px;
   left: 0;

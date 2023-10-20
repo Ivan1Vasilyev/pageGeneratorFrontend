@@ -21,7 +21,7 @@ export class MainFrameComponent implements OnInit, OnDestroy {
     private cityDataProviderService: CityDataProviderService
   ) {}
 
-  patchFlags(): string {
+  setMode(): string {
     return this.mode ? `&${this.mode}=true` : '';
   }
 

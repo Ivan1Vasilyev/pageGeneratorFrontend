@@ -1,17 +1,18 @@
 <div [class.fullscreen]="isFullScreen" class="panel">
 
-  <svg-refresh (click)="onRefresh()" class="svg" svgBase
+  <svg-refresh (click)="refresh.emit()" class="svg" svgBase
     color="#000"></svg-refresh>
 
-  <svg-fullscreen (click)="toggleFullScreen()"
+  <svg-fullscreen (click)="fullScreen.emit()"
     *ngIf="isFullScreen; else fitFullScreen" class="svg" svgBase
     color="#000"></svg-fullscreen>
 
   <ng-template #fitFullScreen>
-    <svg-fit-fullscreen (click)="toggleFullScreen()" class="svg" svgBase
+    <svg-fit-fullscreen (click)="fullScreen.emit()" class="svg" svgBase
       color="#000"></svg-fit-fullscreen>
   </ng-template>
 
-  <svg-close class="svg" svgBase color="#000" (click)="onClose()"></svg-close>
+  <svg-close class="svg" svgBase color="#000"
+    (click)="closeFrame.emit()"></svg-close>
 
 </div>

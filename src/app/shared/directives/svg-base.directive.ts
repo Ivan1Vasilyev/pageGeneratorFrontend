@@ -14,6 +14,7 @@ export class SvgBaseDirective implements OnInit {
 
   ngOnInit(): void {
     const svg = this.elRef.nativeElement.children[0];
+    this.elRef.nativeElement.style.height = this.sizeY || this.size;
 
     [...svg.children].forEach((i: any) => {
       if (i.nodeName === 'path') {

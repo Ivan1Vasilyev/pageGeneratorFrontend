@@ -10,16 +10,4 @@ export class ButtonsPanelComponent {
   @Output() fullScreen = new EventEmitter();
   @Output() closeFrame = new EventEmitter();
   @Output() refresh = new EventEmitter();
-
-  onClose() {
-    this.closeFrame.emit();
-  }
-
-  toggleFullScreen() {
-    this.fullScreen.emit();
-  }
-
-  onRefresh() {
-    this.refresh.emit();
-  }
 }
