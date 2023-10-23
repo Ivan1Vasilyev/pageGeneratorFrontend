@@ -39,7 +39,7 @@ export class LayoutsTreeComponent implements OnDestroy {
   }
 
   emitResult(event: string) {
-    this.layoutProviderService.setLayout(this.result + `.${event.trim()}`);
+    this.layoutProviderService.setLayout(`layouts.${this.result}` + `.${event.trim()}`);
     this.result = '';
   }
 }
