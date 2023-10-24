@@ -62,7 +62,7 @@ export class AddPageComponent implements OnInit, OnDestroy {
       displayText,
       siteId: this.siteId,
       parent: this.parent,
-      params: { title },
+      params: { title, content: [] },
     };
 
     const sub = this.editPagesHttpService.createPage(result).subscribe((res) => {
