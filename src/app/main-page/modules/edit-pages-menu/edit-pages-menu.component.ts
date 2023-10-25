@@ -50,7 +50,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
         [required, pattern(/(^\/$)|(^(\/(?![-_\/])[a-z0-9]+([-_]+[a-z0-9]+)*)+$)/i)],
       ],
       layout: [this.formDefaultData?.layout || '', [required]],
-      checkbox: false,
+      // checkbox: false,
     };
 
     this.formService.onInit(formInitObject);
