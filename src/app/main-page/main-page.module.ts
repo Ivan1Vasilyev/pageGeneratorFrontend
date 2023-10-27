@@ -18,6 +18,7 @@ import { SvgLocationComponent } from 'src/app/shared/components/svg/svg-location
 import { PopupComponent } from '../shared/components/popup/popup.component';
 import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
 import { CityDataProviderService } from './services/city-data-provider.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [MainPageComponent, InitialComponent, SelectCityComponent],
@@ -36,6 +37,7 @@ import { CityDataProviderService } from './services/city-data-provider.service';
     HeaderComponent,
     MatButtonModule,
     MatInputModule,
+    MatMenuModule,
     MatFormFieldModule,
     SvgLocationComponent,
     PopupComponent,

@@ -11,10 +11,19 @@
     <input (input)="onChange($event)" type="search" matInput>
   </mat-form-field>
 
-
   <div class="cities">
-    <button *ngFor="let city of displayedCities"
-      (click)="selectCity(city)">{{city.name}}</button>
+
+    <div *ngFor="let char of displayedCitiesByAlphabet; let i = index">
+      <div class="char">{{char.key}}</div>
+
+      <!-- <button mat-button [matMenuTriggerFor]="menu">{{char.key}}</button>
+      <mat-menu #menu="matMenu"> -->
+
+      <button *ngFor="let city of char.cities" (click)="selectCity(city)"
+        mat-menu-item>{{city.name}}</button>
+      <!-- </mat-menu> -->
+    </div>
+
   </div>
 
 </popup>

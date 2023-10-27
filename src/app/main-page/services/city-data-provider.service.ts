@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ICity } from '../models/icity';
+import { iCity } from '../models/icity';
 
 @Injectable()
 export class CityDataProviderService {
@@ -8,7 +8,9 @@ export class CityDataProviderService {
 
   public city$ = this.city.asObservable();
 
-  public setCity(city: ICity) {
-    this.city.next(city);
+  public setCity(city: iCity | undefined) {
+    if (city) {
+      this.city.next(city);
+    }
   }
 }

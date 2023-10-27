@@ -30,7 +30,12 @@ export class MainFrameComponent implements OnInit, OnDestroy {
       .pipe(
         mergeMap((url) =>
           this.cityDataProviderService.city$.pipe(
-            map((city) => `/sites/${city.translitName}.${url}?baseUrl=${this.baseUrl}`)
+            map((city) => {
+              if (/москва/i.test(city.name)) {
+                return `/sites/${url}?baseUrl=${this.baseUrl}`;
+              }
+              return `/sites/${city.translitName}.${url}?baseUrl=${this.baseUrl}`;
+            })
           )
         )
       )

@@ -3,7 +3,8 @@ import { CitiesProviderHttpService } from '../../services/cities-provider-http.s
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CityDataProviderService } from '../../services/city-data-provider.service';
-import { ICity } from '../../models/icity';
+import { iCity } from '../../models/icity';
+import { iCitiesByAlphabet } from '../../models/icities-by-alphabet';
 
 @Component({
   selector: 'select-city',
@@ -12,27 +13,30 @@ import { ICity } from '../../models/icity';
 })
 export class SelectCityComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
-  private cities: ICity[] = [];
-  displayedCities: ICity[] = [];
   isOpen: boolean = false;
-  selectedCity!: ICity | any;
+  selectedCity!: iCity;
+  сitiesByAlphabet: iCitiesByAlphabet[] = [];
+  displayedCitiesByAlphabet: iCitiesByAlphabet[] = [];
 
   constructor(
-    private citiesProviderService: CitiesProviderHttpService,
+    private citiesProviderHttpService: CitiesProviderHttpService,
     private cityDataProviderService: CityDataProviderService
   ) {}
 
   ngOnInit() {
-    const sub = this.citiesProviderService.getCities().subscribe((data) => {
+    const sub = this.citiesProviderHttpService.getCities().subscribe((data) => {
       if (data instanceof HttpErrorResponse) {
-        console.error('Ошибка при загрузке сайтов', data);
+        console.error('Ошибка при загрузке городов', data);
       } else {
-        this.cities = data;
-        this.selectedCity = this.cities.find((city) => city.name === 'Москва');
-        this.cityDataProviderService.setCity(this.selectedCity);
-        this.displayedCities = this.cities.sort(
-          (a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0)
-        );
+        this.displayedCitiesByAlphabet = this.сitiesByAlphabet = data;
+        for (const char of this.сitiesByAlphabet) {
+          const defaultCity = char.cities.find((city) => city.name === 'Москва');
+          if (defaultCity) {
+            this.selectedCity = defaultCity;
+            this.cityDataProviderService.setCity(this.selectedCity);
+            return;
+          }
+        }
       }
     });
     this.subscription.add(sub);
@@ -48,10 +52,15 @@ export class SelectCityComponent implements OnInit, OnDestroy {
 
   onChange(event: any) {
     const regexp = new RegExp(event.target.value, 'i');
-    this.displayedCities = this.cities.filter((city) => regexp.test(city.name));
+    this.displayedCitiesByAlphabet = this.сitiesByAlphabet
+      .map((char) => {
+        char.cities = char.cities.filter((city) => regexp.test(city.name));
+        return char;
+      })
+      .filter((char) => char.cities.length > 0);
   }
 
-  selectCity(city: ICity) {
+  selectCity(city: iCity) {
     this.selectedCity = city;
     this.cityDataProviderService.setCity(this.selectedCity);
     this.isOpen = false;
