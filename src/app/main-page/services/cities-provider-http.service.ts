@@ -9,9 +9,7 @@ import { iCitiesByAlphabet } from '../models/icities-by-alphabet';
 export class CitiesProviderHttpService {
   constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler) {}
 
-  getCities(): Observable<iCitiesByAlphabet[] | HttpErrorResponse> {
-    return this.http
-      .get<iCitiesByAlphabet[]>(`/api/sites/cities`)
-      .pipe(catchError(this.httpErrorHandler.handleError));
+  getCities(): Observable<iCity[] | HttpErrorResponse> {
+    return this.http.get<iCity[]>(`/api/sites/cities`).pipe(catchError(this.httpErrorHandler.handleError));
   }
 }

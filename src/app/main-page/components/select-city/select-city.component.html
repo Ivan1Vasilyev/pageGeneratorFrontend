@@ -5,25 +5,12 @@
 
 <popup [isOpen]="isOpen" [cssClass]="'select-city'" (closePopup)="onClose()">
 
-
   <mat-form-field class="mat-input">
     <mat-label>Поиск города</mat-label>
     <input (input)="onChange($event)" type="search" matInput>
   </mat-form-field>
 
-  <div class="cities">
-
-    <div *ngFor="let char of displayedCitiesByAlphabet; let i = index">
-      <div class="char">{{char.key}}</div>
-
-      <!-- <button mat-button [matMenuTriggerFor]="menu">{{char.key}}</button>
-      <mat-menu #menu="matMenu"> -->
-
-      <button *ngFor="let city of char.cities" (click)="selectCity(city)"
-        mat-menu-item>{{city.name}}</button>
-      <!-- </mat-menu> -->
-    </div>
-
-  </div>
+  <cities-map [cities]="displayedCities"
+    (selectedCity)="selectCity($event)"></cities-map>
 
 </popup>

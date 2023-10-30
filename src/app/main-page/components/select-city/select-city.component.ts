@@ -14,7 +14,9 @@ import { iCitiesByAlphabet } from '../../models/icities-by-alphabet';
 export class SelectCityComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   isOpen: boolean = false;
-  selectedCity!: iCity;
+  cities: iCity[] = [];
+  displayedCities: iCity[] = [];
+  selectedCity: iCity | undefined;
   сitiesByAlphabet: iCitiesByAlphabet[] = [];
   displayedCitiesByAlphabet: iCitiesByAlphabet[] = [];
 
@@ -24,18 +26,17 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const sub = this.citiesProviderHttpService.getCities().subscribe((data) => {
+    const sub = this.citiesProviderHttpService.getCities().subscribe(data => {
       if (data instanceof HttpErrorResponse) {
         console.error('Ошибка при загрузке городов', data);
       } else {
-        this.displayedCitiesByAlphabet = this.сitiesByAlphabet = data;
-        for (const char of this.сitiesByAlphabet) {
-          const defaultCity = char.cities.find((city) => city.name === 'Москва');
-          if (defaultCity) {
-            this.selectedCity = defaultCity;
-            this.cityDataProviderService.setCity(this.selectedCity);
-            return;
-          }
+        this.cities = this.displayedCities = data;
+
+        const defaultCity = this.cities.find(city => city.name === 'Москва');
+        if (defaultCity) {
+          this.selectedCity = defaultCity;
+          this.cityDataProviderService.setCity(this.selectedCity);
+          return;
         }
       }
     });
@@ -52,16 +53,11 @@ export class SelectCityComponent implements OnInit, OnDestroy {
 
   onChange(event: any) {
     const regexp = new RegExp(event.target.value, 'i');
-    this.displayedCitiesByAlphabet = this.сitiesByAlphabet
-      .map((char) => {
-        char.cities = char.cities.filter((city) => regexp.test(city.name));
-        return char;
-      })
-      .filter((char) => char.cities.length > 0);
+    this.displayedCities = this.cities.filter(city => regexp.test(city.name));
   }
 
-  selectCity(city: iCity) {
-    this.selectedCity = city;
+  selectCity($city: iCity) {
+    this.selectedCity = $city;
     this.cityDataProviderService.setCity(this.selectedCity);
     this.isOpen = false;
   }

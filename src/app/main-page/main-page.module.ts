@@ -19,15 +19,11 @@ import { PopupComponent } from '../shared/components/popup/popup.component';
 import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
 import { CityDataProviderService } from './services/city-data-provider.service';
 import { MatMenuModule } from '@angular/material/menu';
+import { CitiesMapComponent } from './components/cities-map/cities-map.component';
 
 @NgModule({
-  declarations: [MainPageComponent, InitialComponent, SelectCityComponent],
-  providers: [
-    PageDataProviderService,
-    UrlProviderService,
-    CitiesProviderHttpService,
-    CityDataProviderService,
-  ],
+  declarations: [MainPageComponent, InitialComponent, SelectCityComponent, CitiesMapComponent],
+  providers: [PageDataProviderService, UrlProviderService, CitiesProviderHttpService, CityDataProviderService],
   imports: [
     CommonModule,
     MainPageRoutingModule,

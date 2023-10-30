@@ -1,0 +1,44 @@
+import { Component, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { iCity } from '../../models/icity';
+import { iCitiesByAlphabet } from '../../models/icities-by-alphabet';
+
+@Component({
+  selector: 'cities-map',
+  templateUrl: './cities-map.component.html',
+  styleUrls: ['./cities-map.component.scss'],
+})
+export class CitiesMapComponent implements OnChanges {
+  @Input() cities: iCity[] = [];
+  @Output() selectedCity = new EventEmitter();
+
+  displayedCities: iCitiesByAlphabet[] = [];
+
+  selectCity(city: iCity) {
+    this.selectedCity.emit(city);
+  }
+
+  getCitiesAlphabetMap(cities: iCity[]): iCitiesByAlphabet[] {
+    const citiesAlphabetMap: { [key: string]: iCity[] } = cities.reduce((map: { [key: string]: iCity[] }, city) => {
+      const firstCapitalChar = Array.from(city.name).find(i => /[ЁА-Я]/.test(i)) || 'Другие';
+      if (map[firstCapitalChar]) {
+        map[firstCapitalChar].push(city);
+      } else {
+        map[firstCapitalChar] = [city];
+      }
+      return map;
+    }, {} as { [key: string]: iCity[] });
+
+    return Object.keys(citiesAlphabetMap)
+      .sort((a, b) => a.localeCompare(b))
+      .map(key => ({
+        key,
+        cities: citiesAlphabetMap[key].sort((a, b) => a.name.localeCompare(b.name)),
+      }));
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['cities']) {
+      this.displayedCities = this.getCitiesAlphabetMap(this.cities);
+    }
+  }
+}
