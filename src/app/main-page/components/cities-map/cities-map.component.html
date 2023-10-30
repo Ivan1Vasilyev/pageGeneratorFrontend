@@ -1,10 +1,7 @@
-<div *ngFor="let char of displayedCities; let i = index">
+<div class="char-wrap" *ngFor="let char of displayedCities; let i = index">
   <div class="char">{{char.key}}</div>
-
-  <!-- <button mat-button [matMenuTriggerFor]="menu">{{char.key}}</button>
-  <mat-menu #menu="matMenu"> -->
 
   <button *ngFor="let city of char.cities" (click)="selectCity(city)"
     mat-menu-item>{{city.name}}</button>
-  <!-- </mat-menu> -->
+
 </div>

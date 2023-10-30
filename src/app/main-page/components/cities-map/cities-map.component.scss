@@ -1,5 +1,15 @@
+@use '../../../../styles/variables' as v;
+
 :host {
   column-count: 5;
+  max-height: v.$city-select-height;
+  overflow: auto;
+}
+
+.char-wrap {
+  -webkit-column-break-inside: avoid;
+  break-inside: avoid-column;
+  page-break-inside: avoid;
 }
 
 .char {
