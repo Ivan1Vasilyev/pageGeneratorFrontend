@@ -23,6 +23,8 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    if (this.formService.submitErrorText) this.formService.submitErrorText = '';
+    if (this.formService.submitSuccessText) this.formService.submitSuccessText = '';
     const { required } = Validators;
 
     this.formService.onInit({

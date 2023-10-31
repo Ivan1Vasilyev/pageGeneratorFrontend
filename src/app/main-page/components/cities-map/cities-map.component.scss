@@ -7,9 +7,7 @@
 }
 
 .char-wrap {
-  -webkit-column-break-inside: avoid;
   break-inside: avoid-column;
-  page-break-inside: avoid;
 }
 
 .char {
