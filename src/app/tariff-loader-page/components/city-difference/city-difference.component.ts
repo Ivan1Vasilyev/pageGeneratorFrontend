@@ -2,8 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffLoaderHttpService } from '../../services/tariff-loader-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { iAliasInput, isIAliasInput } from '../../models/ialias-input';
 
 @Component({
   selector: 'app-city-difference',
@@ -36,9 +37,7 @@ export class CityDifferenceComponent implements OnInit, OnDestroy {
     const { required } = Validators;
 
     const aliases = this.fb.array([]);
-    this.form = this.fb.group({
-      aliases: aliases,
-    });
+    this.form = this.fb.group({ aliases: aliases });
 
     data.forEach((city) => {
       aliases.push(
@@ -47,6 +46,13 @@ export class CityDifferenceComponent implements OnInit, OnDestroy {
           city: [city, [required]],
         }) as any
       );
+    });
+
+    aliases.controls = aliases.controls.sort((a, b) => {
+      if (isIAliasInput(a.value) && isIAliasInput(b.value)) {
+        return a.value.alias.localeCompare(b.value.alias);
+      }
+      return 1;
     });
   }
 
