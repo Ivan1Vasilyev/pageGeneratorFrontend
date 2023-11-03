@@ -15,15 +15,12 @@ export class SitesTreeHttpService {
       .pipe(catchError(this.httpErrorHandler.handleError));
   }
 
-  getRootPages(siteId: string): Observable<iPageInTree[] | HttpErrorResponse> {
+  getChildPages(
+    siteId: string,
+    pageId: string | null
+  ): Observable<iPageInTree[] | HttpErrorResponse> {
     return this.http
-      .get<iPageInTree[]>(`/api/sites/tree/site/${siteId}`)
-      .pipe(catchError(this.httpErrorHandler.handleError));
-  }
-
-  getChildPages(siteId: string, pageId: string): Observable<iPageInTree[] | HttpErrorResponse> {
-    return this.http
-      .get<iPageInTree[]>(`/api/sites/tree/site/${siteId}/page/${pageId}`)
+      .get<iPageInTree[]>(`/api/sites/tree/site/${siteId}${pageId ? '/page/' + pageId : ''}`)
       .pipe(catchError(this.httpErrorHandler.handleError));
   }
 

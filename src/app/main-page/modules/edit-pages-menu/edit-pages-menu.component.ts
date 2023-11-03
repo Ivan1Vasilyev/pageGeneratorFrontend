@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, Output, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnDestroy,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LayoutsHttpService } from './services/layouts-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -51,7 +60,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
   private initLayoutControl() {
     this.layoutControl = this.formService.form.controls['layout'];
 
-    const layoutSub = this.layoutProviderService.layout$.subscribe(layout => {
+    const layoutSub = this.layoutProviderService.layout$.subscribe((layout) => {
       this.layoutControl.setValue(layout);
       this.layoutControl.markAsDirty();
     });
@@ -59,7 +68,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private getLayouts() {
-    const layoutsHttpSub = this.layoutsHttpService.getLayouts().subscribe(data => {
+    const layoutsHttpSub = this.layoutsHttpService.getLayouts().subscribe((data) => {
       if (data instanceof HttpErrorResponse) {
         console.error('failed in getting layouts');
       } else {
@@ -100,7 +109,9 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
 
   onReset(): void {
     this.formService.resetForm();
-    Object.entries(this.formDefaultData).forEach(entry => this.formService.form.controls[entry[0]].setValue(entry[1]));
+    Object.entries(this.formDefaultData).forEach((entry) =>
+      this.formService.form.controls[entry[0]].setValue(entry[1])
+    );
   }
 
   onSubmit(): void {

@@ -34,13 +34,11 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const sub = this.page
-      ? this.siteTreeService.getChildPages(this.site._id, this.page._id).subscribe((pages) => {
-          this.defineSubItems(pages);
-        })
-      : this.siteTreeService.getRootPages(this.site._id).subscribe((pages) => {
-          this.defineSubItems(pages);
-        });
+    const sub = this.siteTreeService
+      .getChildPages(this.site._id, this.page?._id || null)
+      .subscribe((pages) => {
+        this.defineSubItems(pages);
+      });
     this.subscriptions.add(sub);
   }
 

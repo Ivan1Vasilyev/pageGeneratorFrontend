@@ -5,11 +5,9 @@
     </label>
   </div>
 
-  <context-menu (click)="getPagesUrl()"
-    [buttonText]="page?.displayText || site.domain">
+  <context-menu (click)="getPagesUrl()" [buttonText]="page?.displayText || site.domain">
     <a routerLink="/main/add-page" mat-menu-item>Добавить страницу</a>
-    <a *ngIf="page; else selectCity" routerLink="/main/update-page"
-      mat-menu-item>Редактировать</a>
+    <a *ngIf="page; else selectCity" routerLink="/main/update-page" mat-menu-item>Редактировать</a>
   </context-menu>
 
   <ng-template #selectCity>
