@@ -1,7 +1,8 @@
 <mat-checkbox [(ngModel)]="differenceOnly" class="checkbox"
   (change)="refreshForm()">Только различия</mat-checkbox>
 
-<form *ngIf="form && aliases" [formGroup]="form" (ngSubmit)="onSubmit()">
+<form class="form" *ngIf="form && aliases" [formGroup]="form"
+  (ngSubmit)="onSubmit()">
   <button class="submit-button" type="submit"
     mat-raised-button>загрузить</button>
 
