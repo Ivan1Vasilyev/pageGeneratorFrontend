@@ -1,19 +1,11 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  OnDestroy,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LayoutsHttpService } from './services/layouts-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormService } from 'src/app/shared/services/form.service';
 import { AbstractControl, Validators } from '@angular/forms';
 import { LayoutProviderService } from './services/layout-provider.service';
+import { iEditPagesFormTemplate } from './models/iedit-pages-form-template';
 
 @Component({
   selector: 'edit-pages-menu',
@@ -27,7 +19,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
   @Input() formDefaultData!: any;
   @Input() submitSuccessText!: string;
   @Input() submitErrorText!: string;
-  @Output() customSubmit = new EventEmitter<any>();
+  @Output() customSubmit = new EventEmitter<iEditPagesFormTemplate>();
   private subscriptions: Subscription = new Subscription();
   private layoutControl!: AbstractControl;
   dataMap!: Map<string, string[]>;
@@ -59,7 +51,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
   private initLayoutControl() {
     this.layoutControl = this.formService.form.controls['layout'];
 
-    const layoutSub = this.layoutProviderService.layout$.subscribe((layout) => {
+    const layoutSub = this.layoutProviderService.layout$.subscribe(layout => {
       this.layoutControl.setValue(layout);
       this.layoutControl.markAsDirty();
     });
@@ -67,7 +59,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private getLayouts() {
-    const layoutsHttpSub = this.layoutsHttpService.getLayouts().subscribe((data) => {
+    const layoutsHttpSub = this.layoutsHttpService.getLayouts().subscribe(data => {
       if (data instanceof HttpErrorResponse) {
         console.error('failed in getting layouts');
       } else {
@@ -91,7 +83,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['submitSuccessText']) {
-      this.formService.submitSuccessText = this.submitErrorText;
+      this.formService.submitSuccessText = this.submitSuccessText;
     }
     if (changes['submitErrorText']) {
       this.formService.submitErrorText = this.submitErrorText;
@@ -108,9 +100,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
 
   onReset(): void {
     this.formService.resetForm();
-    Object.entries(this.formDefaultData).forEach((entry) =>
-      this.formService.form.controls[entry[0]].setValue(entry[1])
-    );
+    Object.entries(this.formDefaultData).forEach(entry => this.formService.form.controls[entry[0]].setValue(entry[1]));
   }
 
   onSubmit(): void {

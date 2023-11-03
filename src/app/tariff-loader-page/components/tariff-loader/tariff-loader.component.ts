@@ -23,8 +23,6 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    if (this.formService.submitErrorText) this.formService.submitErrorText = '';
-    if (this.formService.submitSuccessText) this.formService.submitSuccessText = '';
     const { required } = Validators;
 
     this.formService.onInit({
@@ -32,7 +30,7 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
       file: ['', [required]],
     });
 
-    const loadersSub = this.tariffLoaderHttpService.getLoaders().subscribe((loaders) => {
+    const loadersSub = this.tariffLoaderHttpService.getLoaders().subscribe(loaders => {
       if (loaders instanceof HttpErrorResponse) {
         this.formService.submitErrorText = 'Ошибка на сервере при загрузке лоадеров';
       } else {
@@ -45,6 +43,7 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    this.formService.resetForm();
   }
 
   onFileSelected(event: any): void {
@@ -57,16 +56,14 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
     formControl.append('file', this.selectedFile);
     formControl.append('loader', loader);
 
-    const submitSub = this.tariffLoaderHttpService
-      .downloadTariffs(formControl)
-      .subscribe((response) => {
-        if (response.ok) {
-          this.router.navigate([`/tariffs-loader/city-difference/${response.uuid}`]);
-        } else {
-          console.log(response);
-          this.formService.submitErrorText = 'Ошибка на сервере';
-        }
-      });
+    const submitSub = this.tariffLoaderHttpService.downloadTariffs(formControl).subscribe(response => {
+      if (response.ok) {
+        this.router.navigate([`/tariffs-loader/city-difference/${response.uuid}`]);
+      } else {
+        console.log(response);
+        this.formService.submitErrorText = typeof response.error === 'string' ? response.error : 'Ошибка на сервере';
+      }
+    });
 
     this.subscriptions.add(submitSub);
   }

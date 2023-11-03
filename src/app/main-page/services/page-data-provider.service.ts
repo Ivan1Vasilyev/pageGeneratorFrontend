@@ -7,7 +7,7 @@ import { iPageInTree } from '../models/ipage-in-tree';
 export class PageDataProviderService {
   private pageData = new BehaviorSubject<iSiteInTree | iPageInTree>({} as iSiteInTree);
 
-  public getPageData() {
+  public getPageData(): iSiteInTree | iPageInTree {
     return this.pageData.getValue();
   }
 

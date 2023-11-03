@@ -27,9 +27,8 @@
           formControlName="layout" required matInput>
       </mat-form-field>
 
-      <layouts-tree [dataMap]="dataMap" [result]="''"
-        [trigger]="'Выбрать layout'" [data]="initialLayouts"
-        [isRootNode]="true"></layouts-tree>
+      <layouts-tree [dataMap]="dataMap" [result]="''" [trigger]="'Выбрать layout'"
+        [data]="initialLayouts" [isRootNode]="true"></layouts-tree>
 
       <!-- <mat-checkbox formControlName="checkbox">Checkbox</mat-checkbox> -->
 
@@ -38,16 +37,15 @@
           [error]="formService.submitErrorText">
         </p>
 
-        <svg-done svgBase *ngIf="submitSuccessText"
-          [color]="'#019f01'"></svg-done>
+        <svg-done svgBase *ngIf="formService.submitSuccessText" [color]="'#019f01'"></svg-done>
       </div>
 
       <div class="submit-area">
-        <button type="submit" [disabled]="formService.isSubmitDisabled()"
-          mat-raised-button color="primary">{{submitButtonText}}</button>
+        <button type="submit" [disabled]="formService.isSubmitDisabled()" mat-raised-button
+          color="primary">{{submitButtonText}}</button>
 
-        <button type="button" (click)="onReset()" mat-raised-button
-          color="primary">Обнулить форму</button>
+        <button type="button" (click)="onReset()" mat-raised-button color="primary">
+          Обнулить форму</button>
 
       </div>
 

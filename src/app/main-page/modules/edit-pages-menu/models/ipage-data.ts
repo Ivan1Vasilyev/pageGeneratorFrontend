@@ -6,7 +6,6 @@ export interface iPageData {
   displayText: string;
   parent: string | null;
   params: {
-    content: any[];
     title?: string;
   };
 }

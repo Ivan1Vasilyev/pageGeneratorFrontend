@@ -19,11 +19,10 @@
       <input type="password" formControlName="password" required matInput>
     </mat-form-field>
 
-    <p submitText [error]="formService.submitErrorText" class="submit-text">
-    </p>
+    <p submitText [error]="formService.submitErrorText" class="submit-text"></p>
     <div class="submit-area">
-      <button type="submit" [disabled]="formService.isSubmitDisabled()"
-        mat-raised-button color="primary">Войти</button>
+      <button type="submit" [disabled]="formService.isSubmitDisabled()" mat-raised-button
+        color="primary">Войти</button>
 
     </div>
   </form>

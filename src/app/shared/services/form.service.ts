@@ -20,6 +20,7 @@ export class FormService {
 
   resetForm() {
     this.form.reset();
+    this.resetSubmitText();
   }
 
   getFormValues() {

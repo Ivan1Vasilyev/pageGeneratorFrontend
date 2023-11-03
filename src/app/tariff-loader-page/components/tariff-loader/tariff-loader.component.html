@@ -1,22 +1,20 @@
 <div class="wrap">
 
   <h2>Загрузка тарифов</h2>
-  <form class="form" [formGroup]="formService.form"
-    (change)="formService.resetSubmitText()" (ngSubmit)="onSubmit()">
+  <form class="form" [formGroup]="formService.form" (change)="formService.resetSubmitText()"
+    (ngSubmit)="onSubmit()">
 
-    <button class="file-input" type="button" mat-raised-button
-      (click)="fileInput.click()">Выбрать
+    <button class="file-input" type="button" mat-raised-button (click)="fileInput.click()">Выбрать
       файл</button>
-    <input formControlName="file" (change)="onFileSelected($event)" hidden
-      #fileInput type="file">
+    <input formControlName="file" (change)="onFileSelected($event)" hidden #fileInput type="file">
     <p class="file-name">
       <span>{{selectedFile?.name}}</span>
     </p>
 
     <mat-form-field>
       <mat-label>Выбрать загрузчик</mat-label>
-      <mat-select (selectionChange)="formService.resetSubmitText()"
-        formControlName="loader" required>
+      <mat-select (selectionChange)="formService.resetSubmitText()" formControlName="loader"
+        required>
         <mat-option *ngFor="let loader of loaders" [value]="loader">
           {{loader}}
         </mat-option>
@@ -24,16 +22,15 @@
     </mat-form-field>
 
     <div>
-      <span submitText [error]="formService.submitErrorText"
-        class="submit-text"></span>
+      <span submitText [error]="formService.submitErrorText" class="submit-text"></span>
 
       <!-- <svg-done *ngIf="!isSubmitOnError && submitText"
         [color]="'#019f01'"></svg-done> -->
 
     </div>
 
-    <button [disabled]="formService.form.invalid" type="submit"
-      mat-raised-button color="primary">загрузить</button>
+    <button [disabled]="formService.isSubmitDisabled()" type="submit" mat-raised-button
+      color="primary">загрузить</button>
 
   </form>
 

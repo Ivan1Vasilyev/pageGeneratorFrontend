@@ -26,12 +26,13 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.formService.resetForm();
     this.subscriptions.unsubscribe();
   }
 
   onSubmit() {
     const data: iLoginFormData = this.formService.getFormValues();
-    const sub = this.loginHttpService.login(data).subscribe((response) => {
+    const sub = this.loginHttpService.login(data).subscribe(response => {
       if (response instanceof HttpErrorResponse) {
         console.error('failed in login');
         this.formService.submitErrorText = 'Неверный логин или пароль';

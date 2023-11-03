@@ -4,7 +4,7 @@ import { PageDataProviderService } from '../../../../services/page-data-provider
 import { EditPagesHttpService } from '../../services/edit-pages-http.service';
 import { iEditPagesFormTemplate } from '../../models/iedit-pages-form-template';
 import { iPageInTree } from 'src/app/main-page/models/ipage-in-tree';
-import { isISiteInTree } from 'src/app/main-page/models/isite-in-tree';
+import { iSiteInTree, isISiteInTree } from 'src/app/main-page/models/isite-in-tree';
 
 @Component({
   selector: 'update-page',
@@ -12,7 +12,7 @@ import { isISiteInTree } from 'src/app/main-page/models/isite-in-tree';
 })
 export class UpdatePageComponent {
   private subscriptions: Subscription = new Subscription();
-  private currentPageData$: iPageInTree = {} as iPageInTree;
+  private pageId: string = '';
   formDefaultData: iEditPagesFormTemplate = { layout: '', title: '', url: '', displayText: '' };
 
   submitSuccessText: string = '';
@@ -24,19 +24,17 @@ export class UpdatePageComponent {
   ) {}
 
   ngOnInit() {
-    const data = this.pageDataProviderService.getPageData();
+    const data: iSiteInTree | iPageInTree = this.pageDataProviderService.getPageData();
 
     if (!isISiteInTree(data)) {
-      this.currentPageData$ = data;
+      this.pageId = data._id;
+      this.formDefaultData.url = data.url;
+      this.formDefaultData.layout = data.layout;
+      this.formDefaultData.displayText = data.displayText;
+      this.formDefaultData.title = data.params?.title || '';
+    } else {
+      this.submitErrorText = 'Нет данных страницы';
     }
-    if (!this.currentPageData$.siteId) {
-      this.submitErrorText = 'Нет данных страницы!';
-    }
-
-    this.formDefaultData.url = this.currentPageData$.url;
-    this.formDefaultData.layout = this.currentPageData$.layout;
-    this.formDefaultData.displayText = this.currentPageData$.displayText;
-    this.formDefaultData.title = this.currentPageData$.params?.title || '';
   }
 
   ngOnDestroy(): void {
@@ -44,14 +42,12 @@ export class UpdatePageComponent {
   }
 
   onSubmit(data: iEditPagesFormTemplate): void {
-    const _id = this.currentPageData$._id;
-
-    const sub = this.editPagesHttpService.updatePage(data, _id).subscribe((res) => {
+    const sub = this.editPagesHttpService.updatePage(data, this.pageId).subscribe(res => {
       if (res.ok) {
-        this.submitSuccessText = 'Страница обновлена!';
+        this.submitSuccessText = 'Страница обновлена';
       } else {
         console.error(res);
-        this.submitErrorText = 'Ошибка на сервере. Смотрите консоль!';
+        this.submitErrorText = 'Ошибка на сервере. Смотрите консоль.';
       }
     });
     this.subscriptions.add(sub);

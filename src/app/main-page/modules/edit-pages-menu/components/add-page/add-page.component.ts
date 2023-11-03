@@ -13,7 +13,6 @@ import { iPageInTree } from 'src/app/main-page/models/ipage-in-tree';
 })
 export class AddPageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  private parentData$: iSiteInTree | iPageInTree = {} as iSiteInTree;
   private parentName: string = '';
   private parent: null | string = null;
   private siteId: string = '';
@@ -32,19 +31,19 @@ export class AddPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.parentData$ = this.pageDataProviderService.getPageData();
+    const data: iSiteInTree | iPageInTree = this.pageDataProviderService.getPageData();
 
-    if (isISiteInTree(this.parentData$)) {
-      this.parentName = this.parentData$.domain;
-      this.siteId = this.parentData$._id;
+    if (isISiteInTree(data)) {
+      this.parentName = data.domain;
+      this.siteId = data._id;
     } else {
-      this.parentName = this.parentData$.displayText;
-      this.formDefaultData.url = this.parentData$.url;
-      this.siteId = this.parentData$.siteId;
-      this.parent = this.parentData$._id;
+      this.parentName = data.displayText;
+      this.formDefaultData.url = data.url;
+      this.siteId = data.siteId;
+      this.parent = data._id;
     }
 
-    if (!Object.keys(this.parentData$).length) {
+    if (!Object.keys(data).length) {
       this.submitErrorText = 'Нет данных страницы-родителя или сайта';
     }
   }
@@ -62,10 +61,10 @@ export class AddPageComponent implements OnInit, OnDestroy {
       displayText,
       siteId: this.siteId,
       parent: this.parent,
-      params: { title, content: [] },
+      params: { title },
     };
 
-    const sub = this.editPagesHttpService.createPage(result).subscribe((res) => {
+    const sub = this.editPagesHttpService.createPage(result).subscribe(res => {
       if (res.acknowledged) {
         this.submitSuccessText = 'Страница создана!';
       } else {
