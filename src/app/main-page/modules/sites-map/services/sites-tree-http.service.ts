@@ -20,7 +20,7 @@ export class SitesTreeHttpService {
     pageId: string | null
   ): Observable<iPageInTree[] | HttpErrorResponse> {
     return this.http
-      .get<iPageInTree[]>(`/api/sites/tree/site/${siteId}${pageId ? '/page/' + pageId : ''}`)
+      .get<iPageInTree[]>(`/api/sites/tree/site/${siteId}${pageId ? `/page/${pageId}` : ''}`)
       .pipe(catchError(this.httpErrorHandler.handleError));
   }
 

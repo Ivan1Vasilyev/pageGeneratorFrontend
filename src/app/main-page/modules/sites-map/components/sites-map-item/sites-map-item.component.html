@@ -7,11 +7,11 @@
 
   <context-menu (click)="getPagesUrl()" [buttonText]="page?.displayText || site.domain">
     <a routerLink="/main/add-page" mat-menu-item>Добавить страницу</a>
-    <a *ngIf="page; else selectCity" routerLink="/main/update-page" mat-menu-item>Редактировать</a>
+    <a *ngIf="page; else siteItems" routerLink="/main/update-page" mat-menu-item>Редактировать</a>
   </context-menu>
 
-  <ng-template #selectCity>
-    <site-context-menu [providerIds]="site.providers"></site-context-menu>
+  <ng-template #siteItems>
+    <site-context-menu-items [providerIds]="site.providers"></site-context-menu-items>
   </ng-template>
 
 </div>

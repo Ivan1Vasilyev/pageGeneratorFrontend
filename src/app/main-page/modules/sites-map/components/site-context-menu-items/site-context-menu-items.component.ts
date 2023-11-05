@@ -1,15 +1,14 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
-  selector: 'site-context-menu',
-  templateUrl: './site-context-menu.component.html',
-  styleUrls: ['./site-context-menu.component.scss'],
+  selector: 'site-context-menu-items',
+  templateUrl: './site-context-menu-items.component.html',
+  styleUrls: ['./site-context-menu-items.component.scss'],
 })
-export class SiteContextMenuComponent implements OnInit, OnDestroy {
+export class SiteContextMenuItemsComponent implements OnInit, OnDestroy {
   @Input() providerIds: string[] = [];
   private subscription: Subscription = new Subscription();
   private selectedProvider: any; // interface for providers

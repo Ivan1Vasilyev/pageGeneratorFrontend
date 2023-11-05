@@ -7,7 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MainPageRoutingModule } from '../../main-page-routing.module';
 import { CommonModule } from '@angular/common';
-import { SiteContextMenuComponent } from './components/site-context-menu/site-context-menu.component';
+import { SiteContextMenuItemsComponent } from './components/site-context-menu-items/site-context-menu-items.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
     SitesMapItemComponent,
     SitesMapComponent,
     ContextMenuComponent,
-    SiteContextMenuComponent,
+    SiteContextMenuItemsComponent,
   ],
   imports: [CommonModule, MainPageRoutingModule, FormsModule, MatMenuModule, MatButtonModule],
   providers: [SitesTreeHttpService],

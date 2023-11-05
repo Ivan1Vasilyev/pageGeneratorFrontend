@@ -25,19 +25,15 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
     private urlProviderServise: UrlProviderService
   ) {}
 
-  private defineSubItems(data: iPageInTree[] | HttpErrorResponse) {
-    if (data instanceof HttpErrorResponse) {
-      console.error(data);
-    } else {
-      this.subItems = data;
-    }
-  }
-
   ngOnInit(): void {
     const sub = this.siteTreeService
       .getChildPages(this.site._id, this.page?._id || null)
-      .subscribe((pages) => {
-        this.defineSubItems(pages);
+      .subscribe((data) => {
+        if (data instanceof HttpErrorResponse) {
+          console.error(data);
+        } else {
+          this.subItems = data;
+        }
       });
     this.subscriptions.add(sub);
   }

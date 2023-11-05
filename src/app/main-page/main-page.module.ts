@@ -23,7 +23,12 @@ import { CitiesMapComponent } from './components/cities-map/cities-map.component
 
 @NgModule({
   declarations: [MainPageComponent, InitialComponent, SelectCityComponent, CitiesMapComponent],
-  providers: [PageDataProviderService, UrlProviderService, CitiesProviderHttpService, CityDataProviderService],
+  providers: [
+    PageDataProviderService,
+    UrlProviderService,
+    CitiesProviderHttpService,
+    CityDataProviderService,
+  ],
   imports: [
     CommonModule,
     MainPageRoutingModule,
