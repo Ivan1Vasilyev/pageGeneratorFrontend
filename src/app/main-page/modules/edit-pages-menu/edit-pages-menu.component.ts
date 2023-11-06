@@ -46,10 +46,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
     const formInitObject = {
       displayText: [this.formDefaultData?.displayText || '', [required]],
       title: this.formDefaultData?.title || '',
-      url: [
-        this.formDefaultData?.url || '/',
-        [required, pattern(/(^\/$)|(^(\/(?![-_\/])[a-z0-9]+([-_]+[a-z0-9]+)*)+$)/i)],
-      ],
+      url: [this.formDefaultData?.url || '/', [required]],
       layout: [this.formDefaultData?.layout || '', [required]],
       // checkbox: false,
     };
