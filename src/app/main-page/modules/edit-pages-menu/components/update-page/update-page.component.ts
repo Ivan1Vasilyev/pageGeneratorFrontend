@@ -13,7 +13,13 @@ import { iSiteInTree, isISiteInTree } from 'src/app/main-page/models/isite-in-tr
 export class UpdatePageComponent {
   private subscriptions: Subscription = new Subscription();
   private pageId: string = '';
-  formDefaultData: iEditPagesFormTemplate = { layout: '', title: '', url: '', displayText: '' };
+  formDefaultData: iEditPagesFormTemplate = {
+    layout: '',
+    title: '',
+    url: '',
+    displayText: '',
+    isDynamic: false,
+  };
 
   submitSuccessText: string = '';
   submitErrorText: string = '';
@@ -32,6 +38,7 @@ export class UpdatePageComponent {
       this.formDefaultData.layout = data.layout;
       this.formDefaultData.displayText = data.displayText;
       this.formDefaultData.title = data.params?.title || '';
+      this.formDefaultData.isDynamic = data.isDynamic ?? false;
     } else {
       this.submitErrorText = 'Нет данных страницы';
     }
@@ -42,7 +49,7 @@ export class UpdatePageComponent {
   }
 
   onSubmit(data: iEditPagesFormTemplate): void {
-    const sub = this.editPagesHttpService.updatePage(data, this.pageId).subscribe(res => {
+    const sub = this.editPagesHttpService.updatePage(data, this.pageId).subscribe((res) => {
       if (res.ok) {
         this.submitSuccessText = 'Страница обновлена';
       } else {

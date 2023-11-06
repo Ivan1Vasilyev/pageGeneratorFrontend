@@ -3,4 +3,5 @@ export interface iEditPagesFormTemplate {
   url: string;
   title: string;
   layout: string;
+  isDynamic: boolean;
 }

@@ -53,18 +53,19 @@ export class AddPageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(formData: iEditPagesFormTemplate): void {
-    const { layout, url, displayText, title } = formData;
+    const { layout, url, displayText, title, isDynamic } = formData;
 
     const result: iPageData = {
       layout,
-      url: url.trim(),
       displayText,
+      isDynamic,
+      url: url.trim(),
       siteId: this.siteId,
       parent: this.parent,
       params: { title },
     };
 
-    const sub = this.editPagesHttpService.createPage(result).subscribe(res => {
+    const sub = this.editPagesHttpService.createPage(result).subscribe((res) => {
       if (res.acknowledged) {
         this.submitSuccessText = 'Страница создана!';
       } else {

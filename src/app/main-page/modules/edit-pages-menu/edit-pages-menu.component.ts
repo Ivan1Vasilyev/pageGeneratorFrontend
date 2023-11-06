@@ -48,7 +48,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
       title: this.formDefaultData?.title || '',
       url: [this.formDefaultData?.url || '/', [required]],
       layout: [this.formDefaultData?.layout || '', [required]],
-      // checkbox: false,
+      isDynamic: [this.formDefaultData.isDynamic || false, [required]],
     };
 
     this.formService.onInit(formInitObject);

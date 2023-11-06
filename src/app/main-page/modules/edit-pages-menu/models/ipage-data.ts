@@ -4,6 +4,7 @@ export interface iPageData {
   siteId: string;
   url: string;
   displayText: string;
+  isDynamic: boolean;
   parent: string | null;
   params: {
     title?: string;
