@@ -4,8 +4,8 @@ import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { iSiteInTree } from 'src/app/main-page/models/isite-in-tree';
-import { iPageInTree } from 'src/app/main-page/models/ipage-in-tree';
+import { iSite } from 'src/app/main-page/models/isite';
+import { iPage } from 'src/app/main-page/models/ipage';
 
 @Component({
   selector: 'sites-map-item',
@@ -14,9 +14,9 @@ import { iPageInTree } from 'src/app/main-page/models/ipage-in-tree';
 })
 export class SitesMapItemComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  @Input() page?: iPageInTree;
-  @Input() site!: iSiteInTree;
-  subItems: iPageInTree[] = [];
+  @Input() page?: iPage;
+  @Input() site!: iSite;
+  subItems: iPage[] = [];
   isOpen: boolean = false;
 
   constructor(
@@ -26,15 +26,13 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const sub = this.siteTreeService
-      .getChildPages(this.site._id, this.page?._id || null)
-      .subscribe((data) => {
-        if (data instanceof HttpErrorResponse) {
-          console.error(data);
-        } else {
-          this.subItems = data;
-        }
-      });
+    const sub = this.siteTreeService.getChildPages(this.site._id, this.page?._id || null).subscribe(data => {
+      if (data instanceof HttpErrorResponse) {
+        console.error(data);
+      } else {
+        this.subItems = data;
+      }
+    });
     this.subscriptions.add(sub);
   }
 

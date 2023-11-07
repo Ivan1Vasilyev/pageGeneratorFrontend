@@ -1,7 +1,8 @@
 <div class="wrap">
   <div class="map">
     <h2>{{menuTitle}}</h2>
-    <form [formGroup]="formService.form" (input)="formService.resetSubmitText()" (ngSubmit)="onSubmit()" class="form">
+    <form [formGroup]="formService.form" (input)="formService.resetSubmitText()"
+      (ngSubmit)="onSubmit()" class="form">
 
       <p>{{displayInfo}}</p>
 
@@ -22,16 +23,18 @@
 
       <mat-form-field class="mat-input">
         <mat-label>Layout</mat-label>
-        <input type="text" (focus)="onFocusLayout()" (blur)="onBlurLayout()" formControlName="layout" required matInput>
+        <input type="text" (focus)="onFocusLayout()" (blur)="onBlurLayout()"
+          formControlName="layout" required matInput>
       </mat-form-field>
 
-      <layouts-tree [dataMap]="dataMap" [result]="''" [trigger]="'Выбрать layout'" [data]="initialLayouts"
-        [isRootNode]="true"></layouts-tree>
+      <layouts-tree [dataMap]="dataMap" [result]="''" [trigger]="'Выбрать layout'"
+        [data]="initialLayouts" [isRootNode]="true"></layouts-tree>
 
-      <mat-checkbox formControlName="isDynamic">Динамическая страница</mat-checkbox>
+      <!-- <mat-checkbox formControlName="isDynamic">Динамическая страница</mat-checkbox> -->
 
       <div class="submit-text">
-        <p submitText [success]="formService.submitSuccessText" [error]="formService.submitErrorText">
+        <p submitText [success]="formService.submitSuccessText"
+          [error]="formService.submitErrorText">
         </p>
 
         <svg-done svgBase *ngIf="formService.submitSuccessText" [color]="'#019f01'"></svg-done>

@@ -1,14 +1,13 @@
-export type iPageInTree = {
+export type iPage = {
   _id: string;
   layout: string;
   siteId: string;
   url: string;
   displayText: string;
-  isDynamic: boolean;
   parent: string;
   childsCount: number;
+  title?: string;
   params?: {
-    title: string;
     [key: string]: any;
   };
 };

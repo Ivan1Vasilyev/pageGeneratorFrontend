@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SitesTreeHttpService } from './services/sites-tree-http.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { iSiteInTree } from '../../models/isite-in-tree';
+import { iSite } from '../../models/isite';
 
 @Component({
   selector: 'sites-map',
@@ -11,12 +11,12 @@ import { iSiteInTree } from '../../models/isite-in-tree';
 })
 export class SitesMapComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
-  sites: iSiteInTree[] = [];
+  sites: iSite[] = [];
 
   constructor(private sitesTreeHttpService: SitesTreeHttpService) {}
 
   ngOnInit(): void {
-    const sub = this.sitesTreeHttpService.getSites().subscribe((sites) => {
+    const sub = this.sitesTreeHttpService.getSites().subscribe(sites => {
       if (sites instanceof HttpErrorResponse) {
         console.error('Ошибка при загрузке сайтов', sites);
       } else {

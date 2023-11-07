@@ -3,9 +3,9 @@ import { Subscription } from 'rxjs';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { EditPagesHttpService } from '../../services/edit-pages-http.service';
 import { iEditPagesFormTemplate } from '../../models/iedit-pages-form-template';
-import { iPageData } from '../../models/ipage-data';
-import { iSiteInTree, isISiteInTree } from 'src/app/main-page/models/isite-in-tree';
-import { iPageInTree } from 'src/app/main-page/models/ipage-in-tree';
+import { iNewPageData } from '../../models/inew-page-data';
+import { iSite, isISiteInTree } from 'src/app/main-page/models/isite';
+import { iPage } from 'src/app/main-page/models/ipage';
 
 @Component({
   selector: 'add-page',
@@ -31,7 +31,7 @@ export class AddPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const data: iSiteInTree | iPageInTree = this.pageDataProviderService.getPageData();
+    const data: iSite | iPage = this.pageDataProviderService.getPageData();
 
     if (isISiteInTree(data)) {
       this.parentName = data.domain;
@@ -53,19 +53,18 @@ export class AddPageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(formData: iEditPagesFormTemplate): void {
-    const { layout, url, displayText, title, isDynamic } = formData;
+    const { layout, url, displayText, title } = formData;
 
-    const result: iPageData = {
+    const result: iNewPageData = {
       layout,
       displayText,
-      isDynamic,
+      title,
       url: url.trim(),
       siteId: this.siteId,
       parent: this.parent,
-      params: { title },
     };
 
-    const sub = this.editPagesHttpService.createPage(result).subscribe((res) => {
+    const sub = this.editPagesHttpService.createPage(result).subscribe(res => {
       if (res.acknowledged) {
         this.submitSuccessText = 'Страница создана!';
       } else {
