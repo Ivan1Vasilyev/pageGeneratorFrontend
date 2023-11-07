@@ -8,6 +8,11 @@ import { HttpErrorHandler } from './shared/services/http-error-handler.service';
 import { LoginPageModule } from './login-page/login-page.module';
 import { MainPageModule } from './main-page/main-page.module';
 import { TariffLoaderPageModule } from './tariff-loader-page/tariff-loader-page.module';
+import { CitiesPageModule } from './cities-page/cities-page.module';
+import { CitiesProviderHttpService } from './shared/services/cities-services/cities-provider-http.service';
+import { CitiesProviderService } from './shared/services/cities-services/cities-provider.service';
+import { CitiesSortService } from './shared/services/cities-services/cities-sort.service';
+import { FormService } from './shared/services/form.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,8 +24,15 @@ import { TariffLoaderPageModule } from './tariff-loader-page/tariff-loader-page.
     HttpClientModule,
     BrowserAnimationsModule,
     LoginPageModule,
+    CitiesPageModule,
   ],
-  providers: [HttpErrorHandler],
+  providers: [
+    HttpErrorHandler,
+    CitiesProviderService,
+    CitiesProviderHttpService,
+    CitiesSortService,
+    FormService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

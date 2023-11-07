@@ -1,0 +1,11 @@
+<mat-drawer-container>
+  <mat-drawer #drawer mode="over">
+    <city-form [city]="selectedCity"></city-form>
+  </mat-drawer>
+
+  <mat-drawer-content class="content">
+
+    <city *ngFor="let city of cities" [city]="city" (click)="openMenu(city)"></city>
+
+  </mat-drawer-content>
+</mat-drawer-container>

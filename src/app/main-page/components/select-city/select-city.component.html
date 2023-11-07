@@ -1,6 +1,6 @@
 <span class="search-button" (click)="openSearch()">
   <svg-location svgBase [color]="'#fff'" [size]="20"></svg-location>
-  <p>{{selectedCity?.name || 'Город не выбран'}}</p>
+  <p>{{selectedCity.name || 'Город не выбран'}}</p>
 </span>
 
 <popup [isOpen]="isOpen" [cssClass]="'select-city'" (closePopup)="onClose()">
@@ -10,7 +10,6 @@
     <input (input)="onChange($event)" type="search" matInput>
   </mat-form-field>
 
-  <cities-map [cities]="displayedCities"
-    (selectedCity)="selectCity($event)"></cities-map>
+  <cities-map [cities]="displayedCities" (selectedCity)="selectCity($event)"></cities-map>
 
 </popup>

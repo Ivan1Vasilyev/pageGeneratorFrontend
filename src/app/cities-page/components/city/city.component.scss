@@ -1,0 +1,19 @@
+:host {
+  position: relative;
+}
+
+.cases-list {
+  position: absolute;
+  font-size: 8px;
+  display: flex;
+  gap: 3px;
+  z-index: 1;
+
+  & span {
+    opacity: 0.4;
+
+    &.empty {
+      opacity: 1;
+    }
+  }
+}

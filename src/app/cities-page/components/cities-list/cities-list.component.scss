@@ -1,0 +1,13 @@
+@use '../../../../styles/variables' as v;
+
+.content {
+  // column-count: 5;
+  // max-height: v.$city-select-height;
+  overflow: hidden;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 100%;
+  row-gap: 10px;
+}

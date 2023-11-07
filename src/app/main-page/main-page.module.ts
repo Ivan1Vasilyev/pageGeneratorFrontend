@@ -11,13 +11,13 @@ import { UrlProviderService } from './services/url-provider.service';
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { MatButtonModule } from '@angular/material/button';
 import { SelectCityComponent } from './components/select-city/select-city.component';
-import { CitiesProviderHttpService } from './services/cities-provider-http.service';
+import { CitiesProviderHttpService } from '../shared/services/cities-services/cities-provider-http.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { SvgLocationComponent } from 'src/app/shared/components/svg/svg-location/svg-location.component';
 import { PopupComponent } from '../shared/components/popup/popup.component';
 import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
-import { CityDataProviderService } from './services/city-data-provider.service';
+import { CityDataProviderService } from '../shared/services/cities-services/city-data-provider.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { CitiesMapComponent } from './components/cities-map/cities-map.component';
 

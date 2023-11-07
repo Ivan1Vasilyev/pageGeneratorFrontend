@@ -41,14 +41,13 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   private initForm() {
-    const { required, pattern } = Validators;
+    const { required } = Validators;
 
     const formInitObject = {
       displayText: [this.formDefaultData?.displayText || '', [required]],
       title: this.formDefaultData?.title || '',
       url: [this.formDefaultData?.url || '/', [required]],
       layout: [this.formDefaultData?.layout || '', [required]],
-      isDynamic: [this.formDefaultData.isDynamic || false, [required]],
     };
 
     this.formService.onInit(formInitObject);

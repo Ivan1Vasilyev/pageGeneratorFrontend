@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UrlProviderService } from '../../../../services/url-provider.service';
 import { Subscription, mergeMap, map } from 'rxjs';
-import { CityDataProviderService } from 'src/app/main-page/services/city-data-provider.service';
+import { CityDataProviderService } from 'src/app/shared/services/cities-services/city-data-provider.service';
 
 @Component({
   selector: 'main-frame',
