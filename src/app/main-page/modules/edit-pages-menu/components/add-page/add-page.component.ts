@@ -4,8 +4,9 @@ import { PageDataProviderService } from '../../../../services/page-data-provider
 import { EditPagesHttpService } from '../../services/edit-pages-http.service';
 import { iEditPagesFormTemplate } from '../../models/iedit-pages-form-template';
 import { iNewPageData } from '../../models/inew-page-data';
-import { iSite, isISiteInTree } from 'src/app/main-page/models/isite';
-import { iPage } from 'src/app/main-page/models/ipage';
+import { iSite } from 'src/app/main-page/models/isite';
+import { iPage, isIPageInTree } from 'src/app/main-page/models/ipage';
+import { SubmitTextService } from 'src/app/shared/services/submit-text.service';
 
 @Component({
   selector: 'add-page',
@@ -23,7 +24,8 @@ export class AddPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private pageDataProviderService: PageDataProviderService,
-    private editPagesHttpService: EditPagesHttpService
+    private editPagesHttpService: EditPagesHttpService,
+    protected submitTextService: SubmitTextService
   ) {}
 
   displayParent(): string {
@@ -33,23 +35,24 @@ export class AddPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const data: iSite | iPage = this.pageDataProviderService.getPageData();
 
-    if (isISiteInTree(data)) {
-      this.parentName = data.domain;
-      this.siteId = data._id;
-    } else {
+    if (isIPageInTree(data)) {
       this.parentName = data.displayText;
       this.formDefaultData.url = data.url;
       this.siteId = data.siteId;
       this.parent = data._id;
+    } else {
+      this.parentName = data.domain;
+      this.siteId = data._id;
     }
 
     if (!Object.keys(data).length) {
-      this.submitErrorText = 'Нет данных страницы-родителя или сайта';
+      this.submitTextService.setSubmitText('Нет данных страницы-родителя или сайта', true);
     }
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    this.submitTextService.reset();
   }
 
   onSubmit(formData: iEditPagesFormTemplate): void {
@@ -64,11 +67,13 @@ export class AddPageComponent implements OnInit, OnDestroy {
       parent: this.parent,
     };
 
-    const sub = this.editPagesHttpService.createPage(result).subscribe(res => {
+    const sub = this.editPagesHttpService.createPage(result).subscribe((res) => {
       if (res.acknowledged) {
         this.submitSuccessText = 'Страница создана!';
+        this.submitTextService.setSubmitText('Страница создана!');
       } else {
-        this.submitErrorText = res.error.message || 'Ошибка на сервере. Смотрите консоль!';
+        const message = res.error?.message || 'Ошибка на сервере. Смотрите консоль!';
+        this.submitTextService.setSubmitText(message, true);
       }
     });
     this.subscriptions.add(sub);

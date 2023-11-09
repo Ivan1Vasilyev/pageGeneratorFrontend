@@ -1,12 +1,12 @@
-import { Directive, ElementRef, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Directive, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Directive({
-  selector: '[submitText]',
+  selector: '[submitTextDirective]',
   standalone: true,
 })
 export class SubmitTextDirective implements OnChanges {
-  @Input() success!: string;
-  @Input() error!: string;
+  @Input() onError: boolean = false;
+  @Input() text: string = '';
 
   @HostBinding('style.color')
   color = 'inherit';
@@ -14,15 +14,8 @@ export class SubmitTextDirective implements OnChanges {
   @HostBinding('textContent')
   textContent = '';
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['error']) {
-      this.textContent = this.error;
-      this.color = this.error ? '#f44336' : 'inherit';
-    }
-    const successChanges = changes['success'];
-    if (successChanges && !successChanges.firstChange) {
-      this.textContent = this.success;
-      this.color = 'inherit';
-    }
+  ngOnChanges(): void {
+    this.color = this.onError ? '#f44336' : 'inherit';
+    this.textContent = this.text;
   }
 }

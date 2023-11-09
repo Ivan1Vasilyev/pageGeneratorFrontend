@@ -1,4 +1,4 @@
-<form [formGroup]="formService.form" (input)="formService.resetSubmitText()" (ngSubmit)="onSubmit()">
+<form [formGroup]="formService.form" (input)="submitTextService.reset()" (ngSubmit)="onSubmit()">
 
   <h2 class="city-name">{{city.name}}</h2>
   <p class="translit-name">translitName: {{city.translitName}}</p>
@@ -45,7 +45,9 @@
     </mat-form-field>
   </div>
 
-  <p submitText [error]="formService.submitErrorText" [success]="formService.submitSuccessText" class="submit-text"></p>
+  <p submitTextDirective [onError]="submitTextService.onError" [text]="submitTextService.submitText"
+    class="submit-text">
+  </p>
 
   <button class="submit-button" type="submit" [disabled]="formService.isSubmitDisabled()" mat-raised-button
     color="primary">Сохранить</button>

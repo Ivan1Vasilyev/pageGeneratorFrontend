@@ -1,6 +1,6 @@
 <mat-drawer-container>
   <mat-drawer #drawer mode="over">
-    <city-form [city]="selectedCity"></city-form>
+    <city-form (submitEmitter)="onSubmit($event)" [city]="selectedCity"></city-form>
   </mat-drawer>
 
   <mat-drawer-content class="content">

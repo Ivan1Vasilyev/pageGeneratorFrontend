@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormService } from 'src/app/shared/services/form.service';
 import { Validators } from '@angular/forms';
+import { SubmitTextService } from '../../../shared/services/submit-text.service';
 
 @Component({
   selector: 'app-tariff-loader',
@@ -18,6 +19,7 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
 
   constructor(
     protected formService: FormService,
+    protected submitTextService: SubmitTextService,
     private tariffLoaderHttpService: TariffLoaderHttpService,
     private router: Router
   ) {}
@@ -30,9 +32,9 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
       file: ['', [required]],
     });
 
-    const loadersSub = this.tariffLoaderHttpService.getLoaders().subscribe(loaders => {
+    const loadersSub = this.tariffLoaderHttpService.getLoaders().subscribe((loaders) => {
       if (loaders instanceof HttpErrorResponse) {
-        this.formService.submitErrorText = 'Ошибка на сервере при загрузке лоадеров';
+        this.submitTextService.setSubmitText('Ошибка на сервере при загрузке лоадеров', true);
       } else {
         this.loaders = loaders;
       }
@@ -44,6 +46,7 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     this.formService.resetForm();
+    this.submitTextService.reset();
   }
 
   onFileSelected(event: any): void {
@@ -56,14 +59,17 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
     formControl.append('file', this.selectedFile);
     formControl.append('loader', loader);
 
-    const submitSub = this.tariffLoaderHttpService.downloadTariffs(formControl).subscribe(response => {
-      if (response.ok) {
-        this.router.navigate([`/tariffs-loader/city-difference/${response.uuid}`]);
-      } else {
-        console.log(response);
-        this.formService.submitErrorText = typeof response.error === 'string' ? response.error : 'Ошибка на сервере';
-      }
-    });
+    const submitSub = this.tariffLoaderHttpService
+      .downloadTariffs(formControl)
+      .subscribe((response) => {
+        if (response.ok) {
+          this.router.navigate([`/tariffs-loader/city-difference/${response.uuid}`]);
+        } else {
+          console.log(response);
+          const message = typeof response.error === 'string' ? response.error : 'Ошибка на сервере';
+          this.submitTextService.setSubmitText(message, true);
+        }
+      });
 
     this.subscriptions.add(submitSub);
   }

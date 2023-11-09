@@ -1,3 +1,5 @@
+import { iSite } from './isite';
+
 export type iPage = {
   _id: string;
   layout: string;
@@ -11,3 +13,7 @@ export type iPage = {
     [key: string]: any;
   };
 };
+
+export function isIPageInTree(data: iSite | iPage): data is iPage {
+  return (data as iPage).siteId !== undefined && (data as iPage).url !== undefined;
+}

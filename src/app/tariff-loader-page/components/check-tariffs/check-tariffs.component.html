@@ -6,8 +6,7 @@
     <div class="example-table-container">
       <table mat-table [dataSource]="tariffs">
 
-        <ng-container *ngFor="let key of displayedColumns; let i = index"
-          [matColumnDef]="key">
+        <ng-container *ngFor="let key of displayedColumns; let i = index" [matColumnDef]="key">
           <th class="header-cell" mat-header-cell *matHeaderCellDef>
             {{tariffTemplate[i]}}</th>
           <td mat-cell *matCellDef="let row">{{row[key]}}</td>
@@ -21,13 +20,13 @@
     <div class="submit-area">
       <div class="submit-text-area">
 
-        <button (click)="onSave()" class="submit-button" type="button"
-          mat-raised-button color="primary">загрузить</button>
+        <button (click)="onSave()" class="submit-button" type="button" mat-raised-button
+          color="primary">загрузить</button>
 
-        <span submitText [error]="submitErrorText" [success]="submitSuccessText"
+        <span submitTextDirective [onError]="submitTextService.onError" [text]="submitTextService.submitText"
           class="submit-text"></span>
 
-        <svg-done svgBase *ngIf="submitSuccessText"
+        <svg-done svgBase *ngIf="submitTextService.submitText && !submitTextService.onError"
           [color]="'#019f01'"></svg-done>
 
       </div>

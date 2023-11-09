@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CitiesPageComponent } from './cities-page.component';
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { CitiesListComponent } from './components/cities-list/cities-list.component';
-import { CitiesProviderHttpService } from '../shared/services/cities-services/cities-provider-http.service';
+import { CitiesHttpService } from '../shared/services/cities-services/cities-http.service';
 import { CityComponent } from './components/city/city.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,6 +27,6 @@ import { CityFormComponent } from './components/city-form/city-form.component';
     SubmitTextDirective,
   ],
   declarations: [CitiesPageComponent, CitiesListComponent, CityComponent, CityFormComponent],
-  providers: [CitiesProviderHttpService],
+  providers: [CitiesHttpService],
 })
 export class CitiesPageModule {}

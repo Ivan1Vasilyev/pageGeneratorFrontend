@@ -21,16 +21,18 @@ import { iEditPagesFormTemplate } from './models/iedit-pages-form-template';
   templateUrl: './edit-pages-menu.component.html',
   styleUrls: ['./edit-pages-menu.component.scss'],
 })
-export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() menuTitle!: string;
-  @Input() displayInfo!: string;
-  @Input() submitButtonText!: string;
+export class EditPagesMenuComponent implements OnInit, OnDestroy {
+  @Input() menuTitle: string = '';
+  @Input() displayInfo: string = '';
+  @Input() submitButtonText: string = '';
   @Input() formDefaultData!: any;
-  @Input() submitSuccessText!: string;
-  @Input() submitErrorText!: string;
+  @Input() submitText: string = '';
+  @Input() onError: boolean = false;
+
   @Output() customSubmit = new EventEmitter<iEditPagesFormTemplate>();
+  @Output() resetSubmitText = new EventEmitter();
   private subscriptions: Subscription = new Subscription();
-  private layoutControl!: AbstractControl;
+  layoutControl!: AbstractControl;
   dataMap!: Map<string, string[]>;
   initialLayouts: string[] = [];
 
@@ -86,28 +88,13 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.unsubscribe();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['submitSuccessText']) {
-      this.formService.submitSuccessText = this.submitSuccessText;
-    }
-    if (changes['submitErrorText']) {
-      this.formService.submitErrorText = this.submitErrorText;
-    }
-  }
-
-  onFocusLayout() {
-    this.layoutControl.disable();
-  }
-
-  onBlurLayout() {
-    this.layoutControl.enable();
-  }
-
   onReset(): void {
     this.formService.resetForm();
     Object.entries(this.formDefaultData).forEach((entry) =>
       this.formService.form.controls[entry[0]].setValue(entry[1])
     );
+
+    this.resetSubmitText.emit();
   }
 
   onSubmit(): void {

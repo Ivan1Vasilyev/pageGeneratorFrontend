@@ -3,8 +3,9 @@ import { Subscription } from 'rxjs';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { EditPagesHttpService } from '../../services/edit-pages-http.service';
 import { iEditPagesFormTemplate } from '../../models/iedit-pages-form-template';
-import { iPage } from 'src/app/main-page/models/ipage';
-import { iSite, isISiteInTree } from 'src/app/main-page/models/isite';
+import { iPage, isIPageInTree } from 'src/app/main-page/models/ipage';
+import { iSite } from 'src/app/main-page/models/isite';
+import { SubmitTextService } from 'src/app/shared/services/submit-text.service';
 
 @Component({
   selector: 'update-page',
@@ -20,39 +21,39 @@ export class UpdatePageComponent {
     displayText: '',
   };
 
-  submitSuccessText: string = '';
-  submitErrorText: string = '';
-
   constructor(
     private pageDataProviderService: PageDataProviderService,
-    private editPagesHttpService: EditPagesHttpService
+    private editPagesHttpService: EditPagesHttpService,
+    protected submitTextService: SubmitTextService
   ) {}
 
   ngOnInit() {
     const data: iSite | iPage = this.pageDataProviderService.getPageData();
 
-    if (!isISiteInTree(data)) {
+    if (isIPageInTree(data)) {
       this.pageId = data._id;
       this.formDefaultData.url = data.url;
       this.formDefaultData.layout = data.layout;
       this.formDefaultData.displayText = data.displayText;
       this.formDefaultData.title = data.title || '';
     } else {
-      this.submitErrorText = 'Нет данных страницы';
+      this.submitTextService.setOnError('Нет данных страницы');
     }
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    this.submitTextService.reset();
   }
 
   onSubmit(data: iEditPagesFormTemplate): void {
-    const sub = this.editPagesHttpService.updatePage(data, this.pageId).subscribe(res => {
+    const sub = this.editPagesHttpService.updatePage(data, this.pageId).subscribe((res) => {
       if (res.ok) {
-        this.submitSuccessText = 'Страница обновлена';
+        this.submitTextService.setOnSuccess('Страница обновлена');
       } else {
         console.error(res);
-        this.submitErrorText = 'Ошибка на сервере. Смотрите консоль.';
+        const message = res.error?.message || 'Ошибка на сервере. Смотрите консоль.';
+        this.submitTextService.setOnError(message);
       }
     });
     this.subscriptions.add(sub);

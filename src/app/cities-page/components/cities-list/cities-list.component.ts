@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { iCity } from 'src/app/shared/models/icity';
-import { CitiesProviderService } from 'src/app/shared/services/cities-services/cities-provider.service';
 import { CitiesSortService } from '../../../shared/services/cities-services/cities-sort.service';
 import { MatDrawer } from '@angular/material/sidenav';
+import { CitiesHttpService } from '../../../shared/services/cities-services/cities-http.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'cities-list',
@@ -17,14 +18,17 @@ export class CitiesListComponent implements OnInit, OnDestroy {
   @ViewChild(MatDrawer) matDrawer!: MatDrawer;
 
   constructor(
-    private citiesProviderService: CitiesProviderService,
+    private citiesHttpService: CitiesHttpService,
     private citiesSortService: CitiesSortService
   ) {}
 
   ngOnInit() {
-    const citiesSub = this.citiesProviderService.cities$.subscribe((data) => {
-      const cities = data.length ? data : this.citiesProviderService.getCities();
-      this.cities = this.citiesSortService.sortByFirstCapitalChar(cities);
+    const citiesSub = this.citiesHttpService.getCities().subscribe((data) => {
+      if (data instanceof HttpErrorResponse) {
+        console.error('Ошибка при загрузке городов');
+      } else {
+        this.cities = this.citiesSortService.sortByFirstCapitalChar(data);
+      }
     });
     this.subscriptions.add(citiesSub);
   }
@@ -36,5 +40,11 @@ export class CitiesListComponent implements OnInit, OnDestroy {
   openMenu(city: iCity) {
     this.matDrawer.open();
     this.selectedCity = city;
+  }
+
+  onSubmit(city: iCity) {
+    // this.getCities((cities) => {
+    this.cities = this.cities.map((c) => (c._id === city._id ? city : c));
+    // });
   }
 }

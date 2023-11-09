@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Validators } from '@angular/forms';
 import { FormService } from '../shared/services/form.service';
 import { iLoginFormData } from './models/ilogin-form-data';
+import { SubmitTextService } from '../shared/services/submit-text.service';
 
 @Component({
   selector: 'login-page',
@@ -14,7 +15,11 @@ import { iLoginFormData } from './models/ilogin-form-data';
 export class LoginPageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
-  constructor(protected formService: FormService, private loginHttpService: LoginHttpService) {}
+  constructor(
+    protected formService: FormService,
+    private loginHttpService: LoginHttpService,
+    protected submitTextService: SubmitTextService
+  ) {}
 
   ngOnInit() {
     const { required } = Validators;
@@ -28,14 +33,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.formService.resetForm();
     this.subscriptions.unsubscribe();
+    this.submitTextService.reset();
   }
 
   onSubmit() {
     const data: iLoginFormData = this.formService.getFormValues();
-    const sub = this.loginHttpService.login(data).subscribe(response => {
+    const sub = this.loginHttpService.login(data).subscribe((response) => {
       if (response instanceof HttpErrorResponse) {
         console.error('failed in login');
-        this.formService.submitErrorText = 'Неверный логин или пароль';
+        const message = response.error?.message || 'Неверный логин или пароль';
+        this.submitTextService.setOnError(message);
       } else {
         console.log('success in login');
       }

@@ -4,7 +4,7 @@
   </nav>
 </app-header>
 <div class="form-wrap">
-  <form [formGroup]="formService.form" (input)="formService.resetSubmitText()" (ngSubmit)="onSubmit()">
+  <form [formGroup]="formService.form" (input)="submitTextService.reset()" (ngSubmit)="onSubmit()">
 
     <h2>Вход</h2>
 
@@ -18,7 +18,8 @@
       <input type="password" formControlName="password" required matInput>
     </mat-form-field>
 
-    <p submitText [error]="formService.submitErrorText" class="submit-text"></p>
+    <p submitTextDirective [onError]="submitTextService.getOnError" [text]="submitTextService.getText"
+      class="submit-text"></p>
     <div class="submit-area">
 
       <button type="submit" [disabled]="formService.isSubmitDisabled()" mat-raised-button color="primary">Войти</button>

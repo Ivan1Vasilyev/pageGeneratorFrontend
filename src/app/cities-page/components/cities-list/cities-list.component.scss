@@ -1,8 +1,6 @@
 @use '../../../../styles/variables' as v;
 
 .content {
-  // column-count: 5;
-  // max-height: v.$city-select-height;
   overflow: hidden;
   padding: 10px;
   display: flex;

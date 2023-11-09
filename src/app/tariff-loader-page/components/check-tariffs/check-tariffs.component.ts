@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import HEADERS from '../../constants/tariff-table-headers';
+import { SubmitTextService } from '../../../shared/services/submit-text.service';
 
 @Component({
   selector: 'app-check-tariffs',
@@ -22,13 +23,14 @@ export class CheckTariffsComponent implements OnInit, OnDestroy, AfterViewInit {
   displayedColumns: string[] = Object.keys(HEADERS);
   tariffTemplate: string[] = Object.values(HEADERS);
 
-  submitSuccessText: string = '';
-  submitErrorText: string = '';
-
   @ViewChild(MatPaginator)
   private paginator!: MatPaginator;
 
-  constructor(activateRoute: ActivatedRoute, private tariffLoaderService: TariffLoaderHttpService) {
+  constructor(
+    activateRoute: ActivatedRoute,
+    private tariffLoaderService: TariffLoaderHttpService,
+    protected submitTextService: SubmitTextService
+  ) {
     this.uuid = activateRoute.snapshot.params['uuid'];
   }
 
@@ -46,7 +48,8 @@ export class CheckTariffsComponent implements OnInit, OnDestroy, AfterViewInit {
     const sub = this.tariffLoaderService.getTariffs(this.uuid).subscribe((response) => {
       if (response instanceof HttpErrorResponse) {
         console.error(response);
-        this.submitErrorText = 'Ошибка на сервере при попытке загрузить тарифы';
+        const message = response.error?.message || 'Ошибка на сервере при попытке загрузить тарифы';
+        this.submitTextService.setSubmitText(message, true);
       } else {
         this.storageTariffs = response;
         this.resultsLength = response.length;
@@ -74,20 +77,21 @@ export class CheckTariffsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    this.submitTextService.reset();
   }
 
   onSave() {
     this.isLoading = true;
 
-    this.submitSuccessText = '';
-    this.submitErrorText = '';
+    this.submitTextService.reset();
 
     const sub = this.tariffLoaderService.saveTariffs(this.uuid).subscribe((response) => {
       if (response instanceof HttpErrorResponse) {
         console.error(response);
-        this.submitErrorText = 'Ошибка на сервере при попытке сохранить тарифы';
+        const message = response.error?.message || 'Ошибка на сервере при попытке сохранить тарифы';
+        this.submitTextService.setSubmitText(message, true);
       } else {
-        this.submitSuccessText = 'Тарифы загружены';
+        this.submitTextService.setSubmitText('Тарифы загружены', true);
       }
       this.isLoading = false;
     });

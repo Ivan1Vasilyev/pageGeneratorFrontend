@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CityDataProviderService } from '../../../shared/services/cities-services/city-data-provider.service';
 import { iCity } from '../../../shared/models/icity';
-import { CitiesProviderService } from 'src/app/shared/services/cities-services/cities-provider.service';
+import { CitiesHttpService } from 'src/app/shared/services/cities-services/cities-http.service';
 import { Subscription } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'select-city',
@@ -18,18 +19,21 @@ export class SelectCityComponent implements OnInit, OnDestroy {
 
   constructor(
     private cityDataProviderService: CityDataProviderService,
-    private citiesProviderService: CitiesProviderService
+    private citiesHttpService: CitiesHttpService
   ) {}
 
   ngOnInit(): void {
-    const citiesSub = this.citiesProviderService.cities$.subscribe((cities) => {
-      this.displayedCities = cities.length ? cities : this.citiesProviderService.getCities();
+    const citiesSub = this.citiesHttpService.getCities().subscribe((cities) => {
+      if (cities instanceof HttpErrorResponse) {
+        console.error('Ошибка при загрузке городов');
+      } else {
+        this.displayedCities = this.cities = cities;
 
-      const defaultCity = cities.find((city) => city.name === 'Москва');
-      if (defaultCity) {
-        this.selectedCity = defaultCity;
-        this.cityDataProviderService.setCity(this.selectedCity);
-        return;
+        const defaultCity = cities.find((city) => city.name === 'Москва');
+        if (defaultCity) {
+          this.selectedCity = defaultCity;
+          this.cityDataProviderService.setCity(this.selectedCity);
+        }
       }
     });
     this.subscription.add(citiesSub);

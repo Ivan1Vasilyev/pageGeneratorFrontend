@@ -18,6 +18,7 @@ import { EditPagesMenuComponent } from './edit-pages-menu.component';
 import { SubmitTextDirective } from 'src/app/shared/directives/submit-text.directive';
 import { SvgDoneComponent } from 'src/app/shared/components/svg/svg-done/svg-done.component';
 import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
+import { SubmitTextService } from 'src/app/shared/services/submit-text.service';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,6 @@ import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
     SvgDoneComponent,
     SvgBaseDirective,
   ],
-  providers: [LayoutsHttpService, LayoutProviderService, EditPagesHttpService],
+  providers: [LayoutsHttpService, LayoutProviderService, EditPagesHttpService, SubmitTextService],
 })
 export class EditPagesMenuModule {}
