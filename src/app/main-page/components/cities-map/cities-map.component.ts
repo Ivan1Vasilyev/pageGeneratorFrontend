@@ -10,15 +10,11 @@ import { CitiesSortService } from 'src/app/shared/services/cities-services/citie
 })
 export class CitiesMapComponent implements OnChanges {
   @Input() cities: iCity[] = [];
-  @Output() private selectedCity = new EventEmitter();
+  @Output() selectedCity = new EventEmitter();
 
   displayedCities: iCitiesByAlphabet[] = [];
 
   constructor(private citiesSortService: CitiesSortService) {}
-
-  selectCity(city: iCity) {
-    this.selectedCity.emit(city);
-  }
 
   private getCitiesAlphabetMap(cities: iCity[]): iCitiesByAlphabet[] {
     const citiesByAlphabetMap: { [key: string]: iCity[] } = cities.reduce(

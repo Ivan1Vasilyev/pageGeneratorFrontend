@@ -61,7 +61,7 @@ export class CityDifferenceComponent implements OnInit, OnDestroy {
       .getCityDifference(this.uuid, this.differenceOnly)
       .subscribe((data) => {
         if (data instanceof HttpErrorResponse) {
-          console.error(data);
+          console.error('Ошибка при загрузке алиасов');
         } else {
           this.initForm(data);
         }
@@ -84,7 +84,7 @@ export class CityDifferenceComponent implements OnInit, OnDestroy {
       .saveCityDifference(this.uuid, result)
       .subscribe((response) => {
         if (response instanceof HttpErrorResponse) {
-          console.error(response);
+          console.error('Ошибка при сохранении алиасов');
         } else {
           this.router.navigate([`/tariffs-loader/tariff-buffer/${this.uuid}`]);
         }

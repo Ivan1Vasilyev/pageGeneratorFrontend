@@ -1,7 +1,6 @@
 <div class="char-wrap" *ngFor="let char of displayedCities; let i = index">
   <div class="char">{{char.key}}</div>
 
-  <button *ngFor="let city of char.cities" (click)="selectCity(city)"
-    mat-menu-item>{{city.name}}</button>
+  <button *ngFor="let city of char.cities" (click)="selectedCity.emit(city)" mat-menu-item>{{city.name}}</button>
 
 </div>

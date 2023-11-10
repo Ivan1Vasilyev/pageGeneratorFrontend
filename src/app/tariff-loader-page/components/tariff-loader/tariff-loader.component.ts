@@ -32,7 +32,7 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
       file: ['', [required]],
     });
 
-    const loadersSub = this.tariffLoaderHttpService.getLoaders().subscribe(loaders => {
+    const loadersSub = this.tariffLoaderHttpService.getLoaders().subscribe((loaders) => {
       if (loaders instanceof HttpErrorResponse) {
         this.submitTextService.setErrorText('Ошибка на сервере при загрузке лоадеров');
       } else {
@@ -59,15 +59,16 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
     formControl.append('file', this.selectedFile);
     formControl.append('loader', loader);
 
-    const submitSub = this.tariffLoaderHttpService.downloadTariffs(formControl).subscribe(response => {
-      if (response.ok) {
-        this.router.navigate([`/tariffs-loader/city-difference/${response.uuid}`]);
-      } else {
-        console.log(response);
-        const message = typeof response.error === 'string' ? response.error : 'Ошибка на сервере';
-        this.submitTextService.setErrorText(message);
-      }
-    });
+    const submitSub = this.tariffLoaderHttpService
+      .downloadTariffs(formControl)
+      .subscribe((response) => {
+        if (response.ok) {
+          this.router.navigate([`/tariffs-loader/city-difference/${response.uuid}`]);
+        } else {
+          const message = response.error?.message || 'Ошибка на сервере';
+          this.submitTextService.setErrorText(message);
+        }
+      });
 
     this.subscriptions.add(submitSub);
   }

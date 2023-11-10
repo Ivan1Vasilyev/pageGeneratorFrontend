@@ -16,9 +16,9 @@ export class SitesMapComponent implements OnInit, OnDestroy {
   constructor(private sitesTreeHttpService: SitesTreeHttpService) {}
 
   ngOnInit(): void {
-    const sub = this.sitesTreeHttpService.getSites().subscribe(sites => {
+    const sub = this.sitesTreeHttpService.getSites().subscribe((sites) => {
       if (sites instanceof HttpErrorResponse) {
-        console.error('Ошибка при загрузке сайтов', sites);
+        console.error('Ошибка при загрузке сайтов');
       } else {
         this.sites = sites;
       }

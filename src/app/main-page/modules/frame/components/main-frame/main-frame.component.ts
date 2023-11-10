@@ -32,6 +32,7 @@ export class MainFrameComponent implements OnInit, OnDestroy {
           this.cityDataProviderService.city$.pipe(
             map((city) => {
               if (/москва/i.test(city.name)) {
+                //привязать к провайдеру
                 return `/sites/${url}?baseUrl=${this.baseUrl}`;
               }
               return `/sites/${city.translitName}.${url}?baseUrl=${this.baseUrl}`;

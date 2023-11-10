@@ -26,13 +26,15 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const sub = this.siteTreeService.getChildPages(this.site._id, this.page?._id || null).subscribe(data => {
-      if (data instanceof HttpErrorResponse) {
-        console.error(data);
-      } else {
-        this.subItems = data;
-      }
-    });
+    const sub = this.siteTreeService
+      .getChildPages(this.site._id, this.page?._id || null)
+      .subscribe((data) => {
+        if (data instanceof HttpErrorResponse) {
+          console.error(`Ошибка при загрузке дочерних страниц от ${this.page?.displayText}`);
+        } else {
+          this.subItems = data;
+        }
+      });
     this.subscriptions.add(sub);
   }
 

@@ -15,7 +15,7 @@ import { SubmitTextService } from '../../../shared/services/submit-text.service'
 export class CheckTariffsComponent implements OnInit, OnDestroy, AfterViewInit {
   private subscriptions: Subscription = new Subscription();
   private uuid: string;
-  private storageTariffs: any[] = [];
+  private tariffsStorage: any[] = [];
   isLoading = false;
   pageSizeOptions: number[] = [10, 25, 100, 200, 500];
   tariffs: any[] = [];
@@ -40,18 +40,17 @@ export class CheckTariffsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getTariffsFromStorage(pageIndex: number, pageSize: number): any[] {
     const skip = this.calcSkip(pageIndex, pageSize);
-    return this.storageTariffs.slice(skip, Math.min(skip + pageSize, this.storageTariffs.length));
+    return this.tariffsStorage.slice(skip, Math.min(skip + pageSize, this.tariffsStorage.length));
   }
 
   private getTariffsFromServer() {
     this.isLoading = true;
-    const sub = this.tariffLoaderService.getTariffs(this.uuid).subscribe(response => {
+    const sub = this.tariffLoaderService.getTariffs(this.uuid).subscribe((response) => {
       if (response instanceof HttpErrorResponse) {
-        console.error(response);
         const message = response.error?.message || 'Ошибка на сервере при попытке загрузить тарифы';
         this.submitTextService.setErrorText(message);
       } else {
-        this.storageTariffs = response;
+        this.tariffsStorage = response;
         this.resultsLength = response.length;
         this.tariffs = this.getTariffsFromStorage(0, this.pageSizeOptions[0]);
       }
@@ -67,7 +66,7 @@ export class CheckTariffsComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     this.paginator._intl.itemsPerPageLabel = 'Тарифов на странице: ';
 
-    const sub = this.paginator.page.subscribe(page => {
+    const sub = this.paginator.page.subscribe((page) => {
       const { pageSize, pageIndex } = page;
 
       this.tariffs = this.getTariffsFromStorage(pageIndex, pageSize);
@@ -85,9 +84,8 @@ export class CheckTariffsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.submitTextService.reset();
 
-    const sub = this.tariffLoaderService.saveTariffs(this.uuid).subscribe(response => {
+    const sub = this.tariffLoaderService.saveTariffs(this.uuid).subscribe((response) => {
       if (response instanceof HttpErrorResponse) {
-        console.error(response);
         const message = response.error?.message || 'Ошибка на сервере при попытке сохранить тарифы';
         this.submitTextService.setErrorText(message);
       } else {

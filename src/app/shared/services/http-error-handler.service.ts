@@ -4,19 +4,25 @@ import { of, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HttpErrorHandler {
-  public handleError(error: HttpErrorResponse): Observable<HttpErrorResponse> {
-    if (error.status === 0) {
-      console.error('An error occurred:', error.error);
+  public handleError(response: HttpErrorResponse): Observable<HttpErrorResponse> {
+    console.error(response);
+
+    if (typeof response.error === 'string') {
+      return of(
+        new HttpErrorResponse({
+          error: { message: response.error },
+        })
+      );
     }
 
-    if (error.error.code === 11000) {
-      error.error.message = 'Страница с таким URL уже есть на этом сайте';
+    if (response.error.code === 11000) {
+      response.error.message = 'Страница с таким URL уже есть на этом сайте';
     }
 
-    if (error.error.code === 121) {
-      error.error.message = 'Ошибка валидации';
+    if (response.error.code === 121) {
+      response.error.message = 'Ошибка валидации';
     }
 
-    return of(error);
+    return of(response);
   }
 }

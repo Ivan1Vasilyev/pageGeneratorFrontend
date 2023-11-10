@@ -64,11 +64,11 @@ export class AddPageComponent implements OnInit, OnDestroy {
       parent: this.parent,
     };
 
-    const sub = this.editPagesHttpService.createPage(result).subscribe(res => {
+    const sub = this.editPagesHttpService.createPage(result).subscribe((res) => {
       if (res.acknowledged) {
-        this.submitTextService.setSuccessText('Страница создана!');
+        this.submitTextService.setSuccessText('Страница создана');
       } else {
-        const message = res.error?.message || 'Ошибка на сервере. Смотрите консоль!';
+        const message = res.error?.message || 'Ошибка на сервере. Смотрите консоль.';
         this.submitTextService.setErrorText(message);
       }
     });

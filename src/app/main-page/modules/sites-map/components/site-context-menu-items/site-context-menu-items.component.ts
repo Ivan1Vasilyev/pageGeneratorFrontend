@@ -24,7 +24,7 @@ export class SiteContextMenuItemsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const sub = this.sitesTreeHttpService.getProviders().subscribe((data) => {
       if (data instanceof HttpErrorResponse) {
-        console.error(data);
+        console.error('Ошибка при загрузке провайдеров');
       } else {
         this.providers = data.filter((p) => this.providerIds.includes(p._id));
       }

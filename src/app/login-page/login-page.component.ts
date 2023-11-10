@@ -38,9 +38,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     const data: iLoginFormData = this.formService.getFormValues();
-    const sub = this.loginHttpService.login(data).subscribe(response => {
+    const sub = this.loginHttpService.login(data).subscribe((response) => {
       if (response instanceof HttpErrorResponse) {
-        console.error('failed in login');
         const message = response.error?.message || 'Неверный логин или пароль';
         this.submitTextService.setErrorText(message);
       } else {
