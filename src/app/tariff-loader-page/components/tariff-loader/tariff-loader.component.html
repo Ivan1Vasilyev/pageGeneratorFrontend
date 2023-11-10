@@ -1,7 +1,8 @@
 <div class="wrap">
 
   <h2>Загрузка тарифов</h2>
-  <form class="form" [formGroup]="formService.form" (change)="submitTextService.reset()" (ngSubmit)="onSubmit()">
+  <form class="form" [formGroup]="formService.form" (change)="submitTextService.reset()"
+    (ngSubmit)="onSubmit()">
 
     <button class="file-input" type="button" mat-raised-button (click)="fileInput.click()">Выбрать
       файл</button>
@@ -20,8 +21,8 @@
     </mat-form-field>
 
     <div>
-      <span submitTextDirective [text]="submitTextService.submitText" [onError]="submitTextService.onError"
-        class="submit-text"></span>
+      <span submitTextDirective [text]="submitTextService.getText"
+        [onError]="submitTextService.getOnError" class="submit-text"></span>
 
       <!-- <svg-done *ngIf="!isSubmitOnError && submitText"
         [color]="'#019f01'"></svg-done> -->

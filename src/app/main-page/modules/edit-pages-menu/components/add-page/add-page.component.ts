@@ -19,9 +19,6 @@ export class AddPageComponent implements OnInit, OnDestroy {
   private siteId: string = '';
   formDefaultData: { url: string } = { url: '' };
 
-  submitSuccessText: string = '';
-  submitErrorText: string = '';
-
   constructor(
     private pageDataProviderService: PageDataProviderService,
     private editPagesHttpService: EditPagesHttpService,
@@ -46,7 +43,7 @@ export class AddPageComponent implements OnInit, OnDestroy {
     }
 
     if (!Object.keys(data).length) {
-      this.submitTextService.setSubmitText('Нет данных страницы-родителя или сайта', true);
+      this.submitTextService.setErrorText('Нет данных страницы-родителя или сайта');
     }
   }
 
@@ -67,13 +64,12 @@ export class AddPageComponent implements OnInit, OnDestroy {
       parent: this.parent,
     };
 
-    const sub = this.editPagesHttpService.createPage(result).subscribe((res) => {
+    const sub = this.editPagesHttpService.createPage(result).subscribe(res => {
       if (res.acknowledged) {
-        this.submitSuccessText = 'Страница создана!';
-        this.submitTextService.setSubmitText('Страница создана!');
+        this.submitTextService.setSuccessText('Страница создана!');
       } else {
         const message = res.error?.message || 'Ошибка на сервере. Смотрите консоль!';
-        this.submitTextService.setSubmitText(message, true);
+        this.submitTextService.setErrorText(message);
       }
     });
     this.subscriptions.add(sub);

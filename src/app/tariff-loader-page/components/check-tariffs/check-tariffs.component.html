@@ -23,10 +23,10 @@
         <button (click)="onSave()" class="submit-button" type="button" mat-raised-button
           color="primary">загрузить</button>
 
-        <span submitTextDirective [onError]="submitTextService.onError" [text]="submitTextService.submitText"
-          class="submit-text"></span>
+        <span submitTextDirective [onError]="submitTextService.getOnError"
+          [text]="submitTextService.getText" class="submit-text"></span>
 
-        <svg-done svgBase *ngIf="submitTextService.submitText && !submitTextService.onError"
+        <svg-done svgBase *ngIf="submitTextService.getText && !submitTextService.getOnError"
           [color]="'#019f01'"></svg-done>
 
       </div>

@@ -2,38 +2,29 @@ import { Injectable, OnDestroy } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class SubmitTextService {
-  onError: boolean = false;
-  submitText: string = '';
-  _onError: boolean = false;
-  _submitText: string = '';
+  private onError: boolean = false;
+  private submitText: string = '';
 
   get getOnError(): boolean {
-    return this._onError;
+    return this.onError;
   }
 
   get getText(): string {
-    return this._submitText;
+    return this.submitText;
   }
 
-  public setOnError(text: string) {
-    this._onError = true;
-    this._submitText = text;
+  public setErrorText(text: string) {
+    this.onError = true;
+    this.submitText = text;
   }
 
-  public setOnSuccess(text: string) {
-    this._onError = false;
-    this._submitText = text;
-  }
-
-  public setSubmitText(text: string, onError?: boolean) {
-    this.onError = onError || false;
+  public setSuccessText(text: string) {
+    this.onError = false;
     this.submitText = text;
   }
 
   public reset() {
     this.onError = false;
     this.submitText = '';
-    this._onError = false;
-    this._submitText = '';
   }
 }

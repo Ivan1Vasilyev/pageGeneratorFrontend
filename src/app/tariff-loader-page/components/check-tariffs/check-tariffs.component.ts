@@ -45,11 +45,11 @@ export class CheckTariffsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getTariffsFromServer() {
     this.isLoading = true;
-    const sub = this.tariffLoaderService.getTariffs(this.uuid).subscribe((response) => {
+    const sub = this.tariffLoaderService.getTariffs(this.uuid).subscribe(response => {
       if (response instanceof HttpErrorResponse) {
         console.error(response);
         const message = response.error?.message || 'Ошибка на сервере при попытке загрузить тарифы';
-        this.submitTextService.setSubmitText(message, true);
+        this.submitTextService.setErrorText(message);
       } else {
         this.storageTariffs = response;
         this.resultsLength = response.length;
@@ -67,7 +67,7 @@ export class CheckTariffsComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     this.paginator._intl.itemsPerPageLabel = 'Тарифов на странице: ';
 
-    const sub = this.paginator.page.subscribe((page) => {
+    const sub = this.paginator.page.subscribe(page => {
       const { pageSize, pageIndex } = page;
 
       this.tariffs = this.getTariffsFromStorage(pageIndex, pageSize);
@@ -85,13 +85,13 @@ export class CheckTariffsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.submitTextService.reset();
 
-    const sub = this.tariffLoaderService.saveTariffs(this.uuid).subscribe((response) => {
+    const sub = this.tariffLoaderService.saveTariffs(this.uuid).subscribe(response => {
       if (response instanceof HttpErrorResponse) {
         console.error(response);
         const message = response.error?.message || 'Ошибка на сервере при попытке сохранить тарифы';
-        this.submitTextService.setSubmitText(message, true);
+        this.submitTextService.setErrorText(message);
       } else {
-        this.submitTextService.setSubmitText('Тарифы загружены', true);
+        this.submitTextService.setSuccessText('Тарифы загружены');
       }
       this.isLoading = false;
     });

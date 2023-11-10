@@ -37,7 +37,7 @@ export class UpdatePageComponent {
       this.formDefaultData.displayText = data.displayText;
       this.formDefaultData.title = data.title || '';
     } else {
-      this.submitTextService.setOnError('Нет данных страницы');
+      this.submitTextService.setErrorText('Нет данных страницы');
     }
   }
 
@@ -47,13 +47,13 @@ export class UpdatePageComponent {
   }
 
   onSubmit(data: iEditPagesFormTemplate): void {
-    const sub = this.editPagesHttpService.updatePage(data, this.pageId).subscribe((res) => {
+    const sub = this.editPagesHttpService.updatePage(data, this.pageId).subscribe(res => {
       if (res.ok) {
-        this.submitTextService.setOnSuccess('Страница обновлена');
+        this.submitTextService.setSuccessText('Страница обновлена');
       } else {
         console.error(res);
         const message = res.error?.message || 'Ошибка на сервере. Смотрите консоль.';
-        this.submitTextService.setOnError(message);
+        this.submitTextService.setErrorText(message);
       }
     });
     this.subscriptions.add(sub);

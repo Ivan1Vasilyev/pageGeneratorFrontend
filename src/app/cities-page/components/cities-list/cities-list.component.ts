@@ -5,6 +5,8 @@ import { CitiesSortService } from '../../../shared/services/cities-services/citi
 import { MatDrawer } from '@angular/material/sidenav';
 import { CitiesHttpService } from '../../../shared/services/cities-services/cities-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SubmitTextService } from 'src/app/shared/services/submit-text.service';
+import { iCitiesFormData } from '../../models/icities-form-data';
 
 @Component({
   selector: 'cities-list',
@@ -19,11 +21,12 @@ export class CitiesListComponent implements OnInit, OnDestroy {
 
   constructor(
     private citiesHttpService: CitiesHttpService,
-    private citiesSortService: CitiesSortService
+    private citiesSortService: CitiesSortService,
+    protected submitTextService: SubmitTextService
   ) {}
 
   ngOnInit() {
-    const citiesSub = this.citiesHttpService.getCities().subscribe((data) => {
+    const citiesSub = this.citiesHttpService.getCities().subscribe(data => {
       if (data instanceof HttpErrorResponse) {
         console.error('Ошибка при загрузке городов');
       } else {
@@ -38,13 +41,24 @@ export class CitiesListComponent implements OnInit, OnDestroy {
   }
 
   openMenu(city: iCity) {
-    this.matDrawer.open();
+    this.submitTextService.reset();
     this.selectedCity = city;
+    this.matDrawer.open();
   }
 
-  onSubmit(city: iCity) {
-    // this.getCities((cities) => {
-    this.cities = this.cities.map((c) => (c._id === city._id ? city : c));
-    // });
+  onSubmit(data: { cityId: string; formData: iCitiesFormData }) {
+    const submitSub = this.citiesHttpService.updateCity(data.formData, data.cityId).subscribe(data => {
+      if (data instanceof HttpErrorResponse) {
+        console.error(data);
+        const message = data.error?.message || `Ошибка при обновлении города`;
+        this.submitTextService.setErrorText(message);
+      } else {
+        const newCity = data.value;
+        this.submitTextService.setSuccessText('Обновлено');
+
+        this.cities = this.cities.map(city => (city._id === newCity._id ? newCity : city));
+      }
+    });
+    this.subscriptions.add(submitSub);
   }
 }

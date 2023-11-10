@@ -1,4 +1,4 @@
 <edit-pages-menu [formDefaultData]="formDefaultData" [onError]="submitTextService.getOnError"
-  [submitText]="submitTextService.getText" (customSubmit)="onSubmit($event)"
+  [submitText]="submitTextService.getText" (onSubmit)="onSubmit($event)"
   (resetSubmitText)="submitTextService.reset()" [submitButtonText]="'Редактировать'"
   [menuTitle]="'Редактирование'"></edit-pages-menu>

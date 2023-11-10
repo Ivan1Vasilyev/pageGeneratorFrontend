@@ -1,6 +1,8 @@
 <mat-drawer-container>
   <mat-drawer #drawer mode="over">
-    <city-form (submitEmitter)="onSubmit($event)" [city]="selectedCity"></city-form>
+    <city-form (resetSubmitText)="submitTextService.reset()"
+      [submitText]="submitTextService.getText" [onError]="submitTextService.getOnError"
+      (onSubmit)="onSubmit($event)" [city]="selectedCity"></city-form>
   </mat-drawer>
 
   <mat-drawer-content class="content">

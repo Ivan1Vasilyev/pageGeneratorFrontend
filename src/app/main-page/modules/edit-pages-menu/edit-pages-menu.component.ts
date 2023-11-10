@@ -1,13 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  OnDestroy,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LayoutsHttpService } from './services/layouts-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -29,7 +20,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy {
   @Input() submitText: string = '';
   @Input() onError: boolean = false;
 
-  @Output() customSubmit = new EventEmitter<iEditPagesFormTemplate>();
+  @Output() onSubmit = new EventEmitter<iEditPagesFormTemplate>();
   @Output() resetSubmitText = new EventEmitter();
   private subscriptions: Subscription = new Subscription();
   layoutControl!: AbstractControl;
@@ -58,7 +49,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy {
   private initLayoutControl() {
     this.layoutControl = this.formService.form.controls['layout'];
 
-    const layoutSub = this.layoutProviderService.layout$.subscribe((layout) => {
+    const layoutSub = this.layoutProviderService.layout$.subscribe(layout => {
       this.layoutControl.setValue(layout);
       this.layoutControl.markAsDirty();
     });
@@ -66,9 +57,9 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy {
   }
 
   private getLayouts() {
-    const layoutsHttpSub = this.layoutsHttpService.getLayouts().subscribe((data) => {
+    const layoutsHttpSub = this.layoutsHttpService.getLayouts().subscribe(data => {
       if (data instanceof HttpErrorResponse) {
-        console.error('failed in getting layouts');
+        console.error('Ошибка при загрузке лайаутов');
       } else {
         this.dataMap = new Map<string, string[]>(data.layouts);
         this.initialLayouts = data.initial;
@@ -90,14 +81,12 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy {
 
   onReset(): void {
     this.formService.resetForm();
-    Object.entries(this.formDefaultData).forEach((entry) =>
-      this.formService.form.controls[entry[0]].setValue(entry[1])
-    );
+    Object.entries(this.formDefaultData).forEach(entry => this.formService.form.controls[entry[0]].setValue(entry[1]));
 
     this.resetSubmitText.emit();
   }
 
-  onSubmit(): void {
-    this.customSubmit.emit(this.formService.getFormValues());
+  emitSubmit(): void {
+    this.onSubmit.emit(this.formService.getFormValues());
   }
 }

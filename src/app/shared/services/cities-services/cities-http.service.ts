@@ -9,14 +9,12 @@ export class CitiesHttpService {
   constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler) {}
 
   getCities(): Observable<iCity[] | HttpErrorResponse> {
-    return this.http
-      .get<iCity[]>(`/api/sites/cities`)
-      .pipe(catchError(this.httpErrorHandler.handleError));
+    return this.http.get<iCity[]>(`/api/cities`).pipe(catchError(this.httpErrorHandler.handleError));
   }
 
-  updateCity(city: iCity): Observable<iCity | HttpErrorResponse> {
+  updateCity(data: any, cityId: string): Observable<any | HttpErrorResponse> {
     return this.http
-      .patch<iCity>('/api/sites/cities/update/', city)
+      .patch<any>(`/api/cities/update/${cityId}`, data)
       .pipe(catchError(this.httpErrorHandler.handleError));
   }
 }
