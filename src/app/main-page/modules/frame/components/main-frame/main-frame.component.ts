@@ -26,21 +26,18 @@ export class MainFrameComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const urlSub = this.urlProviderService.url$
+    const urlSub = this.urlProviderService.urlData$
       .pipe(
-        mergeMap((url) =>
+        mergeMap(urlData =>
           this.cityDataProviderService.city$.pipe(
-            map((city) => {
-              if (/москва/i.test(city.name)) {
-                //привязать к провайдеру
-                return `/sites/${url}?baseUrl=${this.baseUrl}`;
-              }
-              return `/sites/${city.translitName}.${url}?baseUrl=${this.baseUrl}`;
+            map(city => {
+              const translitName = urlData.defaultCityId === city._id ? `${city.translitName}.` : '';
+              return `/sites/${translitName}${urlData.url}?baseUrl=${this.baseUrl}`;
             })
           )
         )
       )
-      .subscribe((url) => {
+      .subscribe(url => {
         this.url = url;
       });
 

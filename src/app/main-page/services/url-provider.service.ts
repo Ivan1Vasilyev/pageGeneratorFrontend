@@ -3,11 +3,11 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class UrlProviderService {
-  private url = new Subject<string>();
+  private urlData = new Subject<{ url: string; defaultCityId: string }>();
 
-  public url$ = this.url.asObservable();
+  public urlData$ = this.urlData.asObservable();
 
-  public setUrl(url: string) {
-    this.url.next(url);
+  public setUrlData(urlData: { url: string; defaultCityId: string }) {
+    this.urlData.next(urlData);
   }
 }

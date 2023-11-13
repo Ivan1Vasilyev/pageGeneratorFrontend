@@ -26,15 +26,13 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const sub = this.siteTreeService
-      .getChildPages(this.site._id, this.page?._id || null)
-      .subscribe((data) => {
-        if (data instanceof HttpErrorResponse) {
-          console.error(`Ошибка при загрузке дочерних страниц от ${this.page?.displayText}`);
-        } else {
-          this.subItems = data;
-        }
-      });
+    const sub = this.siteTreeService.getChildPages(this.site._id, this.page?._id || null).subscribe(data => {
+      if (data instanceof HttpErrorResponse) {
+        console.error(`Ошибка при загрузке дочерних страниц от ${this.page?.displayText || this.site.domain}`);
+      } else {
+        this.subItems = data;
+      }
+    });
     this.subscriptions.add(sub);
   }
 
@@ -44,7 +42,10 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
 
   getPagesUrl() {
     if (this.page) {
-      this.urlProviderServise.setUrl(`${this.site.domain}${this.page.url}`);
+      this.urlProviderServise.setUrlData({
+        url: `${this.site.domain}${this.page.url}`,
+        defaultCityId: this.site.defaultCityId,
+      });
     }
   }
 
