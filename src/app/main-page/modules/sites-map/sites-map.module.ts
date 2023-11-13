@@ -11,12 +11,7 @@ import { SiteContextMenuItemsComponent } from './components/site-context-menu-it
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    SitesMapItemComponent,
-    SitesMapComponent,
-    ContextMenuComponent,
-    SiteContextMenuItemsComponent,
-  ],
+  declarations: [SitesMapItemComponent, SitesMapComponent, ContextMenuComponent, SiteContextMenuItemsComponent],
   imports: [CommonModule, MainPageRoutingModule, FormsModule, MatMenuModule, MatButtonModule],
   providers: [SitesTreeHttpService],
 })

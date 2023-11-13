@@ -1,7 +1,13 @@
-<button (contextmenu)="openMenu($event)" class="text"
-  (click)="preventLeftClick()" mat-button
-  [matMenuTriggerFor]="menu">{{buttonText}}</button>
+<button
+  (contextmenu)="openMenu($event)"
+  class="text"
+  (click)="preventLeftClick()"
+  mat-button
+  [matMenuTriggerFor]="menu"
+>
+  {{ buttonText }}
+</button>
+
 <mat-menu #menu="matMenu">
   <ng-content></ng-content>
-
 </mat-menu>

@@ -1,15 +1,16 @@
 <div [class.fullscreen]="isFullScreen" [class.shown]="url" class="wrap">
-
-  <mat-radio-group [(ngModel)]="mode" [class.on-fullscreen]="isFullScreen"
-    class="radio-group">
-
+  <mat-radio-group [(ngModel)]="mode" [class.on-fullscreen]="isFullScreen" class="radio-group">
     <mat-radio-button color="warn" value="">Default</mat-radio-button>
     <mat-radio-button color="warn" value="DEBUG">Debug</mat-radio-button>
     <mat-radio-button color="warn" value="DESIGN">Design</mat-radio-button>
   </mat-radio-group>
 
-  <buttons-panel [isFullScreen]="isFullScreen" (refresh)="onRefresh()"
-    (fullScreen)="toggleFullScreen()" (closeFrame)="onClose()"></buttons-panel>
+  <buttons-panel
+    [isFullScreen]="isFullScreen"
+    (refresh)="onRefresh()"
+    (fullScreen)="toggleFullScreen()"
+    (closeFrame)="onClose()"
+  ></buttons-panel>
 
-  <iframe #frame [src]="(url + setMode()) | safeUrl"></iframe>
+  <iframe #frame [src]="url + setMode() | safeUrl"></iframe>
 </div>

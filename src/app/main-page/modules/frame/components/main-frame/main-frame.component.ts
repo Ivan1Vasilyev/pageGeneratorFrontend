@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { UrlProviderService } from '../../../../services/url-provider.service';
 import { Subscription, mergeMap, map } from 'rxjs';
 import { CityDataProviderService } from 'src/app/shared/services/cities-services/city-data-provider.service';
+import { iUrlData } from 'src/app/main-page/models/iurl-data';
 
 @Component({
   selector: 'main-frame',
@@ -21,25 +22,18 @@ export class MainFrameComponent implements OnInit, OnDestroy {
     private cityDataProviderService: CityDataProviderService
   ) {}
 
-  setMode(): string {
-    return this.mode ? `&${this.mode}=true` : '';
-  }
+  setMode = (): string => (this.mode ? `?baseUrl=${this.baseUrl}&${this.mode}=true` : '');
+
+  private mergeCity = (urlData: iUrlData) => {
+    return this.cityDataProviderService.city$.pipe(
+      map((city) => `/sites/${urlData.defaultCityId === city._id ? '' : `${city.translitName}.`}${urlData.url}`)
+    );
+  };
 
   ngOnInit(): void {
-    const urlSub = this.urlProviderService.urlData$
-      .pipe(
-        mergeMap(urlData =>
-          this.cityDataProviderService.city$.pipe(
-            map(city => {
-              const translitName = urlData.defaultCityId === city._id ? `${city.translitName}.` : '';
-              return `/sites/${translitName}${urlData.url}?baseUrl=${this.baseUrl}`;
-            })
-          )
-        )
-      )
-      .subscribe(url => {
-        this.url = url;
-      });
+    const urlSub = this.urlProviderService.urlData$.pipe(mergeMap(this.mergeCity)).subscribe((url) => {
+      this.url = url;
+    });
 
     this.subscriptions.add(urlSub);
   }

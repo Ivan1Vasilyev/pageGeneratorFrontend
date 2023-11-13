@@ -21,6 +21,7 @@ export class SvgBaseDirective implements OnInit {
         i.style.fill = this.color;
       }
     });
+
     svg.style.height = this.sizeY || this.size;
     svg.style.width = this.sizeX || this.size;
   }

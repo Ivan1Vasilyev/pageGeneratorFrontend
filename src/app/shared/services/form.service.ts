@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Injectable({ providedIn: 'root' })
 export class FormService {
-  form!: FormGroup;
-
   constructor(private fb: FormBuilder) {}
 
-  onInit(initialData: any) {
+  public form!: FormGroup;
+
+  initForm(initialData: any) {
     this.form = this.fb.group(initialData);
   }
 

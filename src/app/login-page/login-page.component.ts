@@ -24,7 +24,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const { required } = Validators;
 
-    this.formService.onInit({
+    this.formService.initForm({
       login: ['', [required]],
       password: ['', [required]],
     });

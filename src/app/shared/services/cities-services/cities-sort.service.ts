@@ -5,9 +5,7 @@ export class CitiesSortService {
     return cityName.slice([...cityName].findIndex((i) => /[ЁА-Я]/.test(i)));
   }
 
-  sortByFirstCapitalChar(cities: iCity[]) {
-    return cities.sort((a, b) =>
-      this.sliceByCapitalChar(a.name).localeCompare(this.sliceByCapitalChar(b.name))
-    );
+  sortByFirstCapitalChar(cities: iCity[]): iCity[] {
+    return cities.sort((a, b) => this.sliceByCapitalChar(a.name).localeCompare(this.sliceByCapitalChar(b.name)));
   }
 }

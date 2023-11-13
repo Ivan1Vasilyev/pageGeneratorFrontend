@@ -21,12 +21,7 @@ import { SubmitTextDirective } from '../shared/directives/submit-text.directive'
 import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
 
 @NgModule({
-  declarations: [
-    TariffLoaderPageComponent,
-    CityDifferenceComponent,
-    CheckTariffsComponent,
-    TariffLoaderComponent,
-  ],
+  declarations: [TariffLoaderPageComponent, CityDifferenceComponent, CheckTariffsComponent, TariffLoaderComponent],
   imports: [
     CommonModule,
     TariffLoaderPageRoutingModule,

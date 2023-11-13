@@ -57,15 +57,13 @@ export class CityDifferenceComponent implements OnInit, OnDestroy {
   }
 
   refreshForm() {
-    const sub = this.tariffLoaderService
-      .getCityDifference(this.uuid, this.differenceOnly)
-      .subscribe((data) => {
-        if (data instanceof HttpErrorResponse) {
-          console.error('Ошибка при загрузке алиасов');
-        } else {
-          this.initForm(data);
-        }
-      });
+    const sub = this.tariffLoaderService.getCityDifference(this.uuid, this.differenceOnly).subscribe((data) => {
+      if (data instanceof HttpErrorResponse) {
+        console.error('Ошибка при загрузке алиасов');
+      } else {
+        this.initForm(data);
+      }
+    });
     this.subscriptions.add(sub);
   }
 
@@ -80,15 +78,13 @@ export class CityDifferenceComponent implements OnInit, OnDestroy {
   onSubmit() {
     const result = this.form.value;
 
-    const sub = this.tariffLoaderService
-      .saveCityDifference(this.uuid, result)
-      .subscribe((response) => {
-        if (response instanceof HttpErrorResponse) {
-          console.error('Ошибка при сохранении алиасов');
-        } else {
-          this.router.navigate([`/tariffs-loader/tariff-buffer/${this.uuid}`]);
-        }
-      });
+    const sub = this.tariffLoaderService.saveCityDifference(this.uuid, result).subscribe((response) => {
+      if (response instanceof HttpErrorResponse) {
+        console.error('Ошибка при сохранении алиасов');
+      } else {
+        this.router.navigate([`/tariffs-loader/tariff-buffer/${this.uuid}`]);
+      }
+    });
     this.subscriptions.add(sub);
   }
 }

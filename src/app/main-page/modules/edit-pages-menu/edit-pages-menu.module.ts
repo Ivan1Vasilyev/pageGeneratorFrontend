@@ -21,12 +21,7 @@ import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
 import { SubmitTextService } from 'src/app/shared/services/submit-text.service';
 
 @NgModule({
-  declarations: [
-    AddPageComponent,
-    UpdatePageComponent,
-    EditPagesMenuComponent,
-    LayoutsTreeComponent,
-  ],
+  declarations: [AddPageComponent, UpdatePageComponent, EditPagesMenuComponent, LayoutsTreeComponent],
   imports: [
     CommonModule,
     MainPageRoutingModule,

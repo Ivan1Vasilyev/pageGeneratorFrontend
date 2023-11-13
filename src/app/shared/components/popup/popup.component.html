@@ -1,9 +1,6 @@
-<div class="overlay" (click)="handleClickClosePopup($event)"
-  [class.opened]="isOpen">
-
+<div class="overlay" (click)="handleClickClosePopup($event)" [class.opened]="isOpen">
   <div [ngClass]="cssClass" class="container">
-    <svg-close svgBase [color]="'#fff'" [size]="40" (click)="onClose()"
-      class="close-icon"></svg-close>
+    <svg-close svgBase [color]="'#fff'" [size]="40" (click)="onClose()" class="close-icon"></svg-close>
     <ng-content></ng-content>
   </div>
 </div>

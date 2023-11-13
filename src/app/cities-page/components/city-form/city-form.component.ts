@@ -21,7 +21,7 @@ export class CityFormComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['city']) {
-      this.formService.onInit({
+      this.formService.initForm({
         name1: [this.city.name1 || ''],
         name2: [this.city.name2 || ''],
         name3: [this.city.name3 || ''],

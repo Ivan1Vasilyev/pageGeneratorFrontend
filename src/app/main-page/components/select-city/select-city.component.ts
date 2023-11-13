@@ -17,10 +17,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   isOpen: boolean = false;
   selectedCity: iCity = {} as iCity;
 
-  constructor(
-    private cityDataProviderService: CityDataProviderService,
-    private citiesHttpService: CitiesHttpService
-  ) {}
+  constructor(private cityDataProviderService: CityDataProviderService, private citiesHttpService: CitiesHttpService) {}
 
   ngOnInit(): void {
     const citiesSub = this.citiesHttpService.getCities().subscribe((cities) => {

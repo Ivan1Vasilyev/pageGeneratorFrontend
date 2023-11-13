@@ -1,14 +1,13 @@
 <form [formGroup]="formService.form" (input)="resetSubmitText.emit()" (ngSubmit)="emitSubmit()">
-
-  <h2 class="city-name">{{city.name}}</h2>
-  <p class="translit-name">translitName: {{city.translitName}}</p>
+  <h2 class="city-name">{{ city.name }}</h2>
+  <p class="translit-name">translitName: {{ city.translitName }}</p>
 
   <div class="form-item">
     <p class="input-description">Тарифы для</p>
 
     <mat-form-field class="mat-input">
       <mat-label>Родительный</mat-label>
-      <input type="text" formControlName="name1" matInput>
+      <input type="text" formControlName="name1" matInput />
     </mat-form-field>
   </div>
 
@@ -16,7 +15,7 @@
     <p class="input-description">Прогулка по</p>
     <mat-form-field reqiured class="mat-input">
       <mat-label>Дательный</mat-label>
-      <input type="text" formControlName="name2" matInput>
+      <input type="text" formControlName="name2" matInput />
     </mat-form-field>
   </div>
 
@@ -24,30 +23,35 @@
     <p class="input-description">Увидеть</p>
     <mat-form-field reqiured class="mat-input">
       <mat-label>Винительный</mat-label>
-      <input type="text" formControlName="name3" matInput>
+      <input type="text" formControlName="name3" matInput />
     </mat-form-field>
-
   </div>
 
   <div class="form-item">
     <p class="input-description">Горжусь</p>
     <mat-form-field reqiured class="mat-input">
       <mat-label>Творительный</mat-label>
-      <input type="text" formControlName="name4" matInput>
+      <input type="text" formControlName="name4" matInput />
     </mat-form-field>
   </div>
 
   <div class="form-item">
-    <p class="input-description">Вспоминаю о </p>
+    <p class="input-description">Вспоминаю о(об)</p>
     <mat-form-field reqiured class="mat-input">
       <mat-label>Предложный</mat-label>
-      <input type="text" formControlName="name5" matInput>
+      <input type="text" formControlName="name5" matInput />
     </mat-form-field>
   </div>
 
-  <p submitTextDirective [onError]="onError" [text]="submitText" class="submit-text">
-  </p>
+  <p submitTextDirective [onError]="onError" [text]="submitText" class="submit-text"></p>
 
-  <button class="submit-button" type="submit" [disabled]="formService.isSubmitDisabled()"
-    mat-raised-button color="primary">Сохранить</button>
+  <button
+    class="submit-button"
+    type="submit"
+    [disabled]="formService.isSubmitDisabled()"
+    mat-raised-button
+    color="primary"
+  >
+    Сохранить
+  </button>
 </form>

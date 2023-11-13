@@ -1,13 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  OnDestroy,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LayoutsHttpService } from './services/layouts-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -52,7 +43,7 @@ export class EditPagesMenuComponent implements OnInit, OnDestroy {
       layout: [this.formDefaultData?.layout || '', [required]],
     };
 
-    this.formService.onInit(formInitObject);
+    this.formService.initForm(formInitObject);
   }
 
   private initLayoutControl() {

@@ -5,33 +5,38 @@
     </div>
     <div class="example-table-container">
       <table mat-table [dataSource]="tariffs">
-
         <ng-container *ngFor="let key of displayedColumns; let i = index" [matColumnDef]="key">
           <th class="header-cell" mat-header-cell *matHeaderCellDef>
-            {{tariffTemplate[i]}}</th>
-          <td mat-cell *matCellDef="let row">{{row[key]}}</td>
+            {{ tariffTemplate[i] }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row[key] }}</td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true">
-        </tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
     <div class="submit-area">
       <div class="submit-text-area">
+        <button (click)="onSave()" class="submit-button" type="button" mat-raised-button color="primary">
+          загрузить
+        </button>
 
-        <button (click)="onSave()" class="submit-button" type="button" mat-raised-button
-          color="primary">загрузить</button>
+        <span
+          submitTextDirective
+          [onError]="submitTextService.getOnError"
+          [text]="submitTextService.getText"
+          class="submit-text"
+        ></span>
 
-        <span submitTextDirective [onError]="submitTextService.getOnError" [text]="submitTextService.getText"
-          class="submit-text"></span>
-
-        <svg-done class="svg-done" svgBase *ngIf="submitTextService.getText && !submitTextService.getOnError"
-          [color]="'#019f01'"></svg-done>
-
+        <svg-done
+          class="svg-done"
+          svgBase
+          *ngIf="submitTextService.getText && !submitTextService.getOnError"
+          [color]="'#019f01'"
+        ></svg-done>
       </div>
     </div>
   </div>
-  <mat-paginator [length]="resultsLength" [pageSizeOptions]="pageSizeOptions">
-  </mat-paginator>
+  <mat-paginator [length]="resultsLength" [pageSizeOptions]="pageSizeOptions"> </mat-paginator>
 </div>

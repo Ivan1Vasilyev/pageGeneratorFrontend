@@ -5,25 +5,27 @@
 </app-header>
 <div class="form-wrap">
   <form [formGroup]="formService.form" (input)="submitTextService.reset()" (ngSubmit)="onSubmit()">
-
     <h2>Вход</h2>
 
     <mat-form-field class="mat-input">
       <mat-label>Логин</mat-label>
-      <input type="text" formControlName="login" required matInput>
+      <input type="text" formControlName="login" matInput />
     </mat-form-field>
 
     <mat-form-field class="mat-input">
       <mat-label>Пароль</mat-label>
-      <input type="password" formControlName="password" required matInput>
+      <input type="password" formControlName="password" matInput />
     </mat-form-field>
 
-    <p submitTextDirective [onError]="submitTextService.getOnError" [text]="submitTextService.getText"
-      class="submit-text"></p>
+    <p
+      submitTextDirective
+      [onError]="submitTextService.getOnError"
+      [text]="submitTextService.getText"
+      class="submit-text"
+    ></p>
+
     <div class="submit-area">
-
       <button type="submit" [disabled]="formService.isSubmitDisabled()" mat-raised-button color="primary">Войти</button>
-
     </div>
   </form>
 </div>

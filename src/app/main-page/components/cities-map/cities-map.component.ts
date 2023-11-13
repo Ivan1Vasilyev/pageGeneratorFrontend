@@ -17,18 +17,15 @@ export class CitiesMapComponent implements OnChanges {
   constructor(private citiesSortService: CitiesSortService) {}
 
   private getCitiesAlphabetMap(cities: iCity[]): iCitiesByAlphabet[] {
-    const citiesByAlphabetMap: { [key: string]: iCity[] } = cities.reduce(
-      (map: { [key: string]: iCity[] }, city) => {
-        const firstCapitalChar = [...city.name].find((i) => /[ЁА-Я]/.test(i)) || 'Другие';
-        if (map[firstCapitalChar]) {
-          map[firstCapitalChar].push(city);
-        } else {
-          map[firstCapitalChar] = [city];
-        }
-        return map;
-      },
-      {} as { [key: string]: iCity[] }
-    );
+    const citiesByAlphabetMap: { [key: string]: iCity[] } = cities.reduce((map: { [key: string]: iCity[] }, city) => {
+      const firstCapitalChar = [...city.name].find((i) => /[ЁА-Я]/.test(i)) || 'Другие';
+      if (map[firstCapitalChar]) {
+        map[firstCapitalChar].push(city);
+      } else {
+        map[firstCapitalChar] = [city];
+      }
+      return map;
+    }, {} as { [key: string]: iCity[] });
 
     return Object.keys(citiesByAlphabetMap)
       .sort((a, b) => a.localeCompare(b))

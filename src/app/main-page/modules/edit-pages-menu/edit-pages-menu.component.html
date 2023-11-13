@@ -1,59 +1,60 @@
 <div class="wrap">
   <div class="map">
-    <h2>{{menuTitle}}</h2>
-    <form [formGroup]="formService.form" (input)="resetSubmitText.emit()" (ngSubmit)="emitSubmit()"
-      class="form">
-
-      <p>{{displayInfo}}</p>
+    <h2>{{ menuTitle }}</h2>
+    <form [formGroup]="formService.form" (input)="resetSubmitText.emit()" (ngSubmit)="emitSubmit()" class="form">
+      <p>{{ displayInfo }}</p>
 
       <mat-form-field class="mat-input">
         <mat-label>Display text</mat-label>
-        <input type="text" formControlName="displayText" required matInput>
+        <input type="text" formControlName="displayText" matInput />
       </mat-form-field>
 
       <mat-form-field class="mat-input">
         <mat-label>URL</mat-label>
-        <input type="text" formControlName="url" required matInput>
+        <input type="text" formControlName="url" matInput />
       </mat-form-field>
 
       <mat-form-field reqiured class="mat-input">
         <mat-label>Title</mat-label>
-        <input type="text" formControlName="title" matInput>
+        <input type="text" formControlName="title" matInput />
       </mat-form-field>
 
       <mat-form-field class="mat-input">
         <mat-label>Layout</mat-label>
-        <input type="text" (focus)="layoutControl.disable()" (blur)="layoutControl.enable()"
-          formControlName="layout" required matInput>
+        <input
+          type="text"
+          (focus)="layoutControl.disable()"
+          (blur)="layoutControl.enable()"
+          formControlName="layout"
+          matInput
+        />
       </mat-form-field>
 
-      <layouts-tree [dataMap]="dataMap" [result]="''" [trigger]="'Выбрать layout'"
-        [data]="initialLayouts" [isRootNode]="true"></layouts-tree>
+      <layouts-tree
+        [dataMap]="dataMap"
+        [result]="''"
+        [trigger]="'Выбрать layout'"
+        [data]="initialLayouts"
+        [isRootNode]="true"
+      ></layouts-tree>
 
       <!-- <mat-checkbox formControlName="isPublished">Опублиоквана</mat-checkbox> -->
 
       <div class="submit-text">
-        <p submitTextDirective [text]="submitText" [onError]="onError">
-        </p>
+        <p submitTextDirective [text]="submitText" [onError]="onError"></p>
 
         <svg-done svgBase *ngIf="submitText && !onError" [color]="'#019f01'"></svg-done>
       </div>
 
       <div class="submit-area">
-        <button type="submit" [disabled]="formService.isSubmitDisabled()" mat-raised-button
-          color="primary">{{submitButtonText}}</button>
+        <button type="submit" [disabled]="formService.isSubmitDisabled()" mat-raised-button color="primary">
+          {{ submitButtonText }}
+        </button>
 
-        <button type="button" (click)="onReset()" mat-raised-button color="primary">
-          Обнулить форму</button>
-
+        <button type="button" (click)="onReset()" mat-raised-button color="primary">Обнулить форму</button>
       </div>
-
     </form>
 
-    <a class="link-back" mat-raised-button color="accent" routerLink="">
-      ← Карта
-    </a>
-
-
+    <a class="link-back" mat-raised-button color="accent" routerLink=""> ← Карта </a>
   </div>
 </div>

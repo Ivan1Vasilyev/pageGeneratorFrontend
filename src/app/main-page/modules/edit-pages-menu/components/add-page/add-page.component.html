@@ -1,5 +1,11 @@
-<edit-pages-menu [displayInfo]="displayParent()" [formDefaultData]="formDefaultData"
-  (onSubmit)="onSubmit($event)" [onError]="submitTextService.getOnError"
-  [submitText]="submitTextService.getText" (resetSubmitText)="submitTextService.reset()"
-  [submitButtonText]="'Создать'" [menuTitle]="'Новая страница'">
+<edit-pages-menu
+  [displayInfo]="displayParent()"
+  [formDefaultData]="formDefaultData"
+  (onSubmit)="onSubmit($event)"
+  [onError]="submitTextService.getOnError"
+  [submitText]="submitTextService.getText"
+  (resetSubmitText)="submitTextService.reset()"
+  [submitButtonText]="'Создать'"
+  [menuTitle]="'Новая страница'"
+>
 </edit-pages-menu>

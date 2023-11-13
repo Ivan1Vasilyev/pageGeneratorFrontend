@@ -47,7 +47,7 @@ export class UpdatePageComponent {
   }
 
   onSubmit(data: iEditPagesFormTemplate): void {
-    const sub = this.editPagesHttpService.updatePage(data, this.pageId).subscribe(res => {
+    const sub = this.editPagesHttpService.updatePage(data, this.pageId).subscribe((res) => {
       if (res.ok) {
         this.submitTextService.setSuccessText('Страница обновлена');
       } else {

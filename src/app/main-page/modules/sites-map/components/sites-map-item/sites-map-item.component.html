@@ -13,10 +13,8 @@
   <ng-template #siteItems>
     <site-context-menu-items [providerIds]="site.providers"></site-context-menu-items>
   </ng-template>
-
 </div>
 
 <div *ngIf="isOpen" class="map">
-  <sites-map-item *ngFor="let page of subItems" [site]="site" [page]="page">
-  </sites-map-item>
+  <sites-map-item *ngFor="let page of subItems" [site]="site" [page]="page"> </sites-map-item>
 </div>

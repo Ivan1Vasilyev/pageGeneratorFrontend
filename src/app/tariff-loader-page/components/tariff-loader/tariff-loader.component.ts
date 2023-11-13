@@ -27,7 +27,7 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const { required } = Validators;
 
-    this.formService.onInit({
+    this.formService.initForm({
       loader: ['', [required]],
       file: ['', [required]],
     });
@@ -59,16 +59,14 @@ export class TariffLoaderComponent implements OnInit, OnDestroy {
     formControl.append('file', this.selectedFile);
     formControl.append('loader', loader);
 
-    const submitSub = this.tariffLoaderHttpService
-      .downloadTariffs(formControl)
-      .subscribe((response) => {
-        if (response.ok) {
-          this.router.navigate([`/tariffs-loader/city-difference/${response.uuid}`]);
-        } else {
-          const message = response.error?.message || 'Ошибка на сервере';
-          this.submitTextService.setErrorText(message);
-        }
-      });
+    const submitSub = this.tariffLoaderHttpService.downloadTariffs(formControl).subscribe((response) => {
+      if (response.ok) {
+        this.router.navigate([`/tariffs-loader/city-difference/${response.uuid}`]);
+      } else {
+        const message = response.error?.message || 'Ошибка на сервере';
+        this.submitTextService.setErrorText(message);
+      }
+    });
 
     this.subscriptions.add(submitSub);
   }
