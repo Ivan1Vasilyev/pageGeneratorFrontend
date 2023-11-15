@@ -1,8 +1,9 @@
 import { iCity } from '../../models/icity';
 
 export class CitiesSortService {
-  private sliceByCapitalChar(cityName: string) {
-    return cityName.slice([...cityName].findIndex((i) => /[ЁА-Я]/.test(i)));
+  private sliceByCapitalChar(cityName: string): string {
+    const index = [...cityName].findIndex((i) => /[ЁА-Я]/.test(i));
+    return index > -1 ? cityName.slice(index) : cityName;
   }
 
   sortByFirstCapitalChar(cities: iCity[]): iCity[] {

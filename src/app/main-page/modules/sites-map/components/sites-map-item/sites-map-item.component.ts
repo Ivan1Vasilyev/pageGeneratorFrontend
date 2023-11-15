@@ -30,7 +30,7 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
       if (data instanceof HttpErrorResponse) {
         console.error(`Ошибка при загрузке дочерних страниц от ${this.page?.displayText || this.site.domain}`);
       } else {
-        this.subItems = data;
+        this.subItems = data.sort((a) => (a.childsCount ? -1 : 1));
       }
     });
     this.subscriptions.add(sub);

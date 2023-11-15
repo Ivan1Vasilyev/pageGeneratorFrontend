@@ -18,7 +18,7 @@ export class CitiesMapComponent implements OnChanges {
 
   private getCitiesAlphabetMap(cities: iCity[]): iCitiesByAlphabet[] {
     const citiesByAlphabetMap = cities.reduce((map, city) => {
-      const firstCapitalChar = [...city.name].find(i => /[ЁА-Я]/.test(i)) || 'Другие';
+      const firstCapitalChar = [...city.name].find((i) => /[ЁА-Я]/.test(i)) || 'Другие';
       if (map[firstCapitalChar]) {
         map[firstCapitalChar].push(city);
       } else {
@@ -29,7 +29,7 @@ export class CitiesMapComponent implements OnChanges {
 
     return Object.keys(citiesByAlphabetMap)
       .sort((a, b) => (a.length > 1 ? 1 : b.length > 1 ? -1 : a.localeCompare(b)))
-      .map(key => ({
+      .map((key) => ({
         key,
         cities: this.citiesSortService.sortByFirstCapitalChar(citiesByAlphabetMap[key]),
       }));
