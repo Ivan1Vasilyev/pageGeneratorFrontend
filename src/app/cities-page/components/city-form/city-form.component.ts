@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter, SimpleChanges, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { iCity } from 'src/app/shared/models/icity';
 import { FormService } from 'src/app/shared/services/form.service';
@@ -9,12 +9,12 @@ import { iCitiesFormData } from '../../models/icities-form-data';
   templateUrl: './city-form.component.html',
   styleUrls: ['./city-form.component.scss'],
 })
-export class CityFormComponent implements OnChanges {
+export class CityFormComponent implements OnChanges, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   @Input() submitText: string = '';
   @Input() onError: boolean = false;
   @Input() city!: iCity;
-  @Output() onSubmit = new EventEmitter<{ cityId: string; formData: iCitiesFormData }>();
+  @Output() onSubmit = new EventEmitter<iCitiesFormData>();
   @Output() resetSubmitText = new EventEmitter();
 
   constructor(protected formService: FormService) {}
@@ -38,8 +38,6 @@ export class CityFormComponent implements OnChanges {
   }
 
   emitSubmit() {
-    const formData: iCitiesFormData = this.formService.getFormValues();
-    const cityId = this.city._id;
-    this.onSubmit.emit({ cityId, formData });
+    this.onSubmit.emit(this.formService.getFormValues());
   }
 }

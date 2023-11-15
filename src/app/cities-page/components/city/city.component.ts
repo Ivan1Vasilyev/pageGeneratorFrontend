@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { iCity } from 'src/app/shared/models/icity';
 
 @Component({
@@ -6,9 +6,6 @@ import { iCity } from 'src/app/shared/models/icity';
   templateUrl: './city.component.html',
   styleUrls: ['./city.component.scss'],
 })
-export class CityComponent implements OnInit {
+export class CityComponent {
   @Input() city!: iCity;
-  constructor() {}
-
-  ngOnInit() {}
 }
