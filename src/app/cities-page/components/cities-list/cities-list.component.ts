@@ -26,7 +26,7 @@ export class CitiesListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const citiesSub = this.citiesHttpService.getCities().subscribe((data) => {
+    const citiesSub = this.citiesHttpService.getCities().subscribe(data => {
       if (data instanceof HttpErrorResponse) {
         console.error('Ошибка при загрузке городов');
       } else {
@@ -46,21 +46,18 @@ export class CitiesListComponent implements OnInit, OnDestroy {
     this.matDrawer.open();
   }
 
-  onSubmit(data: { cityId: string; formData: iCitiesFormData }) {
-    const submitSub = this.citiesHttpService
-      .updateCity(data.formData, data.cityId)
-      .subscribe((data) => {
-        if (data instanceof HttpErrorResponse) {
-          const message = data.error?.message || `Ошибка при обновлении города`;
-          this.submitTextService.setErrorText(message);
-        } else {
-          console.log('??');
-          const newCity = data.value;
-          const index = this.cities.findIndex((city) => city._id === newCity._id);
-          this.cities[index] = newCity;
-          this.submitTextService.setSuccessText('Обновлено');
-        }
-      });
+  onSubmit(formData: iCitiesFormData) {
+    const submitSub = this.citiesHttpService.updateCity(formData, this.selectedCity._id).subscribe(data => {
+      if (data instanceof HttpErrorResponse) {
+        const message = data.error?.message || `Ошибка при обновлении города`;
+        this.submitTextService.setErrorText(message);
+      } else {
+        const newCity = data.value;
+        const index = this.cities.findIndex(city => city._id === newCity._id);
+        this.cities[index] = newCity;
+        this.submitTextService.setSuccessText('Обновлено');
+      }
+    });
     this.subscriptions.add(submitSub);
   }
 }

@@ -17,8 +17,8 @@ export class CitiesMapComponent implements OnChanges {
   constructor(private citiesSortService: CitiesSortService) {}
 
   private getCitiesAlphabetMap(cities: iCity[]): iCitiesByAlphabet[] {
-    const citiesByAlphabetMap: { [key: string]: iCity[] } = cities.reduce((map: { [key: string]: iCity[] }, city) => {
-      const firstCapitalChar = [...city.name].find((i) => /[ЁА-Я]/.test(i)) || 'Другие';
+    const citiesByAlphabetMap = cities.reduce((map, city) => {
+      const firstCapitalChar = [...city.name].find(i => /[ЁА-Я]/.test(i)) || 'Другие';
       if (map[firstCapitalChar]) {
         map[firstCapitalChar].push(city);
       } else {
@@ -28,8 +28,8 @@ export class CitiesMapComponent implements OnChanges {
     }, {} as { [key: string]: iCity[] });
 
     return Object.keys(citiesByAlphabetMap)
-      .sort((a, b) => a.localeCompare(b))
-      .map((key) => ({
+      .sort((a, b) => (a.length > 1 ? 1 : b.length > 1 ? -1 : a.localeCompare(b)))
+      .map(key => ({
         key,
         cities: this.citiesSortService.sortByFirstCapitalChar(citiesByAlphabetMap[key]),
       }));
