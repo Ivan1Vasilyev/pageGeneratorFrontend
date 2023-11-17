@@ -9,6 +9,7 @@ import { CitiesSortService } from 'src/app/shared/services/cities-services/citie
   styleUrls: ['./cities-map.component.scss'],
 })
 export class CitiesMapComponent implements OnChanges {
+  private other = 'Другие';
   @Input() cities: iCity[] = [];
   @Output() selectedCity = new EventEmitter();
 
@@ -18,7 +19,7 @@ export class CitiesMapComponent implements OnChanges {
 
   private getCitiesAlphabetMap(cities: iCity[]): iCitiesByAlphabet[] {
     const citiesByAlphabetMap = cities.reduce((map, city) => {
-      const firstCapitalChar = [...city.name].find((i) => /[ЁА-Я]/.test(i)) || 'Другие';
+      const firstCapitalChar = [...city.name].find((i) => /[ЁА-Я]/.test(i)) || this.other;
       if (map[firstCapitalChar]) {
         map[firstCapitalChar].push(city);
       } else {
@@ -28,7 +29,7 @@ export class CitiesMapComponent implements OnChanges {
     }, {} as { [key: string]: iCity[] });
 
     return Object.keys(citiesByAlphabetMap)
-      .sort((a, b) => (a.length > 1 ? 1 : b.length > 1 ? -1 : a.localeCompare(b)))
+      .sort((a, b) => (a === this.other ? 1 : b === this.other ? -1 : a.localeCompare(b)))
       .map((key) => ({
         key,
         cities: this.citiesSortService.sortByFirstCapitalChar(citiesByAlphabetMap[key]),
