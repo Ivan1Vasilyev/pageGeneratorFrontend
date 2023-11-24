@@ -1,4 +1,4 @@
-<div class="map-item" (contextmenu)="onRightClickHandler()">
+<div class="map-item" (contextmenu)="rightClickHandler()">
   <div class="checkbox-wrap">
     <label *ngIf="!page || page.childsCount" class="checkbox">
       <input type="checkbox" [(ngModel)]="isOpen" />
@@ -16,5 +16,5 @@
 </div>
 
 <div *ngIf="isOpen" class="map">
-  <sites-map-item *ngFor="let page of subItems" [site]="site" [page]="page"> </sites-map-item>
+  <sites-map-item *ngFor="let page of subPages" [site]="site" [page]="page"> </sites-map-item>
 </div>

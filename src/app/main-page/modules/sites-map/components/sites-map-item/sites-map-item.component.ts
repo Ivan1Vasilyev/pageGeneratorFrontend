@@ -16,7 +16,7 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   @Input() page?: iPage;
   @Input() site!: iSite;
-  subItems: iPage[] = [];
+  subPages: iPage[] = [];
   isOpen: boolean = false;
 
   constructor(
@@ -30,7 +30,16 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
       if (data instanceof HttpErrorResponse) {
         console.error(`Ошибка при загрузке дочерних страниц от ${this.page?.displayText || this.site.domain}`);
       } else {
-        this.subItems = data.sort((a) => (a.childsCount ? -1 : 1));
+        const sortedSubpages = data.sort((a, b) => a.displayText.localeCompare(b.displayText));
+        const [folders, items] = [[] as iPage[], [] as iPage[]];
+        for (const page of sortedSubpages) {
+          if (page.childsCount) {
+            folders.push(page);
+          } else {
+            items.push(page);
+          }
+        }
+        this.subPages = folders.concat(items);
       }
     });
     this.subscriptions.add(sub);
@@ -49,7 +58,7 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRightClickHandler() {
+  rightClickHandler() {
     this.pageDataProviderServise.setPageData(this.page || this.site);
   }
 }
