@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { EditPagesHttpService } from '../../services/edit-pages-http.service';
@@ -11,7 +11,7 @@ import { SubmitTextService } from 'src/app/shared/services/submit-text.service';
   selector: 'update-page',
   templateUrl: './update-page.component.html',
 })
-export class UpdatePageComponent {
+export class UpdatePageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private pageId: string = '';
   formDefaultData: iEditPagesFormTemplate = {
@@ -27,7 +27,7 @@ export class UpdatePageComponent {
     protected submitTextService: SubmitTextService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     const data: iSite | iPage = this.pageDataProviderService.getPageData();
 
     if (isIPageInTree(data)) {

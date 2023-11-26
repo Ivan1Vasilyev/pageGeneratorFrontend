@@ -29,7 +29,7 @@ export class AddPageComponent implements OnInit, OnDestroy {
     return `parent: ${this.parentName || 'Ошибка!'}`;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const data: iSite | iPage = this.pageDataProviderService.getPageData();
 
     if (isIPageInTree(data)) {
@@ -57,8 +57,8 @@ export class AddPageComponent implements OnInit, OnDestroy {
 
     const result: iNewPageData = {
       layout,
-      displayText,
-      title,
+      title: title.trim(),
+      displayText: displayText.trim(),
       url: url.trim(),
       siteId: this.siteId,
       parent: this.parent,
