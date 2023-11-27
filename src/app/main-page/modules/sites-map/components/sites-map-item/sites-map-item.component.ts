@@ -39,7 +39,7 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
             items.push(page);
           }
         }
-        this.subPages = folders.concat(items);
+        this.subPages = [...folders, ...items];
       }
     });
     this.subscriptions.add(sub);
