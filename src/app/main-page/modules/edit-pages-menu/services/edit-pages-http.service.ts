@@ -2,14 +2,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { HttpErrorHandler } from 'src/app/shared/services/http-error-handler.service';
-import { iNewPageData } from '../models/inew-page-data';
-import { iEditPagesFormTemplate } from '../models/iedit-pages-form-template';
+import { tNewPageData } from '../models/t-new-page-data';
+import { iEditPagesFormTemplate } from '../models/t-edit-pages-form-template';
 
 @Injectable()
 export class EditPagesHttpService {
   constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler) {}
 
-  createPage(page: iNewPageData): Observable<any | HttpErrorResponse> {
+  createPage(page: tNewPageData): Observable<any | HttpErrorResponse> {
     return this.http.post<any>('/api/sites/create-page', page).pipe(catchError(this.httpErrorHandler.handleError));
   }
 

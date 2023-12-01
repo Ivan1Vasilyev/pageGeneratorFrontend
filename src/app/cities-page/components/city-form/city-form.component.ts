@@ -1,6 +1,6 @@
 import { Component, OnChanges, Input, Output, EventEmitter, SimpleChanges, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { iCity } from 'src/app/shared/models/icity';
+import { tCity } from 'src/app/shared/models/t-city';
 import { FormService } from 'src/app/shared/services/form.service';
 import { iCitiesFormData } from '../../models/icities-form-data';
 
@@ -13,7 +13,7 @@ export class CityFormComponent implements OnChanges, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   @Input() submitText: string = '';
   @Input() onError: boolean = false;
-  @Input() city!: iCity;
+  @Input() city!: tCity;
   @Output() onSubmit = new EventEmitter<iCitiesFormData>();
   @Output() resetSubmitText = new EventEmitter();
 

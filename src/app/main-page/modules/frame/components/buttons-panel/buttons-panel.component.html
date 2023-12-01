@@ -2,8 +2,8 @@
   <svg-refresh (click)="refresh.emit()" class="svg" svgBase color="#000"></svg-refresh>
 
   <svg-fullscreen
-    (click)="fullScreen.emit()"
     *ngIf="isFullScreen; else fitFullScreen"
+    (click)="fullScreen.emit()"
     class="svg"
     svgBase
     color="#000"

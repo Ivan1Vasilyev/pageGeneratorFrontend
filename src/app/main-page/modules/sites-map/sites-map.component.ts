@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SitesTreeHttpService } from './services/sites-tree-http.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { iSite } from '../../models/isite';
+import { tSite } from '../../models/t-site';
 
 @Component({
   selector: 'sites-map',
@@ -11,7 +11,7 @@ import { iSite } from '../../models/isite';
 })
 export class SitesMapComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
-  sites: iSite[] = [];
+  sites: tSite[] = [];
 
   constructor(private sitesTreeHttpService: SitesTreeHttpService) {}
 

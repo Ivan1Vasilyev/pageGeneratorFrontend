@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { UrlProviderService } from '../../../../services/url-provider.service';
 import { Subscription, mergeMap, map } from 'rxjs';
 import { CityDataProviderService } from 'src/app/shared/services/cities-services/city-data-provider.service';
-import { iUrlData } from 'src/app/main-page/models/iurl-data';
+import { tUrlData } from 'src/app/main-page/models/t-url-data';
 
 @Component({
   selector: 'main-frame',
@@ -24,7 +24,7 @@ export class MainFrameComponent implements OnInit, OnDestroy {
 
   setMode = (): string => (this.mode ? `?baseUrl=${this.baseUrl}&${this.mode}=true` : '');
 
-  private mergeCity = (urlData: iUrlData) => {
+  private mergeCity = (urlData: tUrlData) => {
     return this.cityDataProviderService.city$.pipe(
       map((city) => `/sites/${urlData.defaultCityId === city._id ? '' : `${city.translitName}.`}${urlData.url}`)
     );

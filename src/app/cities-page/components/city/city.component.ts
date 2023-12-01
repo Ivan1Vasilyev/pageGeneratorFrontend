@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { iCity } from 'src/app/shared/models/icity';
+import { tCity } from 'src/app/shared/models/t-city';
 
 @Component({
   selector: 'city',
@@ -7,5 +7,5 @@ import { iCity } from 'src/app/shared/models/icity';
   styleUrls: ['./city.component.scss'],
 })
 export class CityComponent {
-  @Input() city!: iCity;
+  @Input() city!: tCity;
 }

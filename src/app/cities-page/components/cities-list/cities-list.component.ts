@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { iCity } from 'src/app/shared/models/icity';
+import { tCity } from 'src/app/shared/models/t-city';
 import { CitiesSortService } from '../../../shared/services/cities-services/cities-sort.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { CitiesHttpService } from '../../../shared/services/cities-services/cities-http.service';
@@ -15,8 +15,8 @@ import { iCitiesFormData } from '../../models/icities-form-data';
 })
 export class CitiesListComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  cities: iCity[] = [];
-  selectedCity: iCity = {} as iCity;
+  cities: tCity[] = [];
+  selectedCity: tCity = {} as tCity;
   @ViewChild(MatDrawer) matDrawer!: MatDrawer;
 
   constructor(
@@ -26,7 +26,7 @@ export class CitiesListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const citiesSub = this.citiesHttpService.getCities().subscribe(data => {
+    const citiesSub = this.citiesHttpService.getCities().subscribe((data) => {
       if (data instanceof HttpErrorResponse) {
         console.error('Ошибка при загрузке городов');
       } else {
@@ -40,20 +40,20 @@ export class CitiesListComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  openMenu(city: iCity) {
+  openMenu(city: tCity) {
     this.submitTextService.reset();
     this.selectedCity = city;
     this.matDrawer.open();
   }
 
   onSubmit(formData: iCitiesFormData) {
-    const submitSub = this.citiesHttpService.updateCity(formData, this.selectedCity._id).subscribe(data => {
+    const submitSub = this.citiesHttpService.updateCity(formData, this.selectedCity._id).subscribe((data) => {
       if (data instanceof HttpErrorResponse) {
         const message = data.error?.message || `Ошибка при обновлении города`;
         this.submitTextService.setErrorText(message);
       } else {
         const newCity = data.value;
-        const index = this.cities.findIndex(city => city._id === newCity._id);
+        const index = this.cities.findIndex((city) => city._id === newCity._id);
         this.cities[index] = newCity;
         this.submitTextService.setSuccessText('Обновлено');
       }

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { iUrlData } from '../models/iurl-data';
+import { tUrlData } from '../models/t-url-data';
 
 @Injectable()
 export class UrlProviderService {
-  private urlData = new Subject<iUrlData>();
+  private urlData = new Subject<tUrlData>();
 
   public urlData$ = this.urlData.asObservable();
 
-  public setUrlData(urlData: iUrlData) {
+  public setUrlData(urlData: tUrlData) {
     this.urlData.next(urlData);
   }
 }

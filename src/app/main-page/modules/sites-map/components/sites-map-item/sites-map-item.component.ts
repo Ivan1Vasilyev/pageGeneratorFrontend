@@ -4,8 +4,8 @@ import { SitesTreeHttpService } from '../../services/sites-tree-http.service';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { iSite } from 'src/app/main-page/models/isite';
-import { iPage } from 'src/app/main-page/models/ipage';
+import { tSite } from 'src/app/main-page/models/t-site';
+import { tPage } from 'src/app/main-page/models/t-page';
 
 @Component({
   selector: 'sites-map-item',
@@ -14,9 +14,9 @@ import { iPage } from 'src/app/main-page/models/ipage';
 })
 export class SitesMapItemComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  @Input() page?: iPage;
-  @Input() site!: iSite;
-  subPages: iPage[] = [];
+  @Input() page?: tPage;
+  @Input() site!: tSite;
+  subPages: tPage[] = [];
   isOpen: boolean = false;
 
   constructor(
@@ -31,7 +31,7 @@ export class SitesMapItemComponent implements OnInit, OnDestroy {
         console.error(`Ошибка при загрузке дочерних страниц от ${this.page?.displayText || this.site.domain}`);
       } else {
         const sortedSubpages = data.sort((a, b) => a.displayText.localeCompare(b.displayText));
-        const [folders, items] = [[] as iPage[], [] as iPage[]];
+        const [folders, items] = [[] as tPage[], [] as tPage[]];
         for (const page of sortedSubpages) {
           if (page.childsCount) {
             folders.push(page);

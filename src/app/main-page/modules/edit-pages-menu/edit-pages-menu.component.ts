@@ -5,7 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormService } from 'src/app/shared/services/form.service';
 import { AbstractControl, Validators } from '@angular/forms';
 import { LayoutProviderService } from './services/layout-provider.service';
-import { iEditPagesFormTemplate } from './models/iedit-pages-form-template';
+import { iEditPagesFormTemplate } from './models/t-edit-pages-form-template';
 
 @Component({
   selector: 'edit-pages-menu',

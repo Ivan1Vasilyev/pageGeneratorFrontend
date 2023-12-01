@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { EditPagesHttpService } from '../../services/edit-pages-http.service';
-import { iEditPagesFormTemplate } from '../../models/iedit-pages-form-template';
-import { iPage, isIPageInTree } from 'src/app/main-page/models/ipage';
-import { iSite } from 'src/app/main-page/models/isite';
+import { iEditPagesFormTemplate } from '../../models/t-edit-pages-form-template';
+import { tPage, isIPageInTree } from 'src/app/main-page/models/t-page';
+import { tSite } from 'src/app/main-page/models/t-site';
 import { SubmitTextService } from 'src/app/shared/services/submit-text.service';
 
 @Component({
@@ -28,7 +28,7 @@ export class UpdatePageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const data: iSite | iPage = this.pageDataProviderService.getPageData();
+    const data: tSite | tPage = this.pageDataProviderService.getPageData();
 
     if (isIPageInTree(data)) {
       this.pageId = data._id;

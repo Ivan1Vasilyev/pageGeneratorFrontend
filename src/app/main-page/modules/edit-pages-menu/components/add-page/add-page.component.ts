@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageDataProviderService } from '../../../../services/page-data-provider.service';
 import { EditPagesHttpService } from '../../services/edit-pages-http.service';
-import { iEditPagesFormTemplate } from '../../models/iedit-pages-form-template';
-import { iNewPageData } from '../../models/inew-page-data';
-import { iSite } from 'src/app/main-page/models/isite';
-import { iPage, isIPageInTree } from 'src/app/main-page/models/ipage';
+import { iEditPagesFormTemplate } from '../../models/t-edit-pages-form-template';
+import { tNewPageData } from '../../models/t-new-page-data';
+import { tSite } from 'src/app/main-page/models/t-site';
+import { tPage, isIPageInTree } from 'src/app/main-page/models/t-page';
 import { SubmitTextService } from 'src/app/shared/services/submit-text.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class AddPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const data: iSite | iPage = this.pageDataProviderService.getPageData();
+    const data: tSite | tPage = this.pageDataProviderService.getPageData();
 
     if (isIPageInTree(data)) {
       this.parentName = data.displayText;
@@ -55,7 +55,7 @@ export class AddPageComponent implements OnInit, OnDestroy {
   onSubmit(formData: iEditPagesFormTemplate): void {
     const { layout, url, displayText, title } = formData;
 
-    const result: iNewPageData = {
+    const result: tNewPageData = {
       layout,
       title: title.trim(),
       displayText: displayText.trim(),

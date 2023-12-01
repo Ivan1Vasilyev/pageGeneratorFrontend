@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CityDataProviderService } from '../../../shared/services/cities-services/city-data-provider.service';
-import { iCity } from '../../../shared/models/icity';
+import { tCity } from '../../../shared/models/t-city';
 import { CitiesHttpService } from 'src/app/shared/services/cities-services/cities-http.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -12,10 +12,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class SelectCityComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
-  private cities: iCity[] = [];
-  displayedCities: iCity[] = [];
+  private cities: tCity[] = [];
+  displayedCities: tCity[] = [];
   isOpen: boolean = false;
-  selectedCity: iCity = {} as iCity;
+  selectedCity: tCity = {} as tCity;
 
   constructor(private cityDataProviderService: CityDataProviderService, private citiesHttpService: CitiesHttpService) {}
 
@@ -49,7 +49,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
     this.displayedCities = this.cities.filter((city) => regexp.test(city.name));
   }
 
-  selectCity($city: iCity) {
+  selectCity($city: tCity) {
     this.selectedCity = $city;
     this.cityDataProviderService.setCity(this.selectedCity);
     this.isOpen = false;
