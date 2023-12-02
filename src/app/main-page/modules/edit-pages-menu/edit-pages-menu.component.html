@@ -20,6 +20,15 @@
       </mat-form-field>
 
       <mat-form-field class="mat-input">
+        <mat-label>data source</mat-label>
+        <mat-select formControlName="dataSource">
+          <mat-option [value]="">Не выбран</mat-option>
+
+          <mat-option *ngFor="let source of datasources" [value]="source">{{ source }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="mat-input">
         <mat-label>Layout</mat-label>
         <input
           type="text"

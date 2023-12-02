@@ -3,4 +3,5 @@ export type iEditPagesFormTemplate = {
   url: string;
   title: string;
   layout: string;
+  dataSource: string;
 };

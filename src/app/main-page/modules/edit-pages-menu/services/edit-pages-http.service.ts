@@ -22,4 +22,8 @@ export class EditPagesHttpService {
       .patch<any>(`/api/pages/${pageId}/params/${data.name}`, data.value)
       .pipe(catchError(this.httpErrorHandler.handleError));
   }
+
+  getDataSources(): Observable<any | HttpErrorResponse> {
+    return this.http.get<any>('/api/data-sources').pipe(catchError(this.httpErrorHandler.handleError));
+  }
 }

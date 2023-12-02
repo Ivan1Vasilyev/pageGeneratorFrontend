@@ -8,6 +8,7 @@ export type tPage = {
   displayText: string;
   parent: string;
   childsCount: number;
+  dataSource?: string;
   title?: string;
   params?: {
     [key: string]: any;

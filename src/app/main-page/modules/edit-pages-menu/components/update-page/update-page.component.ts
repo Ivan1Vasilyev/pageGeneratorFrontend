@@ -19,6 +19,7 @@ export class UpdatePageComponent implements OnInit, OnDestroy {
     title: '',
     url: '',
     displayText: '',
+    dataSource: '',
   };
 
   constructor(
@@ -36,6 +37,7 @@ export class UpdatePageComponent implements OnInit, OnDestroy {
       this.formDefaultData.layout = data.layout;
       this.formDefaultData.displayText = data.displayText;
       this.formDefaultData.title = data.title || '';
+      this.formDefaultData.dataSource = data.dataSource || '';
     } else {
       this.submitTextService.setErrorText('Нет данных страницы');
     }

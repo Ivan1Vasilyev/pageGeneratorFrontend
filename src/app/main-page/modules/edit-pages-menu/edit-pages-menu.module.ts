@@ -19,6 +19,7 @@ import { SubmitTextDirective } from 'src/app/shared/directives/submit-text.direc
 import { SvgDoneComponent } from 'src/app/shared/components/svg/svg-done/svg-done.component';
 import { SvgBaseDirective } from 'src/app/shared/directives/svg-base.directive';
 import { SubmitTextService } from 'src/app/shared/services/submit-text.service';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [AddPageComponent, UpdatePageComponent, EditPagesMenuComponent, LayoutsTreeComponent],
@@ -32,6 +33,7 @@ import { SubmitTextService } from 'src/app/shared/services/submit-text.service';
     MatTreeModule,
     MatMenuModule,
     MatCheckboxModule,
+    MatSelectModule,
     SubmitTextDirective,
     SvgDoneComponent,
     SvgBaseDirective,
